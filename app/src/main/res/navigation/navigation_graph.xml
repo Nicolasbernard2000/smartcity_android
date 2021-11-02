@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/fragment_home">
+
+    <fragment
+        android:id="@+id/fragment_home"
+        android:name="com.example.smartcity_app.ui.fragment.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        android:id="@+id/fragment_add_report"
+        android:name="com.example.smartcity_app.ui.fragment.AddReportFragment"
+        android:label="AddReportFragment" />
+    <fragment
+        android:id="@+id/fragment_profile"
+        android:name="com.example.smartcity_app.ui.fragment.ProfileFragment"
+        android:label="ProfileFragment" />
+</navigation>
