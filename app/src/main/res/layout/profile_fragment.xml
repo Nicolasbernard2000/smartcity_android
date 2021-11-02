@@ -145,6 +145,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="date" />
+
+                <Button
+                    android:id="@+id/profile_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:text="@string/profile_button"
+                    android:textColor="@color/colorSecond" />
+
             </LinearLayout>
         </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
