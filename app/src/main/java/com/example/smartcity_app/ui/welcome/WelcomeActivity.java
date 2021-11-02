@@ -11,7 +11,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.example.smartcity_app.R;
-import com.example.smartcity_app.ui.loging.LoginActivity;
+import com.example.smartcity_app.ui.MainActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
     private Button button;
@@ -35,7 +35,7 @@ public class WelcomeActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Log.v("Debug", "Bouton Welcome");
-            Intent intent = new Intent(context, LoginActivity.class);
+            Intent intent = new Intent(context, MainActivity.class);
             startActivity(intent);
         }
     }

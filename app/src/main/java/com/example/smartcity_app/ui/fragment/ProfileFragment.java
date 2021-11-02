@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.User;
@@ -40,31 +42,34 @@ public class ProfileFragment extends Fragment {
         View root = inflater.inflate(R.layout.profile_fragment, container, false);
 
         user = MainActivity.getUser();
-        Log.v("Debug", MainActivity.isUserConnected() ? "Bon ici":"VTFF");
-        information = (TextView)root.findViewById(R.id.profile_information);
+        if(user == null) {
+            NavController navController = Navigation.findNavController(container);
+            navController.navigate(R.id.fragment_login);
+        } else {
+            information = (TextView)root.findViewById(R.id.profile_information);
 
-        firstName = (EditText) root.findViewById(R.id.profile_edit_first_name);
-        lastName = (EditText) root.findViewById(R.id.profile_edit_last_name);
-        email = (EditText) root.findViewById(R.id.profile_edit_email);
-        street = (EditText) root.findViewById(R.id.profile_edit_street);
-        houseNumber = (EditText) root.findViewById(R.id.profile_edit_house_number);
-        zipCode = (EditText) root.findViewById(R.id.profile_edit_zip_code);
-        city = (EditText) root.findViewById(R.id.profile_edit_city);
-        password = (EditText)root.findViewById(R.id.profile_edit_password);
-        birthDate = (EditText) root.findViewById(R.id.profile_edit_birthdate);
+            firstName = (EditText) root.findViewById(R.id.profile_edit_first_name);
+            lastName = (EditText) root.findViewById(R.id.profile_edit_last_name);
+            email = (EditText) root.findViewById(R.id.profile_edit_email);
+            street = (EditText) root.findViewById(R.id.profile_edit_street);
+            houseNumber = (EditText) root.findViewById(R.id.profile_edit_house_number);
+            zipCode = (EditText) root.findViewById(R.id.profile_edit_zip_code);
+            city = (EditText) root.findViewById(R.id.profile_edit_city);
+            password = (EditText)root.findViewById(R.id.profile_edit_password);
+            birthDate = (EditText) root.findViewById(R.id.profile_edit_birthdate);
 
-        String info = user.getLastName().toUpperCase() + " " + user.getFirstName();
-        information.setText(info);
-        firstName.setText(user.getFirstName());
-        lastName.setText(user.getLastName());
-        email.setText(user.getEmail());
-        street.setText(user.getStreet());
-        houseNumber.setText(user.getHouseNumber().toString());
-        zipCode.setText(user.getZipCode().toString());
-        city.setText(user.getCity());
-        password.setText(user.getPassword());
-        birthDate.setText(user.getBirthDate().toString());
-
+            String info = user.getLastName().toUpperCase() + " " + user.getFirstName();
+            information.setText(info);
+            firstName.setText(user.getFirstName());
+            lastName.setText(user.getLastName());
+            email.setText(user.getEmail());
+            street.setText(user.getStreet());
+            houseNumber.setText(user.getHouseNumber().toString());
+            zipCode.setText(user.getZipCode().toString());
+            city.setText(user.getCity());
+            password.setText(user.getPassword());
+            birthDate.setText(user.getBirthDate().toString());
+        }
         return root;
     }
 

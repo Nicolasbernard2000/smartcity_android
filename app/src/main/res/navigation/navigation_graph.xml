@@ -16,4 +16,8 @@
         android:id="@+id/fragment_profile"
         android:name="com.example.smartcity_app.ui.fragment.ProfileFragment"
         android:label="ProfileFragment" />
+    <fragment
+        android:id="@+id/fragment_login"
+        android:name="com.example.smartcity_app.ui.fragment.LoginFragment"
+        android:label="LoginFragment" />
 </navigation>
