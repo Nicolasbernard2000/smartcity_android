@@ -50,7 +50,7 @@ public class HomeFragment extends Fragment {
         private TextView type;
         private TextView address;
         private TextView status;
-        //ImageView image;
+        //ImageView image; //TODO voir ce qu'il faut faire niveau image
 
         public ReportViewHolder(@NonNull View itemView) {
             super(itemView);
