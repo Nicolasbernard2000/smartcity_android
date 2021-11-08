@@ -12,9 +12,13 @@
     <string name="login_email">Email</string>
     <string name="login_edit_email">Votre adresse email</string>
     <string name="password">Mot de passe</string>
+    <string name="confirm_password">Confirmer le mot de passe</string>
     <string name="edit_password">Votre mot de passe</string>
     <string name="login_button">Se connecter</string>
     <string name="login_password_forgotten">Mot de passe oublié ?</string>
+    <string name="login_create_account_button">Se créer un compte</string>
+
+    <string name="create_account">Création d\'un compte</string>
 
     <string name="fragment_home">Accueil</string>
     <string name="fragment_add_report">Ajouter</string>

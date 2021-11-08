@@ -2,15 +2,106 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="20sp">
 
     <TextView
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pas connecté"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="20sp"
+        android:text="@string/create_account"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/create_account_edit_first_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/profile_first_name"/>
+
+            <EditText
+                android:id="@+id/create_account_edit_last_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/profile_last_name" />
+
+            <EditText
+                android:id="@+id/create_account_edit_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/profile_email" />
+
+            <EditText
+                android:id="@+id/create_account_edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="@string/password" />
+
+            <EditText
+                android:id="@+id/create_account_edit_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:hint="@string/confirm_password"/>
+
+            <EditText
+                android:id="@+id/create_account_edit_birthdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:hint="@string/profile_birthdate"/>
+
+            <EditText
+                android:id="@+id/create_account_edit_street"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/profile_street"/>
+
+            <EditText
+                android:id="@+id/create_account_edit_house_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/profile_house_number"/>
+
+            <EditText
+                android:id="@+id/create_account_edit_zip_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/profile_zip_code"/>
+
+            <EditText
+                android:id="@+id/create_account_edit_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/profile_city"/>
+
+            <Button
+                android:id="@+id/create_account_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/login_create_account_button"
+                android:textColor="@color/colorSecond" />
+
+        </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

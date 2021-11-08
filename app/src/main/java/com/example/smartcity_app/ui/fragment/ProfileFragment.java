@@ -70,16 +70,14 @@ public class ProfileFragment extends Fragment {
         zipCode.setText(user.getZipCode().toString());
         city.setText(user.getCity());
         password.setText(user.getPassword());
-        birthDate.setText(user.getBirthDate().toString());button.setOnClickListener(new DisconnectListener(root.getContext()));
+        birthDate.setText(user.getBirthDate().toString());
+        button.setOnClickListener(new DisconnectListener());
+
         return root;
     }
 
     private class DisconnectListener implements View.OnClickListener {
-        private Context context;
-
-        public DisconnectListener(Context context) {
-            this.context = context;
-        }
+        public DisconnectListener() {}
 
         @Override
         public void onClick(View v) {

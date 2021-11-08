@@ -26,6 +26,7 @@ public class LoginFragment extends Fragment {
     private EditText email;
     private EditText password;
     private Button connectButton;
+    private Button createAccountButton;
     private ViewGroup container;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,15 +47,14 @@ public class LoginFragment extends Fragment {
         email = (EditText)root.findViewById(R.id.login_edit_email);
         password = (EditText)root.findViewById(R.id.login_edit_password);
         connectButton = (Button)root.findViewById(R.id.login_button);
-        connectButton.setOnClickListener(new LoginFragment.ConnectWithAccountListener(root.getContext()));
+        connectButton.setOnClickListener(new ConnectWithAccountListener());
+        createAccountButton = (Button)root.findViewById(R.id.create_account_button);
+        createAccountButton.setOnClickListener(new CreateAccountListener());
         return root;
     }
 
     private class ConnectWithAccountListener implements View.OnClickListener {
-        private Context context;
-
-        public ConnectWithAccountListener(Context context) {
-            this.context = context;
+        public ConnectWithAccountListener() {
         }
 
         @Override
@@ -63,12 +63,25 @@ public class LoginFragment extends Fragment {
             String passwordValue = password.getText().toString();
             // TODO : vérifier l'email et le mot de passe grâce à l'API
             // TODO : créer un model User avec ses informations et le passer via Intent
-            Log.v("Debug", "Avec un compte");
+            Log.v("Debug", "Connection avec un compte");
             User user = new User(emailValue, passwordValue);
             MainActivity.setUser(user);
 
             NavController navController = Navigation.findNavController(container);
             navController.navigate(R.id.fragment_profile);
+        }
+    }
+
+    private class CreateAccountListener implements View.OnClickListener {
+
+        public CreateAccountListener() {
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.v("Debug", "Création d'un compte");
+            NavController navController = Navigation.findNavController(container);
+            navController.navigate(R.id.fragment_create_account);
         }
     }
 }

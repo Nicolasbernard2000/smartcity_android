@@ -29,12 +29,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView.setSelectedItemId(R.id.fragment_profile);
         NavController navController = Navigation.findNavController(this, R.id.activity_main_nav_host_fragment);
         NavigationUI.setupWithNavController(bottomNavigationView, navController);
-
-        if(getIntent().hasExtra("user")) {
-            user = (User)getIntent().getSerializableExtra("user");
-        } else {
-            user = null;
-        }
     }
 
     public static User getUser() {
