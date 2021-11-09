@@ -36,5 +36,6 @@
     <string name="profile_button">Se déconnecter</string>
 
     <string name="exception_password">Les mots de passe ne sont pas identiques</string>
+    <string name="exception_birthdate">La date de naissance ne peut être dans le futur</string>
     <string name="exception_zip_code">Le code postal doit être compris entre 1000 et 9999</string>
 </resources>

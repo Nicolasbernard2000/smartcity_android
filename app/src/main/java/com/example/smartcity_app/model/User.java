@@ -1,33 +1,52 @@
 package com.example.smartcity_app.model;
 
+import com.example.smartcity_app.R;
+
 import java.io.Serializable;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class User implements Serializable {
     private String email;
     private String password;
     private String firstName;
     private String lastName;
-    private Date birthDate;
+    private GregorianCalendar birthDate;
     private String city;
     private String street;
     private Integer zipCode;
     private Integer houseNumber;
 
-    public User(String email, String password, String firstName, String lastName, Date birthDate, String city, String street, Integer zipCode, Integer houseNumber) {
+    public User(String email, String password, String firstName, String lastName, GregorianCalendar birthDate, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthDate = birthDate;
+        setBirthDate(birthDate);
         this.city = city;
         this.street = street;
-        this.zipCode = zipCode;
+        setZipCode(zipCode);
         this.houseNumber = houseNumber;
     }
 
-    public User(String email, String password) {
-        this(email, password, "Nicolas", "Bernard", new Date(2000, 12, 7), "Namur", "Rue de l'hotel de ville", 5000, 10);
+    public User(String email, String password) throws Exception {
+        this(email, password, "Nicolas", "Bernard", new GregorianCalendar(2000, 12, 7), "Namur", "Rue de l'hotel de ville", 5000, 10);
+    }
+
+    public void setZipCode(Integer zipCode) throws Exception {
+        if(1000 <= zipCode && zipCode < 10000)
+            this.zipCode = zipCode;
+        else
+            throw new Exception(R.string.exception_zip_code + "");
+    }
+
+    public void setBirthDate(GregorianCalendar birthDate) throws Exception {
+        GregorianCalendar today = new GregorianCalendar();
+        if(birthDate.after(today)) {
+            throw new Exception(R.string.exception_birthdate + "");
+        } else {
+            this.birthDate = birthDate;
+        }
     }
 
     public String getEmail() {
@@ -46,7 +65,7 @@ public class User implements Serializable {
         return lastName;
     }
 
-    public Date getBirthDate() {
+    public GregorianCalendar getBirthDate() {
         return birthDate;
     }
 

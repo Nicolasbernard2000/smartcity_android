@@ -64,8 +64,12 @@ public class LoginFragment extends Fragment {
             // TODO : vérifier l'email et le mot de passe grâce à l'API
             // TODO : créer un model User avec ses informations et le passer via Intent
             Log.v("Debug", "Connection avec un compte");
-            User user = new User(emailValue, passwordValue);
-            MainActivity.setUser(user);
+            try{
+                User user = new User(emailValue, passwordValue);
+                MainActivity.setUser(user);
+            } catch(Exception e) {
+                ;
+            }
 
             NavController navController = Navigation.findNavController(container);
             navController.navigate(R.id.fragment_profile);

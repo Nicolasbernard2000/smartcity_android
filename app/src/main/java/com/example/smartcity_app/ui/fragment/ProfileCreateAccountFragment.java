@@ -66,10 +66,10 @@ public class ProfileCreateAccountFragment extends Fragment {
             }
         };
 
-        GregorianCalendar test = new GregorianCalendar();
-        int year = test.get(GregorianCalendar.YEAR);
-        int month = test.get(GregorianCalendar.MONTH);
-        int day = test.get(GregorianCalendar.DAY_OF_MONTH);
+        GregorianCalendar today = new GregorianCalendar();
+        int year = today.get(GregorianCalendar.YEAR);
+        int month = today.get(GregorianCalendar.MONTH);
+        int day = today.get(GregorianCalendar.DAY_OF_MONTH);
 
         birthDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,13 +88,19 @@ public class ProfileCreateAccountFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            //TODO vérification des informations passées
+            //TODO récupération des données
+            //TODO vérification email et mot de passe
+            //TODO tentative création user + gestion des exceptions
             try {
                 checkForm();
             } catch (Exception e) {
                 Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
                 toast.show();
             }
+        }
+
+        public void checkEmail() {
+
         }
 
         public void checkForm() throws Exception {
