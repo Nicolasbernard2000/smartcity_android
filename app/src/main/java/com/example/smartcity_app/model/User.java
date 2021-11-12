@@ -5,6 +5,7 @@ import com.example.smartcity_app.R;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.regex.Pattern;
 
 public class User implements Serializable {
     private String email;
@@ -18,7 +19,7 @@ public class User implements Serializable {
     private Integer houseNumber;
 
     public User(String email, String password, String firstName, String lastName, GregorianCalendar birthDate, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
-        this.email = email;
+        setEmail(email);
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,6 +32,14 @@ public class User implements Serializable {
 
     public User(String email, String password) throws Exception {
         this(email, password, "Nicolas", "Bernard", new GregorianCalendar(2000, 12, 7), "Namur", "Rue de l'hotel de ville", 5000, 10);
+    }
+
+    public void setEmail(String email) throws Exception {
+        if(Pattern.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email)) {
+            this.email = email;
+        } else {
+            throw new Exception(R.string.exception_email + "");
+        }
     }
 
     public void setZipCode(Integer zipCode) throws Exception {

@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/nicol/Desktop/ReposGit/smartcity_android/app/src/main/res/layout/add_report_fragment.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/nicol/Desktop/ReposGit/smartcity_android/app/src/main/res/layout/home_fragment.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/nicol/Desktop/ReposGit/smartcity_android/app/src/main/res/layout/profile_create_account_fragment.xml" value="0.15806159420289856" />
         <entry key="..\:/Users/nicol/Desktop/Travaux_Git/smartcity_app/app/src/main/res/layout/home_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/nicol/Desktop/Travaux_Git/smartcity_app/app/src/main/res/layout/profile_create_account_fragment.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/nicol/Desktop/Travaux_Git/smartcity_app/app/src/main/res/layout/report_row.xml" value="0.36666666666666664" />

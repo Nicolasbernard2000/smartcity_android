@@ -1,17 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="20sp">
 
     <TextView
+        android:id="@+id/text_report"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ajouter un report"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="20sp"
+        android:text="@string/create_report"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/text_report">
+
+            <Spinner
+                android:id="@+id/create_report_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown" />
+
+            <EditText
+                android:id="@+id/create_report_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/report_description" />
+
+            <EditText
+                android:id="@+id/create_report_street"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/street"/>
+
+            <EditText
+                android:id="@+id/create_report_house_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/house_number"/>
+
+            <EditText
+                android:id="@+id/create_report_zip_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:hint="@string/zip_code"/>
+
+            <EditText
+                android:id="@+id/create_report_city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/city"/>
+
+            <Button
+                android:id="@+id/create_report_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="@string/create_report_button"
+                android:textColor="@color/colorSecond" />
+        </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

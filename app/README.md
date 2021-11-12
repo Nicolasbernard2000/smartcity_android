@@ -1,0 +1,1 @@
+Est-ce que les modèles doivent être une boite noire? Est-ce qu'il faut en vérifier les informations lors de la création?

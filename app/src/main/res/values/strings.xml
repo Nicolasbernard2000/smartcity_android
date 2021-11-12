@@ -27,10 +27,10 @@
     <string name="profile_first_name">Prénom</string>
     <string name="profile_last_name">Nom</string>
     <string name="profile_email">Adresse email</string>
-    <string name="profile_street">Rue</string>
-    <string name="profile_house_number">Numéro</string>
-    <string name="profile_zip_code">Code postal</string>
-    <string name="profile_city">Ville</string>
+    <string name="street">Rue</string>
+    <string name="house_number">Numéro</string>
+    <string name="zip_code">Code postal</string>
+    <string name="city">Ville</string>
     <string name="profile_birthdate">Date de naissance</string>
 
     <string name="profile_button">Se déconnecter</string>
@@ -38,4 +38,9 @@
     <string name="exception_password">Les mots de passe ne sont pas identiques</string>
     <string name="exception_birthdate">La date de naissance ne peut être dans le futur</string>
     <string name="exception_zip_code">Le code postal doit être compris entre 1000 et 9999</string>
+    <string name="exception_email">Ceci n\'est pas une adresse mail</string>
+    <string name="create_report">Ajouter un signalement</string>
+    <string name="report_description">Description</string>
+    <string name="report_type">Type du signalement</string>
+    <string name="create_report_button">Créer un signalement</string>
 </resources>

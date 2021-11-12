@@ -81,7 +81,7 @@
                     android:id="@+id/profile_street"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_street" />
+                    android:text="@string/street" />
 
                 <EditText
                     android:id="@+id/profile_edit_street"
@@ -92,7 +92,7 @@
                     android:id="@+id/profile_house_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_house_number" />
+                    android:text="@string/house_number" />
 
                 <EditText
                     android:id="@+id/profile_edit_house_number"
@@ -104,7 +104,7 @@
                     android:id="@+id/profile_zip_code"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_zip_code" />
+                    android:text="@string/zip_code" />
 
                 <EditText
                     android:id="@+id/profile_edit_zip_code"
@@ -116,7 +116,7 @@
                     android:id="@+id/profile_city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/profile_city" />
+                    android:text="@string/city" />
 
                 <EditText
                     android:id="@+id/profile_edit_city"

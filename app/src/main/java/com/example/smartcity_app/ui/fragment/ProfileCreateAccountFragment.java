@@ -88,19 +88,16 @@ public class ProfileCreateAccountFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-            //TODO récupération des données
-            //TODO vérification email et mot de passe
-            //TODO tentative création user + gestion des exceptions
+            //TODO récupérer les informations
+            //TODO vérifier qu'elles ne sont pas blank
+            //TODO créer un user et gérer ses exceptions
             try {
                 checkForm();
             } catch (Exception e) {
+
                 Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
                 toast.show();
             }
-        }
-
-        public void checkEmail() {
-
         }
 
         public void checkForm() throws Exception {
