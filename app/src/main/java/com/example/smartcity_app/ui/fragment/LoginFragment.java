@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.User;
@@ -67,12 +68,13 @@ public class LoginFragment extends Fragment {
             try{
                 User user = new User(emailValue, passwordValue);
                 MainActivity.setUser(user);
+                NavController navController = Navigation.findNavController(container);
+                navController.navigate(R.id.fragment_profile);
             } catch(Exception e) {
-                ;
+                Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
+                toast.show();
             }
 
-            NavController navController = Navigation.findNavController(container);
-            navController.navigate(R.id.fragment_profile);
         }
     }
 

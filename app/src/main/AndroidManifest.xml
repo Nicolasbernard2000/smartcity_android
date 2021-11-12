@@ -14,9 +14,6 @@
             android:exported="false" />
 
         <activity
-            android:name=".ui.loging.LoginActivity"
-            android:exported="false" />
-        <activity
             android:name=".ui.welcome.WelcomeActivity"
             android:exported="true">
 
