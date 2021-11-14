@@ -1,8 +1,6 @@
 package com.example.smartcity_app.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +29,8 @@ public class ProfileFragment extends Fragment {
     private EditText city;
     private EditText password;
     private EditText birthDate;
-    private Button button;
+    private Button disconnectionButton;
+    private Button personalReportsButton;
     private User user;
     private ViewGroup container;
 
@@ -58,7 +57,8 @@ public class ProfileFragment extends Fragment {
         city = (EditText) root.findViewById(R.id.profile_edit_city);
         password = (EditText)root.findViewById(R.id.profile_edit_password);
         birthDate = (EditText) root.findViewById(R.id.profile_edit_birthdate);
-        button = (Button) root.findViewById(R.id.profile_button);
+        disconnectionButton = (Button) root.findViewById(R.id.profile_disconnection_button);
+        personalReportsButton = (Button) root.findViewById(R.id.profile_personal_reports_button);
 
         String info = user.getLastName().toUpperCase() + " " + user.getFirstName();
         information.setText(info);
@@ -71,8 +71,8 @@ public class ProfileFragment extends Fragment {
         city.setText(user.getCity());
         password.setText(user.getPassword());
         birthDate.setText(user.getBirthDate().toString());
-        button.setOnClickListener(new DisconnectListener());
-
+        disconnectionButton.setOnClickListener(new DisconnectListener());
+        personalReportsButton.setOnClickListener(new PersonalReportsListener());
         return root;
     }
 
@@ -84,6 +84,16 @@ public class ProfileFragment extends Fragment {
             MainActivity.setUser(null);
             NavController navController = Navigation.findNavController(container);
             navController.navigate(R.id.fragment_login);
+        }
+    }
+
+    private class PersonalReportsListener implements View.OnClickListener {
+        public PersonalReportsListener() {}
+
+        @Override
+        public void onClick(View v) {
+            NavController navController = Navigation.findNavController(container);
+            navController.navigate(R.id.fragment_personal_reports);
         }
     }
 

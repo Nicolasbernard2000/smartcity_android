@@ -1,6 +1,9 @@
 package com.example.smartcity_app.model;
 
-public class Report {
+import java.io.Serializable;
+
+public class Report implements Serializable {
+    private Integer id;
     private String description;
     private String status;
     private String city;
@@ -10,7 +13,8 @@ public class Report {
     private String creationDate; //TODO passer en date
     private String type;
 
-    public Report(String description, String status, String city, String street, Integer zipCode, Integer houseNumber, String creationDate, String type) {
+    public Report(Integer id, String description, String status, String city, String street, Integer zipCode, Integer houseNumber, String creationDate, String type) {
+        this.id = id;
         this.description = description;
         this.status = status;
         this.city = city;
@@ -19,6 +23,10 @@ public class Report {
         this.houseNumber = houseNumber;
         this.creationDate = creationDate;
         this.type = type;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getDescription() {
