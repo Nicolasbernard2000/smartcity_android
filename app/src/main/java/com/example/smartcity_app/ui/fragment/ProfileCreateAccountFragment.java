@@ -75,11 +75,10 @@ public class ProfileCreateAccountFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), dateSetListener, year, month, day);
-                datePickerDialog.getDatePicker().setMinDate(today.getTimeInMillis());
+                datePickerDialog.getDatePicker().setMaxDate(today.getTimeInMillis());
                 datePickerDialog.show();
             }
         });
-
 
         return root;
     }

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:id="@+id/welcome_linear_layout"
     tools:context=".ui.welcome.WelcomeActivity">
 
     <TextView
