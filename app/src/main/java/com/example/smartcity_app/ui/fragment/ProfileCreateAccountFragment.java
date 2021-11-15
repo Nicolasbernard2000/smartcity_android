@@ -59,6 +59,11 @@ public class ProfileCreateAccountFragment extends Fragment {
         button = (Button) root.findViewById(R.id.create_account_button);
         button.setOnClickListener(new CreateAccountListener());
 
+        GregorianCalendar today = new GregorianCalendar();
+        int year = today.get(GregorianCalendar.YEAR);
+        int month = today.get(GregorianCalendar.MONTH);
+        int day = today.get(GregorianCalendar.DAY_OF_MONTH);
+
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -66,15 +71,11 @@ public class ProfileCreateAccountFragment extends Fragment {
             }
         };
 
-        GregorianCalendar today = new GregorianCalendar();
-        int year = today.get(GregorianCalendar.YEAR);
-        int month = today.get(GregorianCalendar.MONTH);
-        int day = today.get(GregorianCalendar.DAY_OF_MONTH);
-
         birthDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), dateSetListener, year, month, day);
+                datePickerDialog.getDatePicker().setMinDate(today.getTimeInMillis());
                 datePickerDialog.show();
             }
         });
