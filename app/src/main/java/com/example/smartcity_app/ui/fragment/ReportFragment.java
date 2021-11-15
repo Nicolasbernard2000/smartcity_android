@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
@@ -24,6 +24,7 @@ public class ReportFragment extends Fragment {
     private TextView status;
     private TextView id;
     private TextView description;
+    private Button createEventButton;
 
     public ReportFragment() {
     }
@@ -45,6 +46,7 @@ public class ReportFragment extends Fragment {
         status = root.findViewById(R.id.report_status);
         id = root.findViewById(R.id.report_id);
         description = root.findViewById(R.id.report_description);
+        createEventButton = root.findViewById(R.id.create_event_button);
 
         if (getArguments() != null) {
             report = (Report) getArguments().getSerializable("touchedReport");
@@ -59,10 +61,39 @@ public class ReportFragment extends Fragment {
             id.setText(report.getId() + "");
             description.setText(report.getDescription());
 
+            createEventButton.setOnClickListener(new CreateEventListener());
+
         } else {
             //TODO : afficher une page spécifique avec un message erreur
         }
 
         return root;
+    }
+
+    private class CreateEventListener implements View.OnClickListener {
+        @Override
+        public void onClick(View view) {
+            Fragment childFragment = new EventCreationFragment();
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.replace(R.id.test, childFragment).commit();
+
+            view.setOnClickListener(new LeaveCreateEventListener(childFragment));
+        }
+    }
+
+    private class LeaveCreateEventListener implements View.OnClickListener {
+        private Fragment childFragment;
+
+        public LeaveCreateEventListener(Fragment childFragment) {
+            this.childFragment = childFragment;
+        }
+
+        @Override
+        public void onClick(View view) {
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.detach(childFragment).commit();
+
+            view.setOnClickListener(new CreateEventListener());
+        }
     }
 }

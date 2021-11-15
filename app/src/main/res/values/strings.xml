@@ -40,8 +40,16 @@
     <string name="exception_zip_code">Le code postal doit être compris entre 1000 et 9999</string>
     <string name="exception_email">Ceci n\'est pas une adresse mail</string>
     <string name="create_report">Ajouter un signalement</string>
-    <string name="report_description">Description</string>
+    <string name="description">Description</string>
     <string name="report_type">Type du signalement</string>
     <string name="create_report_button">Créer un signalement</string>
     <string name="profile_personal_reports_button">Mes signalements</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_event_button">Créer un évènement</string>
+    <string name="date">Date</string>
+    <string name="hour">Heure</string>
+    <string name="duration">Durée</string>
+    <string name="asking_connection">Vous devez vous connecter afin de pouvoir créer un signalement</string>
+    <string name="information">Information</string>
 </resources>

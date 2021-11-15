@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
     app:startDestination="@id/fragment_recycler_view_reports">
 
@@ -14,8 +15,12 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_add_report"
-        android:name="com.example.smartcity_app.ui.fragment.AddReportFragment"
-        android:label="AddReportFragment" />
+        android:name="com.example.smartcity_app.ui.fragment.ReportCreationFragment"
+        android:label="AddReportFragment">
+        <action
+            android:id="@+id/action_fragment_add_report_to_fragment_information"
+            app:destination="@id/fragment_information" />
+    </fragment>
     <fragment
         android:id="@+id/fragment_profile"
         android:name="com.example.smartcity_app.ui.fragment.ProfileFragment"
@@ -39,5 +44,18 @@
         <argument
             android:name="touchedReport"
             app:argType="com.example.smartcity_app.model.Report" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragment_create_event"
+        android:name="com.example.smartcity_app.ui.fragment.EventCreationFragment"
+        android:label="event_creation_fragment"
+        tools:layout="@layout/event_creation_fragment" />
+    <fragment
+        android:id="@+id/fragment_information"
+        android:name="com.example.smartcity_app.ui.fragment.InformationFragment"
+        android:label="InformationFragment">
+        <argument
+            android:name="information"
+            app:argType="string" />
     </fragment>
 </navigation>
