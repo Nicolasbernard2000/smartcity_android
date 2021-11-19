@@ -52,4 +52,9 @@
     <string name="duration">Durée</string>
     <string name="asking_connection">Vous devez vous connecter afin de pouvoir créer un signalement</string>
     <string name="information">Information</string>
+
+    <!--ERRORS-->
+    <string name="http_no_connection">No connection</string>
+    <string name="request_error">Request error</string>
+    <string name="technical_error">Technical error</string>
 </resources>

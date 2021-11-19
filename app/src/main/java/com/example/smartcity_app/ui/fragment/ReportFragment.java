@@ -51,18 +51,17 @@ public class ReportFragment extends Fragment {
         if (getArguments() != null) {
             report = (Report) getArguments().getSerializable("touchedReport");
 
-            String address = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
+            String addressContent = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
 
             location.setText(report.getCity());
-            date.setText(report.getCreationDate());
-            type.setText(report.getType());
-            this.address.setText(address);
-            status.setText(report.getStatus());
-            id.setText(report.getId() + "");
+            //date.setText(report.getCreationDate());
+            type.setText(report.getReportType().getLabel());
+            address.setText(addressContent);
+            status.setText(report.getState());
+            id.setText("ID");
             description.setText(report.getDescription());
 
             createEventButton.setOnClickListener(new CreateEventListener());
-
         } else {
             //TODO : afficher une page spécifique avec un message erreur
         }

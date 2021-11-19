@@ -1,32 +1,29 @@
-package com.example.smartcity_app.model;
+package com.example.smartcity_app.repositories.web.dto;
 
-import java.io.Serializable;
-import java.util.Date;
+import com.example.smartcity_app.model.ReportType;
+import com.squareup.moshi.Json;
 
-public class Report implements Serializable {
+public class ReportDto {
     private Integer id;
+
     private String description;
     private String state;
     private String city;
     private String street;
-    private Integer zipCode;
-    private Integer houseNumber;
-    private String creationDate; //TODO passer en date
-    private Integer reporter;
-    private ReportType reportType;
 
-    public Report(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, String creationDate, Integer reporter, ReportType reportType) {
-        this.id = id;
-        this.description = description;
-        this.state = state;
-        this.city = city;
-        this.street = street;
-        this.zipCode = zipCode;
-        this.houseNumber = houseNumber;
-        this.creationDate = creationDate;
-        this.reporter = reporter;
-        this.reportType = reportType;
-    }
+    @Json(name = "zip_code")
+    private Integer zipCode;
+
+    @Json(name = "house_number")
+    private Integer houseNumber;
+
+    @Json(name = "created_at")
+    private String creationDate;
+
+    private Integer reporter;
+
+    @Json(name = "report_type")
+    private ReportType reportType;
 
     public Integer getId() {
         return id;
@@ -106,21 +103,5 @@ public class Report implements Serializable {
 
     public void setReportType(ReportType reportType) {
         this.reportType = reportType;
-    }
-
-    @Override
-    public String toString() {
-        return "Report{" +
-                "id=" + id +
-                ", description='" + description + '\'' +
-                ", state='" + state + '\'' +
-                ", city='" + city + '\'' +
-                ", street='" + street + '\'' +
-                ", zipCode=" + zipCode +
-                ", houseNumber=" + houseNumber +
-                ", creationDate='" + creationDate + '\'' +
-                ", reporter=" + reporter +
-                ", reportType=" + reportType +
-                '}';
     }
 }
