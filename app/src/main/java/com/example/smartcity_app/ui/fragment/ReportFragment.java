@@ -58,7 +58,7 @@ public class ReportFragment extends Fragment {
             type.setText(report.getReportType().getLabel());
             address.setText(addressContent);
             status.setText(report.getState());
-            id.setText("ID");
+            id.setText("#" + report.getId().toString());
             description.setText(report.getDescription());
 
             createEventButton.setOnClickListener(new CreateEventListener());

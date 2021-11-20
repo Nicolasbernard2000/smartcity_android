@@ -3,6 +3,8 @@ package com.example.smartcity_app.repositories.web.dto;
 import com.example.smartcity_app.model.ReportType;
 import com.squareup.moshi.Json;
 
+import java.util.Date;
+
 public class ReportDto {
     private Integer id;
 
@@ -18,7 +20,7 @@ public class ReportDto {
     private Integer houseNumber;
 
     @Json(name = "created_at")
-    private String creationDate;
+    private Date creationDate;
 
     private Integer reporter;
 
@@ -81,11 +83,11 @@ public class ReportDto {
         this.houseNumber = houseNumber;
     }
 
-    public String getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -103,5 +105,21 @@ public class ReportDto {
 
     public void setReportType(ReportType reportType) {
         this.reportType = reportType;
+    }
+
+    @Override
+    public String toString() {
+        return "ReportDto{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", street='" + street + '\'' +
+                ", zipCode=" + zipCode +
+                ", houseNumber=" + houseNumber +
+                ", creationDate=" + creationDate +
+                ", reporter=" + reporter +
+                ", reportType=" + reportType +
+                '}';
     }
 }

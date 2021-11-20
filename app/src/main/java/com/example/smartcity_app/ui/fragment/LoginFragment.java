@@ -29,6 +29,7 @@ public class LoginFragment extends Fragment {
     private Button connectButton;
     private Button createAccountButton;
     private ViewGroup container;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,17 +40,17 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.login_fragment, container, false);
 
-        if(MainActivity.isUserConnected()) {
+        if (MainActivity.isUserConnected()) {
             NavController navController = Navigation.findNavController(container);
             navController.navigate(R.id.fragment_profile);
         }
 
         this.container = container;
-        email = (EditText)root.findViewById(R.id.login_edit_email);
-        password = (EditText)root.findViewById(R.id.login_edit_password);
-        connectButton = (Button)root.findViewById(R.id.login_button);
+        email = (EditText) root.findViewById(R.id.login_edit_email);
+        password = (EditText) root.findViewById(R.id.login_edit_password);
+        connectButton = (Button) root.findViewById(R.id.login_button);
         connectButton.setOnClickListener(new ConnectWithAccountListener());
-        createAccountButton = (Button)root.findViewById(R.id.create_account_button);
+        createAccountButton = (Button) root.findViewById(R.id.create_account_button);
         createAccountButton.setOnClickListener(new CreateAccountListener());
         return root;
     }
@@ -65,16 +66,15 @@ public class LoginFragment extends Fragment {
             // TODO : vérifier l'email et le mot de passe grâce à l'API
             // TODO : créer un model User avec ses informations et le passer via Intent
             Log.v("Debug", "Connection avec un compte");
-            try{
+            try {
                 User user = new User(emailValue, passwordValue);
                 MainActivity.setUser(user);
                 NavController navController = Navigation.findNavController(container);
                 navController.navigate(R.id.fragment_profile);
-            } catch(Exception e) {
+            } catch (Exception e) {
                 Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
                 toast.show();
             }
-
         }
     }
 

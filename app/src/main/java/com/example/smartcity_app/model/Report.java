@@ -1,7 +1,9 @@
 package com.example.smartcity_app.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Report implements Serializable {
     private Integer id;
@@ -11,11 +13,11 @@ public class Report implements Serializable {
     private String street;
     private Integer zipCode;
     private Integer houseNumber;
-    private String creationDate; //TODO passer en date
+    private Date creationDate; //TODO passer en date
     private Integer reporter;
     private ReportType reportType;
 
-    public Report(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, String creationDate, Integer reporter, ReportType reportType) {
+    public Report(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, Integer reporter, ReportType reportType) {
         this.id = id;
         this.description = description;
         this.state = state;
@@ -84,11 +86,11 @@ public class Report implements Serializable {
         this.houseNumber = houseNumber;
     }
 
-    public String getCreationDate() {
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 

@@ -1,10 +1,12 @@
 package com.example.smartcity_app.repositories.web;
 
 import android.content.Context;
-
 import com.example.smartcity_app.utils.ConnectivityCheckInterceptor;
 import com.squareup.moshi.Moshi;
+import com.squareup.moshi.Rfc3339DateJsonAdapter;
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory;
+
+import java.util.Date;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -28,6 +30,7 @@ public class RetrofitConfigurationService {
 
         Moshi moshiConverter = new Moshi.Builder()
                 .add(new KotlinJsonAdapterFactory())
+                .add(Date.class, new Rfc3339DateJsonAdapter())
                 .build();
 
         this.retrofitClient = new Retrofit.Builder()
