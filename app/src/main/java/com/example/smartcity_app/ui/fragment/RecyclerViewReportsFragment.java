@@ -105,7 +105,7 @@ public class RecyclerViewReportsFragment extends Fragment {
             String address = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
 
             holder.location.setText(report.getCity());
-            holder.date.setText("Date de merde");
+            holder.date.setText("Date à changer");
             holder.type.setText(report.getReportType().getLabel());
             holder.address.setText(address);
             holder.status.setText(report.getState());
