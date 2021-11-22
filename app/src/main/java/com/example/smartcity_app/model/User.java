@@ -1,5 +1,7 @@
 package com.example.smartcity_app.model;
 
+import androidx.annotation.NonNull;
+
 import com.example.smartcity_app.R;
 
 import java.io.Serializable;
@@ -18,12 +20,12 @@ public class User implements Serializable {
     private Integer zipCode;
     private Integer houseNumber;
 
-    public User(String email, String password, String firstName, String lastName, GregorianCalendar birthDate, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
+    public User(String email, String password, String firstName, String lastName, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
         setEmail(email);
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        setBirthDate(birthDate);
+        //setBirthDate(birthDate);
         this.city = city;
         this.street = street;
         setZipCode(zipCode);
@@ -31,7 +33,12 @@ public class User implements Serializable {
     }
 
     public User(String email, String password) throws Exception {
-        this(email, password, "Nicolas", "Bernard", new GregorianCalendar(2000, 12, 7), "Namur", "Rue de l'hotel de ville", 5000, 10);
+        this(email, password, "Nicolas", "Bernard", "Namur", "Rue de l'hotel de ville", 5000, 10);
+    }
+
+    @Override
+    public String toString() {
+        return "Ceci est mon objet user";
     }
 
     public void setEmail(String email) throws Exception {

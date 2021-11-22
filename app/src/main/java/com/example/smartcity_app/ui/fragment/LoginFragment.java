@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -21,6 +22,9 @@ import android.widget.Toast;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.ui.MainActivity;
+import com.example.smartcity_app.viewModels.UserViewModel;
+
+import java.util.concurrent.TimeUnit;
 
 
 public class LoginFragment extends Fragment {
@@ -29,6 +33,8 @@ public class LoginFragment extends Fragment {
     private Button connectButton;
     private Button createAccountButton;
     private ViewGroup container;
+    private UserViewModel userViewModel;
+    private static User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,13 @@ public class LoginFragment extends Fragment {
         connectButton.setOnClickListener(new ConnectWithAccountListener());
         createAccountButton = (Button) root.findViewById(R.id.create_account_button);
         createAccountButton.setOnClickListener(new CreateAccountListener());
+
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         return root;
+    }
+
+    public static void setUserFromAPI(User user) {
+        LoginFragment.user = user;
     }
 
     private class ConnectWithAccountListener implements View.OnClickListener {
@@ -65,16 +77,18 @@ public class LoginFragment extends Fragment {
             String passwordValue = password.getText().toString();
             // TODO : vérifier l'email et le mot de passe grâce à l'API
             // TODO : créer un model User avec ses informations et le passer via Intent
-            Log.v("Debug", "Connection avec un compte");
-            try {
-                User user = new User(emailValue, passwordValue);
-                MainActivity.setUser(user);
-                NavController navController = Navigation.findNavController(container);
-                navController.navigate(R.id.fragment_profile);
-            } catch (Exception e) {
-                Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
-                toast.show();
-            }
+
+            userViewModel.getUserFromWeb(1);
+
+//            try {
+//                User user = new User(emailValue, passwordValue);
+//                MainActivity.setUser(user);
+//                NavController navController = Navigation.findNavController(container);
+//                navController.navigate(R.id.fragment_profile);
+//            } catch (Exception e) {
+//                Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
+//                toast.show();
+//            }
         }
     }
 

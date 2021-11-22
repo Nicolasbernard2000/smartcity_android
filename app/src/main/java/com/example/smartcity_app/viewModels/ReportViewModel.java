@@ -14,6 +14,7 @@ import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.repositories.web.RetrofitConfigurationService;
 import com.example.smartcity_app.repositories.web.WalloniaFixedWebService;
 import com.example.smartcity_app.repositories.web.dto.ReportDto;
+import com.example.smartcity_app.ui.fragment.LoginFragment;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -36,7 +37,7 @@ public class ReportViewModel extends AndroidViewModel {
     public ReportViewModel(@NonNull Application application) {
         super(application);
 
-        this.webService = RetrofitConfigurationService.getInstance(application).pokemonService();
+        this.webService = RetrofitConfigurationService.getInstance(application).webService();
         this.reportMapper = ReportMapper.getInstance();
     }
 
