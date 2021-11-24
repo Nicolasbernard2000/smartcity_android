@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.regex.Pattern;
 
 public class User implements Serializable {
+    private Integer id;
     private String email;
     private String password;
     private String firstName;
@@ -20,12 +21,13 @@ public class User implements Serializable {
     private Integer zipCode;
     private Integer houseNumber;
 
-    public User(String email, String password, String firstName, String lastName, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
+    public User(Integer id, String email, String password, String firstName, String lastName, GregorianCalendar birthDate, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
+        this.id = id;
         setEmail(email);
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        //setBirthDate(birthDate);
+        setBirthDate(birthDate);
         this.city = city;
         this.street = street;
         setZipCode(zipCode);
@@ -33,7 +35,7 @@ public class User implements Serializable {
     }
 
     public User(String email, String password) throws Exception {
-        this(email, password, "Nicolas", "Bernard", "Namur", "Rue de l'hotel de ville", 5000, 10);
+        this(1, email, password, "Nicolas", "Bernard", new GregorianCalendar(2000, 12, 7),"Namur", "Rue de l'hotel de ville", 5000, 10);
     }
 
     @Override
@@ -63,6 +65,10 @@ public class User implements Serializable {
         } else {
             this.birthDate = birthDate;
         }
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getEmail() {

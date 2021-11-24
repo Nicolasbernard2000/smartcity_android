@@ -7,6 +7,7 @@ import com.squareup.moshi.Json;
 import java.util.GregorianCalendar;
 
 public class UserDto {
+    private Integer id;
     private String email;
     private String password;
 
@@ -28,7 +29,8 @@ public class UserDto {
     @Json(name="house_number")
     private Integer houseNumber;
 
-    public UserDto(String email, String password, String firstName, String lastName, String city, String street, Integer zipCode, Integer houseNumber) {
+    public UserDto(Integer id, String email, String password, String firstName, String lastName, String city, String street, Integer zipCode, Integer houseNumber) {
+        this.id = id;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
@@ -43,7 +45,8 @@ public class UserDto {
     @Override
     public String toString() {
         return "UserDto{" +
-                "email=" + email + '\'' +
+                "id=" + id +
+                ", email=" + email + '\'' +
                 ", password=" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -54,6 +57,13 @@ public class UserDto {
                 '}';
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

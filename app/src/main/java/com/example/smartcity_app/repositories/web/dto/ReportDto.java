@@ -27,6 +27,18 @@ public class ReportDto {
     @Json(name = "report_type")
     private ReportType reportType;
 
+    public ReportDto(String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, Integer reporter, ReportType reportType) {
+        this.description = description;
+        this.state = state;
+        this.city = city;
+        this.street = street;
+        this.zipCode = zipCode;
+        this.houseNumber = houseNumber;
+        this.creationDate = creationDate;
+        this.reporter = reporter;
+        this.reportType = reportType;
+    }
+
     public Integer getId() {
         return id;
     }

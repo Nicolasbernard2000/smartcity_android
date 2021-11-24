@@ -30,6 +30,10 @@ public class Report implements Serializable {
         this.reportType = reportType;
     }
 
+    public Report(String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, Integer reporter, ReportType reportType) {
+        this(null, description, state, city, street, zipCode, houseNumber, creationDate, reporter, reportType);
+    }
+
     public Integer getId() {
         return id;
     }

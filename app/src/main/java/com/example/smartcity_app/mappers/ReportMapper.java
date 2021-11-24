@@ -42,4 +42,13 @@ public class ReportMapper {
 
         return reports;
     }
+
+    public ReportDto mapToReportDto(Report report) {
+        if(report == null) {
+            return null;
+        }
+
+        ReportDto reportDto = new ReportDto(report.getDescription(), report.getState(), report.getCity(), report.getStreet(), report.getZipCode(), report.getHouseNumber(), report.getCreationDate(), report.getReporter(), report.getReportType());
+        return reportDto;
+    }
 }

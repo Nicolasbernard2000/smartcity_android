@@ -57,4 +57,5 @@
     <string name="http_no_connection">No connection</string>
     <string name="request_error">Request error</string>
     <string name="technical_error">Technical error</string>
+    <string name="profile_personnal_reports">Signalements personnels</string>
 </resources>

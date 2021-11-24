@@ -78,17 +78,17 @@ public class LoginFragment extends Fragment {
             // TODO : vérifier l'email et le mot de passe grâce à l'API
             // TODO : créer un model User avec ses informations et le passer via Intent
 
-            userViewModel.getUserFromWeb(1);
+            //userViewModel.getUserFromWeb(1);
 
-//            try {
-//                User user = new User(emailValue, passwordValue);
-//                MainActivity.setUser(user);
-//                NavController navController = Navigation.findNavController(container);
-//                navController.navigate(R.id.fragment_profile);
-//            } catch (Exception e) {
-//                Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
-//                toast.show();
-//            }
+            try {
+                User user = new User(emailValue, passwordValue);
+                MainActivity.setUser(user);
+                NavController navController = Navigation.findNavController(container);
+                navController.navigate(R.id.fragment_profile);
+            } catch (Exception e) {
+                Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
+                toast.show();
+            }
         }
     }
 
