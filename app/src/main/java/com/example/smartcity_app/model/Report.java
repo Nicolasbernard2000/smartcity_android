@@ -13,7 +13,7 @@ public class Report implements Serializable {
     private String street;
     private Integer zipCode;
     private Integer houseNumber;
-    private Date creationDate; //TODO passer en date
+    private Date creationDate;
     private Integer reporter;
     private ReportType reportType;
 

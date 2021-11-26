@@ -58,4 +58,9 @@
     <string name="request_error">Request error</string>
     <string name="technical_error">Technical error</string>
     <string name="profile_personnal_reports">Signalements personnels</string>
+    <string name="number_only">Veuillez des chiffres uniquement</string>
+    <string name="report_created">Le signalement a bien été créé</string>
+    <string name="wrong_datas">Veuillez entrer des valeurs correctes</string>
+    <string name="error_servor">Une erreur s\'est produite de notre côté.</string>
+    <string name="error_unknown">Une erreur inconnue s\'est produite.</string>
 </resources>

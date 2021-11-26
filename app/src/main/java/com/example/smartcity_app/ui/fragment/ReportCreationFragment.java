@@ -30,6 +30,7 @@ import com.example.smartcity_app.viewModels.ReportViewModel;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +45,7 @@ public class ReportCreationFragment extends Fragment {
     private TextView zipCode;
     private TextView city;
     private Context context;
+    private ArrayList<ReportType> reportTypes;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,16 +75,20 @@ public class ReportCreationFragment extends Fragment {
             city = (TextView) root.findViewById(R.id.create_report_city);
             createReportButton = (Button) root.findViewById(R.id.create_report_button);
             createReportButton.setOnClickListener(new CreateReportListener());
-/*
+
             viewModelReportType.getReportTypesFromWeb();
-            viewModelReportType.getReportTypes().observe(getViewLifecycleOwner(), ReportType -> {
-                ArrayAdapter<ReportType> adapter = new ArrayAdapter<ReportType>(getContext(), android.R.layout.simple_spinner_item, (List<ReportType>) viewModelReportType.getReportTypes());
+            viewModelReportType.getReportTypes().observe(getViewLifecycleOwner(), ReportTypes -> {
+                this.reportTypes = (ArrayList<ReportType>) ReportTypes;
+                ArrayList<String> labels = new ArrayList<>();
+                for (ReportType reportType: ReportTypes) {
+                    labels.add(reportType.getLabel());
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, labels);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 reportType.setAdapter(adapter);
-            });*/
+            });
 
         }
-
         return root;
     }
 
@@ -90,17 +96,35 @@ public class ReportCreationFragment extends Fragment {
         public CreateReportListener() {}
         @Override
         public void onClick(View v) {
-            //TODO vérifier les infos
+            int selectedItemPosition = reportType.getSelectedItemPosition();
+            ReportType reportType = reportTypes.get(selectedItemPosition);
             String descriptionText = description.getText().toString();
             String streetText = street.getText().toString();
-            Integer houseNumberInteger = Integer.parseInt(houseNumber.getText().toString());
-            Integer zipCodeInteger = Integer.parseInt(zipCode.getText().toString());
             String cityText = city.getText().toString();
-            viewModelReport.postReportOnWeb(new Report(descriptionText, "En attente", cityText, streetText, zipCodeInteger, houseNumberInteger, new Date(), MainActivity.getUser().getId(), new ReportType(1, "label")));
-            viewModelReport.getStatusCode().observe(getViewLifecycleOwner(), integer -> {
-                //TODO message selon le code
-                Toast.makeText(context, integer.toString(), Toast.LENGTH_LONG).show();
-            });
+            try {
+                Integer houseNumberInteger = Integer.parseInt(houseNumber.getText().toString());
+                Integer zipCodeInteger = Integer.parseInt(zipCode.getText().toString());
+                viewModelReport.postReportOnWeb(new Report(descriptionText, "En attente", cityText, streetText, zipCodeInteger, houseNumberInteger, new Date(), MainActivity.getUser().getId(), reportType));
+                viewModelReport.getStatusCode().observe(getViewLifecycleOwner(), code -> {
+                    String message;
+                    switch(code) {
+                        case 200:
+                            message = getString(R.string.report_created);
+                            break;
+                        case 404:
+                            message = getString(R.string.wrong_datas);
+                            break;
+                        case 500:
+                            message = getString(R.string.error_servor);
+                            break;
+                        default:
+                            message = getString(R.string.error_unknown);
+                    }
+                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+                });
+            } catch (Exception e) {
+                Toast.makeText(context, R.string.number_only, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
