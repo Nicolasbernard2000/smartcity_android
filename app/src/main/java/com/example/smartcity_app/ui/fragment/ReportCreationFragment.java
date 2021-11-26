@@ -43,6 +43,7 @@ public class ReportCreationFragment extends Fragment {
     private TextView houseNumber;
     private TextView zipCode;
     private TextView city;
+    private Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class ReportCreationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.report_creation_fragment, container, false);
-
+        this.context = getContext();
         if(!MainActivity.isUserConnected()) {
             Log.d("Debug", "User pas connecté, affichage autre page");
 
@@ -72,13 +73,14 @@ public class ReportCreationFragment extends Fragment {
             city = (TextView) root.findViewById(R.id.create_report_city);
             createReportButton = (Button) root.findViewById(R.id.create_report_button);
             createReportButton.setOnClickListener(new CreateReportListener());
-
+/*
             viewModelReportType.getReportTypesFromWeb();
             viewModelReportType.getReportTypes().observe(getViewLifecycleOwner(), ReportType -> {
                 ArrayAdapter<ReportType> adapter = new ArrayAdapter<ReportType>(getContext(), android.R.layout.simple_spinner_item, (List<ReportType>) viewModelReportType.getReportTypes());
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 reportType.setAdapter(adapter);
-            });
+            });*/
+
         }
 
         return root;
@@ -88,7 +90,7 @@ public class ReportCreationFragment extends Fragment {
         public CreateReportListener() {}
         @Override
         public void onClick(View v) {
-            //GET INFO FROM FORM
+            //TODO vérifier les infos
             String descriptionText = description.getText().toString();
             String streetText = street.getText().toString();
             Integer houseNumberInteger = Integer.parseInt(houseNumber.getText().toString());
@@ -96,7 +98,8 @@ public class ReportCreationFragment extends Fragment {
             String cityText = city.getText().toString();
             viewModelReport.postReportOnWeb(new Report(descriptionText, "En attente", cityText, streetText, zipCodeInteger, houseNumberInteger, new Date(), MainActivity.getUser().getId(), new ReportType(1, "label")));
             viewModelReport.getStatusCode().observe(getViewLifecycleOwner(), integer -> {
-                Toast.makeText(getContext(), integer, Toast.LENGTH_LONG).show();
+                //TODO message selon le code
+                Toast.makeText(context, integer.toString(), Toast.LENGTH_LONG).show();
             });
         }
     }

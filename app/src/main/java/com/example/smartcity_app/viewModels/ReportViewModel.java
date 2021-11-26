@@ -73,6 +73,7 @@ public class ReportViewModel extends AndroidViewModel {
                 } else {
                     Log.i("DEBUG", "Erreur création report");
                 }
+                Log.i("DEBUG", response.code() + "");
                 _statusCode.setValue(response.code());
             }
 
