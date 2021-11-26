@@ -3,6 +3,7 @@ package com.example.smartcity_app.repositories.web;
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.repositories.web.dto.ReportDto;
+import com.example.smartcity_app.repositories.web.dto.ReportTypeDto;
 import com.example.smartcity_app.repositories.web.dto.UserDto;
 
 import java.util.List;
@@ -22,4 +23,7 @@ public interface WalloniaFixedWebService {
 
     @GET("v1/user/{id}")
     Call<UserDto> getUser(@Path("id") int userId);
+
+    @GET("v1/reportType")
+    Call<List<ReportTypeDto>> getReportTypes();
 }

@@ -6,7 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,15 +25,24 @@ import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.model.ReportType;
 import com.example.smartcity_app.ui.MainActivity;
+import com.example.smartcity_app.viewModels.ReportTypeViewModel;
 import com.example.smartcity_app.viewModels.ReportViewModel;
 
+import org.w3c.dom.Text;
+
 import java.util.Date;
+import java.util.List;
 
 public class ReportCreationFragment extends Fragment {
     private Button createReportButton;
-    private ReportViewModel viewModel;
-    private static Context context;
-    private static String message;
+    private ReportViewModel viewModelReport;
+    private ReportTypeViewModel viewModelReportType;
+    private Spinner reportType;
+    private TextView description;
+    private TextView street;
+    private TextView houseNumber;
+    private TextView zipCode;
+    private TextView city;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +53,6 @@ public class ReportCreationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.report_creation_fragment, container, false);
-        this.context = getContext();
 
         if(!MainActivity.isUserConnected()) {
             Log.d("Debug", "User pas connecté, affichage autre page");
@@ -50,16 +61,27 @@ public class ReportCreationFragment extends Fragment {
             bundle.putString("information", getString(R.string.asking_connection));
             Navigation.findNavController(container).navigate(R.id.action_fragment_add_report_to_fragment_information, bundle);
         } else {
+            viewModelReportType = new ViewModelProvider(this).get(ReportTypeViewModel.class);
+            viewModelReport = new ViewModelProvider(this).get(ReportViewModel.class);
+
+            reportType = (Spinner) root.findViewById(R.id.create_report_report_type);
+            description = (TextView) root.findViewById(R.id.create_report_description);
+            street = (TextView) root.findViewById(R.id.create_report_street);
+            houseNumber = (TextView) root.findViewById(R.id.create_report_house_number);
+            zipCode = (TextView) root.findViewById(R.id.create_report_zip_code);
+            city = (TextView) root.findViewById(R.id.create_report_city);
             createReportButton = (Button) root.findViewById(R.id.create_report_button);
             createReportButton.setOnClickListener(new CreateReportListener());
-            viewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+
+            viewModelReportType.getReportTypesFromWeb();
+            viewModelReportType.getReportTypes().observe(getViewLifecycleOwner(), ReportType -> {
+                ArrayAdapter<ReportType> adapter = new ArrayAdapter<ReportType>(getContext(), android.R.layout.simple_spinner_item, (List<ReportType>) viewModelReportType.getReportTypes());
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                reportType.setAdapter(adapter);
+            });
         }
 
         return root;
-    }
-
-    public void MakeToast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_LONG);
     }
 
     private class CreateReportListener implements View.OnClickListener {
@@ -67,13 +89,15 @@ public class ReportCreationFragment extends Fragment {
         @Override
         public void onClick(View v) {
             //GET INFO FROM FORM
-            viewModel.postReportOnWeb(new Report("Description", "State", "City", "Street", 5500, 13, new Date(2000, 12, 7), 1, new ReportType(1, "label")));
+            String descriptionText = description.getText().toString();
+            String streetText = street.getText().toString();
+            Integer houseNumberInteger = Integer.parseInt(houseNumber.getText().toString());
+            Integer zipCodeInteger = Integer.parseInt(zipCode.getText().toString());
+            String cityText = city.getText().toString();
+            viewModelReport.postReportOnWeb(new Report(descriptionText, "En attente", cityText, streetText, zipCodeInteger, houseNumberInteger, new Date(), MainActivity.getUser().getId(), new ReportType(1, "label")));
+            viewModelReport.getStatusCode().observe(getViewLifecycleOwner(), integer -> {
+                Toast.makeText(getContext(), integer, Toast.LENGTH_LONG).show();
+            });
         }
-    }
-
-
-
-    public static void setToast(String message) {
-        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
     }
 }

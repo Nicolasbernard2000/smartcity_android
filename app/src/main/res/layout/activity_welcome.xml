@@ -20,12 +20,20 @@
 
     <TextView
         android:id="@+id/welcome_description"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/welcome_description"
         android:textColor="@color/colorPrimary"
         android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/waiting_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="30dp"
+        app:srcCompat="@drawable/ic_baseline_cleaning_services_24" />
 
     <Button
         android:id="@+id/welcome_button"
