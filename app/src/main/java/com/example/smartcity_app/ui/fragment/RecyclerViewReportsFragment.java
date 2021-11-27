@@ -1,5 +1,6 @@
 package com.example.smartcity_app.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -105,10 +106,12 @@ public class RecyclerViewReportsFragment extends Fragment {
             String address = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
 
             holder.location.setText(report.getCity());
-            holder.date.setText("Date à changer");
+            holder.date.setText(report.getCreationDate().toString());
             holder.type.setText(report.getReportType().getLabel());
             holder.address.setText(address);
-            holder.status.setText(report.getState());
+
+            Context context = this.container.getContext();
+            holder.status.setText(context.getString(context.getResources().getIdentifier("state_" + report.getState(), "string", context.getPackageName())));
         }
 
         @Override

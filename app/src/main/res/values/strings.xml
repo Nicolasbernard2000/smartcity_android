@@ -63,4 +63,10 @@
     <string name="wrong_datas">Veuillez entrer des valeurs correctes</string>
     <string name="error_servor">Une erreur s\'est produite de notre côté.</string>
     <string name="error_unknown">Une erreur inconnue s\'est produite.</string>
+
+    <!--STATES-->
+    <string name="state_pending">En attente</string>
+    <string name="state_inProgress">En cours de traitement</string>
+    <string name="state_solved">Résolu</string>
+    <string name="state_cantBeSolved">Non résolvable</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.smartcity_app.ui.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,10 +55,13 @@ public class ReportFragment extends Fragment {
             String addressContent = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
 
             location.setText(report.getCity());
-            //date.setText(report.getCreationDate());
+            date.setText(report.getCreationDate().toString());
             type.setText(report.getReportType().getLabel());
             address.setText(addressContent);
-            status.setText(report.getState());
+
+            Context context = getContext();
+            status.setText(context.getString(context.getResources().getIdentifier("state_" + report.getState(), "string", context.getPackageName())));
+
             id.setText("#" + report.getId().toString());
             description.setText(report.getDescription());
 
