@@ -14,6 +14,7 @@ import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.repositories.web.RetrofitConfigurationService;
 import com.example.smartcity_app.repositories.web.WalloniaFixedWebService;
 import com.example.smartcity_app.repositories.web.dto.ReportDto;
+import com.example.smartcity_app.ui.MainActivity;
 import com.example.smartcity_app.ui.fragment.LoginFragment;
 import com.example.smartcity_app.ui.fragment.ReportCreationFragment;
 
@@ -59,6 +60,25 @@ public class ReportViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(@NotNull Call<List<ReportDto>> call, @NotNull Throwable t) {
+                Log.i("DEBUG", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void getReportsFromWebWithUserId(Integer id) {
+        webService.getReportsWithUserId(id).enqueue(new Callback<List<ReportDto>>() {
+            @Override
+            public void onResponse(Call<List<ReportDto>> call, Response<List<ReportDto>> response) {
+                if (response.isSuccessful()) {
+                    _reports.setValue(reportMapper.mapToReports(response.body()));
+                    Log.i("DEBUG", "Retrieve report for a user : " + _reports.getValue().size());
+                }else{
+                    Log.i("DEBUG", "response.isNotSuccessful");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ReportDto>> call, Throwable t) {
                 Log.i("DEBUG", "onFailure: " + t.getMessage());
             }
         });

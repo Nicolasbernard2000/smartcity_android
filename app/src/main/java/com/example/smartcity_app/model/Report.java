@@ -32,6 +32,8 @@ public class Report implements Serializable {
 
     public Report(String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Integer reporter, ReportType reportType) {
         this(null, description, state, city, street, zipCode, houseNumber, null, reporter, reportType);
+        GregorianCalendar today = new GregorianCalendar();
+        setCreationDate(new Date(today.getTimeInMillis()));
     }
 
     public Integer getId() {

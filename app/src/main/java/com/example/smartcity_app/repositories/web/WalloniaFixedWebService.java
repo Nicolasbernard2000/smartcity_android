@@ -18,6 +18,9 @@ public interface WalloniaFixedWebService {
     @GET("v1/report")
     Call<List<ReportDto>> getReports();
 
+    @GET("v1/report/foruser/{userId}")
+    Call<List<ReportDto>> getReportsWithUserId(@Path("userId") int userId);
+
     @POST("v1/report")
     Call<Object> postReport(@Body ReportDto reportDto);
 
