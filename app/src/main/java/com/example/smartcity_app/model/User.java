@@ -1,12 +1,10 @@
 package com.example.smartcity_app.model;
 
-import androidx.annotation.NonNull;
-
-import com.example.smartcity_app.R;
+import android.util.Log;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.regex.Pattern;
 
 public class User implements Serializable {
@@ -15,39 +13,40 @@ public class User implements Serializable {
     private String password;
     private String firstName;
     private String lastName;
-    private GregorianCalendar birthDate;
+    private Date birthDate;
+    private String role;
     private String city;
     private String street;
     private Integer zipCode;
     private Integer houseNumber;
 
-    public User(Integer id, String email, String password, String firstName, String lastName, GregorianCalendar birthDate, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
+    public User(Integer id, String email, String password, String firstName, String lastName, Date birthDate, String role, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
         this.id = id;
         setEmail(email);
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         setBirthDate(birthDate);
+        this.role = role;
         this.city = city;
         this.street = street;
         setZipCode(zipCode);
         this.houseNumber = houseNumber;
     }
 
-    public User(String email, String password) throws Exception {
-        this(1, email, password, "Nicolas", "Bernard", new GregorianCalendar(2000, 12, 7),"Namur", "Rue de l'hotel de ville", 5000, 10);
+    public User(String email, String password, String firstName, String lastName, Date birthDate, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
+        this(null, email, password, firstName, lastName, birthDate, "user", city, street, zipCode, houseNumber);
     }
 
-    @Override
-    public String toString() {
-        return "Ceci est mon objet user";
+    public User(String email, String password) throws Exception {
+        this(null, email, password, null, null, null, null, null, null, null, null);
     }
 
     public void setEmail(String email) throws Exception {
         if(Pattern.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email)) {
             this.email = email;
         } else {
-            throw new Exception(R.string.exception_email + "");
+            throw new Exception("Ceci n'est pas une adresse mail");
         }
     }
 
@@ -55,15 +54,15 @@ public class User implements Serializable {
         if(1000 <= zipCode && zipCode < 10000)
             this.zipCode = zipCode;
         else
-            throw new Exception(R.string.exception_zip_code + "");
+            throw new Exception("Code postal incorrect");
     }
 
-    public void setBirthDate(GregorianCalendar birthDate) throws Exception {
-        GregorianCalendar today = new GregorianCalendar();
-        if(birthDate.after(today)) {
-            throw new Exception(R.string.exception_birthdate + "");
-        } else {
+    public void setBirthDate(Date birthDate) throws Exception {
+        Date today = new Date(System.currentTimeMillis());
+        if(birthDate.before(today)) {
             this.birthDate = birthDate;
+        } else {
+            throw new Exception("La date de naissance ne peut pas être dans le futur");
         }
     }
 
@@ -87,7 +86,7 @@ public class User implements Serializable {
         return lastName;
     }
 
-    public GregorianCalendar getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
@@ -105,5 +104,30 @@ public class User implements Serializable {
 
     public Integer getHouseNumber() {
         return houseNumber;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "BackOfficeUser{" +
+                "id=" + id +
+                ", email=" + email + '\'' +
+                ", password=" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", role=" + role +
+                ", city=" + city +
+                ", street=" + street +
+                ", zipCode=" + zipCode +
+                ", houseNumber=" + houseNumber +
+                '}';
     }
 }

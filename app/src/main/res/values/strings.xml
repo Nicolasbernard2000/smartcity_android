@@ -69,4 +69,7 @@
     <string name="state_inProgress">En cours de traitement</string>
     <string name="state_solved">Résolu</string>
     <string name="state_cantBeSolved">Non résolvable</string>
+
+    <string name="user_created">Le compte a bien été créé</string>
+    <string name="email_already_used">Cette adresse mail est déjà utilisée</string>
 </resources>

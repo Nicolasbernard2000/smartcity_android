@@ -1,10 +1,7 @@
 package com.example.smartcity_app.repositories.web.dto;
 
-import androidx.annotation.NonNull;
-
 import com.squareup.moshi.Json;
-
-import java.util.GregorianCalendar;
+import java.sql.Date;
 
 public class UserDto {
     private Integer id;
@@ -17,9 +14,10 @@ public class UserDto {
     @Json(name="last_name")
     private String lastName;
 
-//    @Json(name="birth_date_name")
-//    private GregorianCalendar birthDate;
+    @Json(name="birth_date")
+    private Date birthDate;
 
+    private String role;
     private String city;
     private String street;
 
@@ -29,13 +27,14 @@ public class UserDto {
     @Json(name="house_number")
     private Integer houseNumber;
 
-    public UserDto(Integer id, String email, String password, String firstName, String lastName, String city, String street, Integer zipCode, Integer houseNumber) {
+    public UserDto(Integer id, String email, String password, String firstName, String lastName, Date birthDate, String role, String city, String street, Integer zipCode, Integer houseNumber) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        //this.birthDate = birthDate;
+        this.birthDate = birthDate;
+        this.role = role;
         this.city = city;
         this.street = street;
         this.zipCode = zipCode;
@@ -44,12 +43,14 @@ public class UserDto {
 
     @Override
     public String toString() {
-        return "UserDto{" +
+        return "BackOfficeUser{" +
                 "id=" + id +
                 ", email=" + email + '\'' +
                 ", password=" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", birthDate=" + birthDate +
+                ", role=" + role +
                 ", city=" + city +
                 ", street=" + street +
                 ", zipCode=" + zipCode +
@@ -97,13 +98,13 @@ public class UserDto {
         this.lastName = lastName;
     }
 
-//    public GregorianCalendar getBirthDate() {
-//        return birthDate;
-//    }
-//
-//    public void setBirthDate(GregorianCalendar birthDate) {
-//        this.birthDate = birthDate;
-//    }
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
 
     public String getCity() {
         return city;
@@ -135,5 +136,9 @@ public class UserDto {
 
     public void setHouseNumber(Integer houseNumber) {
         this.houseNumber = houseNumber;
+    }
+
+    public String getRole() {
+        return role;
     }
 }

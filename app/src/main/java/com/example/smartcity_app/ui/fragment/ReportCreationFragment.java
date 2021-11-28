@@ -104,7 +104,7 @@ public class ReportCreationFragment extends Fragment {
             try {
                 Integer houseNumberInteger = Integer.parseInt(houseNumber.getText().toString());
                 Integer zipCodeInteger = Integer.parseInt(zipCode.getText().toString());
-                viewModelReport.postReportOnWeb(new Report(descriptionText, "En attente", cityText, streetText, zipCodeInteger, houseNumberInteger, new Date(), MainActivity.getUser().getId(), reportType));
+                viewModelReport.postReportOnWeb(new Report(descriptionText, "pending", cityText, streetText, zipCodeInteger, houseNumberInteger, MainActivity.getUser().getId(), reportType));
                 viewModelReport.getStatusCode().observe(getViewLifecycleOwner(), code -> {
                     String message;
                     switch(code) {

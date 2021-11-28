@@ -5,8 +5,7 @@ import android.util.Log;
 import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.repositories.web.dto.UserDto;
 
-import java.io.Console;
-import java.util.GregorianCalendar;
+import java.sql.Date;
 
 public class UserMapper {
     private static UserMapper instance = null;
@@ -26,7 +25,7 @@ public class UserMapper {
             return null;
 
         try {
-            User user = new User(dto.getId(), dto.getEmail(), dto.getPassword(), dto.getFirstName(), dto.getLastName(), new GregorianCalendar(2000, 12, 7),dto.getCity(), dto.getStreet(), dto.getZipCode(), dto.getHouseNumber());
+            User user = new User(dto.getId(), dto.getEmail(), dto.getPassword(), dto.getFirstName(), dto.getLastName(), new Date(2000, 12, 7), dto.getRole(), dto.getCity(), dto.getStreet(), dto.getZipCode(), dto.getHouseNumber());
             return user;
         } catch (Exception e) {
             Log.v("DEBUG", "Erreur dans le mapping : " + e.getMessage());
@@ -37,7 +36,8 @@ public class UserMapper {
     public UserDto mapToUserDto(User user) {
         if(user == null)
             return null;
-        UserDto userDto = new UserDto(user.getId(), user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getCity(), user.getStreet(), user.getZipCode(), user.getHouseNumber());
+        UserDto userDto = new UserDto(user.getId(), user.getEmail(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getBirthDate(), user.getRole(), user.getCity(), user.getStreet(), user.getZipCode(), user.getHouseNumber());
+
         return userDto;
     }
 }

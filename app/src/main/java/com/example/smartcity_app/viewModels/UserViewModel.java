@@ -25,9 +25,14 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<User> _user = new MutableLiveData<>();
     private LiveData<User> user = _user;
 
+    private MutableLiveData<Integer> _idNewUser = new MutableLiveData<>();
+    private LiveData<Integer> idNewUser = _idNewUser;
+
+    private MutableLiveData<Integer> _statusCode = new MutableLiveData<>();
+    private LiveData<Integer> statusCode = _statusCode;
+
     private WalloniaFixedWebService webService;
     private UserMapper userMapper;
-
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -55,7 +60,37 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
+    public void postUserOnWeb(User user) {
+        webService.postUser(userMapper.mapToUserDto(user)).enqueue(new Callback<UserDto>() {
+
+            @Override
+            public void onResponse(Call<UserDto> call, Response<UserDto> response) {
+                if(response.isSuccessful()) {
+                    Log.i("DEBUG", "User créé");
+                    _idNewUser.setValue(response.body().getId());
+                } else if(response.code() == 404){
+                    Log.i("DEBUG", "Adresse mail déjà utilisée");
+                }
+                _statusCode.setValue(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<UserDto> call, Throwable t) {
+                _statusCode.setValue(500);
+                Log.i("DEBUG", "onFailure: " + t.toString());
+            }
+        });
+    }
+
     public LiveData<User> getUser() {
         return user;
+    }
+
+    public LiveData<Integer> getStatusCode() {
+        return statusCode;
+    }
+
+    public LiveData<Integer> getIdNewUser(){
+        return idNewUser;
     }
 }

@@ -6,14 +6,14 @@ import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Rfc3339DateJsonAdapter;
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory;
 
-import java.util.Date;
+import java.sql.Date;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class RetrofitConfigurationService {
-    private static final String BASE_URL = "http://192.168.1.27:2001/";
+    private static final String BASE_URL = "http://192.168.0.137:2001/";
 
     private Retrofit retrofitClient;
 
@@ -31,6 +31,7 @@ public class RetrofitConfigurationService {
         Moshi moshiConverter = new Moshi.Builder()
                 .add(new KotlinJsonAdapterFactory())
                 .add(Date.class, new Rfc3339DateJsonAdapter())
+                .add(java.util.Date.class, new Rfc3339DateJsonAdapter())
                 .build();
 
         this.retrofitClient = new Retrofit.Builder()
