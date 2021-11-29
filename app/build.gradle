@@ -53,4 +53,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.squareup.moshi:moshi-adapters:1.4.0'
+
+    implementation 'com.auth0:java-jwt:3.18.2'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.3'
 }

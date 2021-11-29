@@ -1,5 +1,6 @@
 package com.example.smartcity_app.repositories.web.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.squareup.moshi.Json;
 import java.sql.Date;
 
@@ -9,12 +10,15 @@ public class UserDto {
     private String password;
 
     @Json(name="first_name")
+    @JsonProperty("first_name")
     private String firstName;
 
     @Json(name="last_name")
+    @JsonProperty("last_name")
     private String lastName;
 
     @Json(name="birth_date")
+    @JsonProperty("birth_date")
     private Date birthDate;
 
     private String role;
@@ -22,9 +26,11 @@ public class UserDto {
     private String street;
 
     @Json(name="zip_code")
+    @JsonProperty("zip_code")
     private Integer zipCode;
 
     @Json(name="house_number")
+    @JsonProperty("house_number")
     private Integer houseNumber;
 
     public UserDto(Integer id, String email, String password, String firstName, String lastName, Date birthDate, String role, String city, String street, Integer zipCode, Integer houseNumber) {
@@ -39,6 +45,10 @@ public class UserDto {
         this.street = street;
         this.zipCode = zipCode;
         this.houseNumber = houseNumber;
+    }
+
+    public UserDto() {
+        super();
     }
 
     @Override

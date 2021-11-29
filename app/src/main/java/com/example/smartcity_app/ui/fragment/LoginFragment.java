@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.ui.MainActivity;
+import com.example.smartcity_app.viewModels.LoginViewModel;
 import com.example.smartcity_app.viewModels.UserViewModel;
 
 import java.util.concurrent.TimeUnit;
@@ -33,7 +34,7 @@ public class LoginFragment extends Fragment {
     private Button connectButton;
     private Button createAccountButton;
     private ViewGroup container;
-    private UserViewModel userViewModel;
+    private LoginViewModel loginViewModel;
     private static User user;
 
     @Override
@@ -59,7 +60,7 @@ public class LoginFragment extends Fragment {
         createAccountButton = (Button) root.findViewById(R.id.create_account_button);
         createAccountButton.setOnClickListener(new CreateAccountListener());
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         return root;
     }
 
@@ -73,22 +74,16 @@ public class LoginFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            String emailValue = email.getText().toString();
-            String passwordValue = password.getText().toString();
-            // TODO : vérifier l'email et le mot de passe grâce à l'API
-            // TODO : créer un model User avec ses informations et le passer via Intent
+            String emailText = email.getText().toString();
+            String passwordText = password.getText().toString();
 
-            //userViewModel.getUserFromWeb(1);
-
-            try {
-                User user = new User(emailValue, passwordValue);
+            loginViewModel.log(emailText, passwordText);
+            loginViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
                 MainActivity.setUser(user);
                 NavController navController = Navigation.findNavController(container);
                 navController.navigate(R.id.fragment_profile);
-            } catch (Exception e) {
-                Toast toast = Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG);
-                toast.show();
-            }
+
+            });
         }
     }
 

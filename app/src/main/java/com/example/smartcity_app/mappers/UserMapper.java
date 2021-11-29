@@ -23,9 +23,8 @@ public class UserMapper {
     public User mapToUser(UserDto dto) {
         if(dto == null)
             return null;
-
         try {
-            User user = new User(dto.getId(), dto.getEmail(), dto.getPassword(), dto.getFirstName(), dto.getLastName(), new Date(2000, 12, 7), dto.getRole(), dto.getCity(), dto.getStreet(), dto.getZipCode(), dto.getHouseNumber());
+            User user = new User(dto.getId(), dto.getEmail(), dto.getPassword(), dto.getFirstName(), dto.getLastName(), dto.getBirthDate(), dto.getRole(), dto.getCity(), dto.getStreet(), dto.getZipCode(), dto.getHouseNumber());
             return user;
         } catch (Exception e) {
             Log.v("DEBUG", "Erreur dans le mapping : " + e.getMessage());

@@ -2,6 +2,7 @@ package com.example.smartcity_app.repositories.web;
 
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.model.User;
+import com.example.smartcity_app.repositories.web.dto.LoginDto;
 import com.example.smartcity_app.repositories.web.dto.ReportDto;
 import com.example.smartcity_app.repositories.web.dto.ReportTypeDto;
 import com.example.smartcity_app.repositories.web.dto.UserDto;
@@ -32,4 +33,7 @@ public interface WalloniaFixedWebService {
 
     @GET("v1/reportType")
     Call<List<ReportTypeDto>> getReportTypes();
+
+    @POST("v1/login")
+    Call<String> log(@Body LoginDto loginDto);
 }
