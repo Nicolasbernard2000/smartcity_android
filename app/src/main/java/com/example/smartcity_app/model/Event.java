@@ -1,6 +1,7 @@
 package com.example.smartcity_app.model;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class Event {
     private Integer id;
@@ -19,6 +20,12 @@ public class Event {
         this.createdAt = createdAt;
         this.reportId = reportId;
         this.creatorId = creatorId;
+    }
+
+    public Event(Date dateHour, Integer duration, String description, Integer reportId, Integer creatorId) {
+        this(null, dateHour, duration, description, null, reportId, creatorId);
+        GregorianCalendar today = new GregorianCalendar();
+        setCreatedAt(new Date(today.getTimeInMillis()));
     }
 
     @Override

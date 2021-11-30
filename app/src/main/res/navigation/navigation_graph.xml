@@ -49,7 +49,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_create_event"
-        android:name="com.example.smartcity_app.ui.fragment.EventCreationFragment"
+        android:name="com.example.smartcity_app.ui.fragment.EventCreationDialogFragment"
         android:label="event_creation_fragment"
         tools:layout="@layout/event_creation_fragment" />
     <fragment

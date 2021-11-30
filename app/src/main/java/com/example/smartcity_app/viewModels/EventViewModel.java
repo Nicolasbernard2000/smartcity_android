@@ -53,6 +53,25 @@ public class EventViewModel extends AndroidViewModel {
         });
     }
 
+    public void postEventOnWeb(Event event) {
+        Log.i("Debug", "Event récupéré : " + event);
+        webService.postEvent(eventMapper.mapToEventDto(event)).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                if(response.isSuccessful()) {
+                    Log.i("Debug", "Event créé");
+                } else {
+                    Log.i("Debug", "Erreur création event");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                Log.i("Debug", "Event : on failure " + t.getMessage());
+            }
+        });
+    }
+
     public LiveData<List<Event>> getEvents() {
         return events;
     }

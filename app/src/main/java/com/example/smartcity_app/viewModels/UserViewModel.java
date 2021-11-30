@@ -40,26 +40,6 @@ public class UserViewModel extends AndroidViewModel {
         this.userMapper = UserMapper.getInstance();
     }
 
-    public void getUserFromWeb(int userId) {
-        webService.getUser(userId).enqueue(new Callback<UserDto>() {
-            @Override
-            public void onResponse(@NotNull Call<UserDto> call, @NotNull Response<UserDto> response) {
-                if(response.isSuccessful()){
-                    _user.setValue(userMapper.mapToUser(response.body()));
-                    LoginFragment.setUserFromAPI(user.getValue());
-                    Log.i("DEBUG", "response isSuccessful : " + _user.getValue());
-                } else{
-                    Log.i("DEBUG", "response.isNotSuccessful");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<UserDto> call, Throwable t) {
-                Log.v("DEBUG", "ERREUR");
-            }
-        });
-    }
-
     public void postUserOnWeb(User user) {
         webService.postUser(userMapper.mapToUserDto(user)).enqueue(new Callback<UserDto>() {
 

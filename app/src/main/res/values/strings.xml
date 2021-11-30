@@ -72,4 +72,7 @@
 
     <string name="user_created">Le compte a bien été créé</string>
     <string name="email_already_used">Cette adresse mail est déjà utilisée</string>
+    <string name="create_event">Créer l\'évènement</string>
+    <string name="cancel">Annuler</string>
+    <string name="event_creation">Création d\'un évènement</string>
 </resources>
