@@ -120,7 +120,10 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/event_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <FrameLayout
                 android:id="@+id/test"
@@ -135,9 +138,6 @@
                 android:background="@color/colorPrimary"
                 android:text="@string/create_event_button"
                 android:textColor="@color/colorSecond" />
-
         </LinearLayout>
     </ScrollView>
-
-
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.example.smartcity_app.ui.recyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class ReportRecyclerView {
         }
     }
 
-    public static class ReportAdapter extends RecyclerView.Adapter<ReportRecyclerView.ReportViewHolder> {
+    public static class ReportAdapter extends RecyclerView.Adapter<ReportViewHolder> {
         private List<Report> reports;
         private ViewGroup container;
 
@@ -60,10 +61,10 @@ public class ReportRecyclerView {
 
         @NonNull
         @Override
-        public ReportRecyclerView.ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public ReportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LinearLayout lv = (LinearLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.report_row, parent, false);
 
-            return new ReportRecyclerView.ReportViewHolder(lv, position -> {
+            return new ReportViewHolder(lv, position -> {
                 Report touchedReport = reports.get(position);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("touchedReport", touchedReport);
@@ -72,9 +73,8 @@ public class ReportRecyclerView {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull ReportRecyclerView.ReportViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
             Report report = reports.get(position);
-
             String address = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
 
             holder.location.setText(report.getCity());
