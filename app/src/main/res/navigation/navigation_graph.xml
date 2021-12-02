@@ -19,9 +19,6 @@
         android:id="@+id/fragment_add_report"
         android:name="com.example.smartcity_app.ui.fragment.ReportCreationFragment"
         android:label="AddReportFragment">
-        <action
-            android:id="@+id/action_fragment_add_report_to_fragment_information"
-            app:destination="@id/fragment_information" />
     </fragment>
     <fragment
         android:id="@+id/fragment_profile"
@@ -49,15 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_create_event"
-        android:name="com.example.smartcity_app.ui.fragment.EventCreationDialogFragment"
+        android:name="com.example.smartcity_app.ui.dialog.EventCreationDialog"
         android:label="event_creation_fragment"
         tools:layout="@layout/event_creation_fragment" />
-    <fragment
-        android:id="@+id/fragment_information"
-        android:name="com.example.smartcity_app.ui.fragment.InformationFragment"
-        android:label="InformationFragment">
-        <argument
-            android:name="information"
-            app:argType="string" />
-    </fragment>
 </navigation>

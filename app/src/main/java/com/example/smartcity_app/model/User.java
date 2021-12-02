@@ -27,48 +27,22 @@ public class User implements Serializable {
         super();
     }
 
-    public User(Integer id, String email, String password, String firstName, String lastName, Date birthDate, String role, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
+    public User(Integer id, String email, String password, String firstName, String lastName, Date birthDate, String role, String city, String street, Integer zipCode, Integer houseNumber) {
         this.id = id;
-        setEmail(email);
+        this.email = email;
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
-        setBirthDate(birthDate);
+        this.birthDate = birthDate;
         this.role = role;
         this.city = city;
         this.street = street;
-        setZipCode(zipCode);
+        this.zipCode = zipCode;
         this.houseNumber = houseNumber;
     }
 
-    public User(String email, String password, String firstName, String lastName, Date birthDate, String city, String street, Integer zipCode, Integer houseNumber) throws Exception {
+    public User(String email, String password, String firstName, String lastName, Date birthDate, String city, String street, Integer zipCode, Integer houseNumber) {
         this(null, email, password, firstName, lastName, birthDate, "user", city, street, zipCode, houseNumber);
-    }
-
-
-
-    public void setEmail(String email) throws Exception {
-        if(Pattern.matches("[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", email)) {
-            this.email = email;
-        } else {
-            throw new Exception("Ceci n'est pas une adresse mail");
-        }
-    }
-
-    public void setZipCode(Integer zipCode) throws Exception {
-        if(1000 <= zipCode && zipCode < 10000)
-            this.zipCode = zipCode;
-        else
-            throw new Exception("Code postal incorrect");
-    }
-
-    public void setBirthDate(Date birthDate) throws Exception {
-        Date today = new Date(System.currentTimeMillis());
-        if(birthDate.before(today)) {
-            this.birthDate = birthDate;
-        } else {
-            throw new Exception("La date de naissance ne peut pas être dans le futur");
-        }
     }
 
     public Integer getId() {

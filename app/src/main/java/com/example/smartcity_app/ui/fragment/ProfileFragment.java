@@ -27,7 +27,6 @@ public class ProfileFragment extends Fragment {
     private EditText houseNumber;
     private EditText zipCode;
     private EditText city;
-    private EditText password;
     private EditText birthDate;
     private Button disconnectionButton;
     private Button personalReportsButton;
@@ -55,7 +54,6 @@ public class ProfileFragment extends Fragment {
         houseNumber = (EditText) root.findViewById(R.id.profile_edit_house_number);
         zipCode = (EditText) root.findViewById(R.id.profile_edit_zip_code);
         city = (EditText) root.findViewById(R.id.profile_edit_city);
-        password = (EditText)root.findViewById(R.id.profile_edit_password);
         birthDate = (EditText) root.findViewById(R.id.profile_edit_birthdate);
         disconnectionButton = (Button) root.findViewById(R.id.profile_disconnection_button);
         personalReportsButton = (Button) root.findViewById(R.id.profile_personal_reports_button);
@@ -69,7 +67,6 @@ public class ProfileFragment extends Fragment {
         houseNumber.setText(user.getHouseNumber().toString());
         zipCode.setText(user.getZipCode().toString());
         city.setText(user.getCity());
-        password.setText(user.getPassword());
         birthDate.setText(user.getBirthDate().toString());
         disconnectionButton.setOnClickListener(new DisconnectListener());
         personalReportsButton.setOnClickListener(new PersonalReportsListener());

@@ -19,6 +19,8 @@ import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Event;
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.ui.MainActivity;
+import com.example.smartcity_app.ui.dialog.EventCreationDialog;
+import com.example.smartcity_app.ui.dialog.InformationDialog;
 import com.example.smartcity_app.ui.recyclerView.EventRecyclerView.EventAdapter;
 import com.example.smartcity_app.utils.CallbackEventCreation;
 import com.example.smartcity_app.viewModels.EventViewModel;
@@ -104,9 +106,15 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
     private class CreateEventListener implements View.OnClickListener {
         @Override
         public void onClick(View view) {
-            EventCreationDialogFragment eventCreationFragment = new EventCreationDialogFragment();
-            eventCreationFragment.setTargetFragment(fragment, 0);
-            eventCreationFragment.show(getParentFragmentManager().beginTransaction(), "DialogFragment");
+            if(!MainActivity.isUserConnected()) {
+                InformationDialog test = InformationDialog.getInstance();
+                test.setInformation(R.string.login_connexion, R.string.asking_connection_event);
+                test.show(getParentFragmentManager().beginTransaction(), null);
+            } else {
+                EventCreationDialog eventCreationFragment = new EventCreationDialog();
+                eventCreationFragment.setTargetFragment(fragment, 0);
+                eventCreationFragment.show(getParentFragmentManager().beginTransaction(), null);
+            }
         }
     }
 }

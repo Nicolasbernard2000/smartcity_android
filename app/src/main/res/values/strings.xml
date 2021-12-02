@@ -35,34 +35,38 @@
 
     <string name="profile_disconnection_button">Se déconnecter</string>
 
+    <!--FORMS MESSAGES-->
     <string name="exception_password">Les mots de passe ne sont pas identiques</string>
     <string name="exception_birthdate">La date de naissance ne peut être dans le futur</string>
     <string name="exception_zip_code">Le code postal doit être compris entre 1000 et 9999</string>
     <string name="exception_email">Ceci n\'est pas une adresse mail</string>
+    <string name="number_only">Veuillez entrer des chiffres uniquement</string>
+    <string name="wrong_datas">Veuillez entrer des valeurs correctes</string>
+    <string name="email_already_used">Cette adresse mail est déjà utilisée</string>
+    <string name="asking_connection_report">Vous devez vous connecter afin de pouvoir créer un signalement</string>
+    <string name="asking_connection_event">Vous devez vous connecter afin de pouvoir créer un évènement</string>
+
     <string name="create_report">Ajouter un signalement</string>
     <string name="description">Description</string>
     <string name="report_type">Type du signalement</string>
     <string name="create_report_button">Créer un signalement</string>
     <string name="profile_personal_reports_button">Mes signalements</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create_event_button">Créer un évènement</string>
     <string name="date">Date</string>
     <string name="hour">Heure</string>
     <string name="duration">Durée</string>
-    <string name="asking_connection">Vous devez vous connecter afin de pouvoir créer un signalement</string>
     <string name="information">Information</string>
 
     <!--ERRORS-->
-    <string name="http_no_connection">No connection</string>
-    <string name="request_error">Request error</string>
-    <string name="technical_error">Technical error</string>
+    <string name="http_no_connection">Pas de connexion</string>
+    <string name="error_request">Erreur requête</string>
+    <string name="error_technical">Erreur technique</string>
+    <string name="error_servor">Une erreur s\'est produite de notre côté</string>
+    <string name="error_unknown">Une erreur inconnue s\'est produite</string>
+
     <string name="profile_personnal_reports">Signalements personnels</string>
-    <string name="number_only">Veuillez des chiffres uniquement</string>
     <string name="report_created">Le signalement a bien été créé</string>
-    <string name="wrong_datas">Veuillez entrer des valeurs correctes</string>
-    <string name="error_servor">Une erreur s\'est produite de notre côté.</string>
-    <string name="error_unknown">Une erreur inconnue s\'est produite.</string>
 
     <!--STATES-->
     <string name="state_pending">En attente</string>
@@ -71,8 +75,19 @@
     <string name="state_cantBeSolved">Non résolvable</string>
 
     <string name="user_created">Le compte a bien été créé</string>
-    <string name="email_already_used">Cette adresse mail est déjà utilisée</string>
     <string name="create_event">Créer l\'évènement</string>
     <string name="cancel">Annuler</string>
     <string name="event_creation">Création d\'un évènement</string>
+    <string name="understand">Compris</string>
+    <string name="success">Succès</string>
+    <string name="error">Erreur</string>
+    <string name="error_first_name">Le prénom est obligatoire</string>
+    <string name="error_last_name">Le nom est obligatoire</string>
+    <string name="error_email">Email obligatoire ou incorrecte</string>
+    <string name="error_password">Mot de passe invalide</string>
+    <string name="error_birthdate">La date de naissance est obligatoire et doit être avant aujourd\'hui</string>
+    <string name="error_street">Le nom de la rue est obligatoire</string>
+    <string name="error_house_number">Le numéro de maison est obligatoire et doit contenir que des chiffres</string>
+    <string name="error_zip_code">Le numéro postal est obligatoire et doit être compris entre 1000 et 9999</string>
+    <string name="error_city">Le nom de la ville est obligatoire</string>
 </resources>

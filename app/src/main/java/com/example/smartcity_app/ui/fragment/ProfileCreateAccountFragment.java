@@ -3,7 +3,8 @@ package com.example.smartcity_app.ui.fragment;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import androidx.navigation.Navigation;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.ui.MainActivity;
+import com.example.smartcity_app.ui.dialog.InformationDialog;
 import com.example.smartcity_app.viewModels.UserViewModel;
 
 import java.util.Arrays;
@@ -31,47 +33,79 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ProfileCreateAccountFragment extends Fragment {
-    private EditText firstName;
-    private EditText lastName;
-    private EditText email;
-    private EditText password;
-    private EditText confirmPassword;
-    private EditText birthDate;
-    private EditText street;
-    private EditText houseNumber;
-    private EditText zipCode;
-    private EditText city;
-    private Button button;
+    private EditText firstNameEditText, lastNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
+    private EditText birthDateEditText, streetEditText, houseNumberEditText, zipCodeEditText, cityEditText;
+    private Button createUserButton;
     private UserViewModel userViewModel;
-    private Context context;
-    private ViewGroup container;
+    private User user;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.profile_create_account_fragment, container, false);
-        this.context = getContext();
-        this.container = container;
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        firstNameEditText = (EditText) root.findViewById(R.id.create_account_edit_first_name);
+        lastNameEditText = (EditText) root.findViewById(R.id.create_account_edit_last_name);
+        emailEditText = (EditText) root.findViewById(R.id.create_account_edit_email);
+        passwordEditText = (EditText) root.findViewById(R.id.create_account_edit_password);
+        confirmPasswordEditText = (EditText) root.findViewById(R.id.create_account_edit_confirm_password);
+        birthDateEditText = (EditText) root.findViewById(R.id.create_account_edit_birthdate);
+        streetEditText = (EditText) root.findViewById(R.id.create_account_edit_street);
+        houseNumberEditText = (EditText) root.findViewById(R.id.create_account_edit_house_number);
+        zipCodeEditText = (EditText) root.findViewById(R.id.create_account_edit_zip_code);
+        cityEditText = (EditText) root.findViewById(R.id.create_account_edit_city);
+        createUserButton = (Button) root.findViewById(R.id.create_account_button);
 
-        firstName = (EditText) root.findViewById(R.id.create_account_edit_first_name);
-        lastName = (EditText) root.findViewById(R.id.create_account_edit_last_name);
-        email = (EditText) root.findViewById(R.id.create_account_edit_email);
-        password = (EditText)root.findViewById(R.id.create_account_edit_password);
-        confirmPassword = (EditText)root.findViewById(R.id.create_account_edit_confirm_password);
-        birthDate = (EditText) root.findViewById(R.id.create_account_edit_birthdate);
-        street = (EditText) root.findViewById(R.id.create_account_edit_street);
-        houseNumber = (EditText) root.findViewById(R.id.create_account_edit_house_number);
-        zipCode = (EditText) root.findViewById(R.id.create_account_edit_zip_code);
-        city = (EditText) root.findViewById(R.id.create_account_edit_city);
-        button = (Button) root.findViewById(R.id.create_account_button);
-        button.setOnClickListener(new CreateAccountListener());
+        createUserButton.setOnClickListener(v -> {
+            checkData();
+
+            if(createUserButton.isEnabled()) {
+                List<String> date = Arrays.asList(birthDateEditText.getText().toString().split("/"));
+                int year = Integer.parseInt(date.get(2));
+                int month = Integer.parseInt(date.get(1));
+                int day = Integer.parseInt(date.get(0));
+                GregorianCalendar birthDateCalendar = new GregorianCalendar(year, month, day);
+                Date birthDateDate = new Date(birthDateCalendar.getTimeInMillis());
+                this.user = new User(
+                        emailEditText.getText().toString(),
+                        passwordEditText.getText().toString(),
+                        firstNameEditText.getText().toString(),
+                        lastNameEditText.getText().toString(),
+                        birthDateDate,
+                        cityEditText.getText().toString(),
+                        streetEditText.getText().toString(),
+                        Integer.parseInt(zipCodeEditText.getText().toString()),
+                        Integer.parseInt(houseNumberEditText.getText().toString())
+                );
+                userViewModel.postUserOnWeb(user);
+            }
+        });
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!createUserButton.isEnabled())
+                    checkData();
+            }
+        };
+
+        firstNameEditText.addTextChangedListener(textWatcher);
+        lastNameEditText.addTextChangedListener(textWatcher);
+        emailEditText.addTextChangedListener(textWatcher);
+        passwordEditText.addTextChangedListener(textWatcher);
+        confirmPasswordEditText.addTextChangedListener(textWatcher);
+        birthDateEditText.addTextChangedListener(textWatcher);
+        streetEditText.addTextChangedListener(textWatcher);
+        houseNumberEditText.addTextChangedListener(textWatcher);
+        zipCodeEditText.addTextChangedListener(textWatcher);
+        cityEditText.addTextChangedListener(textWatcher);
 
         GregorianCalendar today = new GregorianCalendar();
         int year = today.get(GregorianCalendar.YEAR);
@@ -81,11 +115,11 @@ public class ProfileCreateAccountFragment extends Fragment {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                birthDate.setText(String.format("%02d", dayOfMonth) + "/" + String.format("%02d", monthOfYear) + "/" + year);
+                birthDateEditText.setText(String.format("%02d", dayOfMonth) + "/" + String.format("%02d", monthOfYear) + "/" + year);
             }
         };
 
-        birthDate.setOnClickListener(new View.OnClickListener() {
+        birthDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getContext(), dateSetListener, year, month, day);
@@ -97,71 +131,68 @@ public class ProfileCreateAccountFragment extends Fragment {
         return root;
     }
 
-    private class CreateAccountListener implements View.OnClickListener {
-        public CreateAccountListener() {}
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        @Override
-        public void onClick(View view) {
-            String firstNameText = firstName.getText().toString();
-            String lastNameText = lastName.getText().toString();
-            String emailText = email.getText().toString();
-            String passwordText = password.getText().toString();
-            String birthDateText = birthDate.getText().toString();
-            String streetText = street.getText().toString();
-            String cityText = city.getText().toString();
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-            try {
-                List<String> test = Arrays.asList(birthDateText.split("/"));
-                int year = Integer.parseInt(test.get(2));
-                int month = Integer.parseInt(test.get(1));
-                int day = Integer.parseInt(test.get(0));
-                GregorianCalendar gregorianCalendar = new GregorianCalendar(year, month, day);
-                Date birthDateDate = new Date(gregorianCalendar.getTimeInMillis());
-                Integer houseNumberInteger = Integer.parseInt(houseNumber.getText().toString());
-                Integer zipCodeInteger = Integer.parseInt(zipCode.getText().toString());
-
-                checkForm();
-
-                User user = new User(emailText, passwordText, firstNameText, lastNameText, birthDateDate, cityText, streetText, zipCodeInteger, houseNumberInteger);
-                userViewModel.postUserOnWeb(user);
-                userViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
-                    String message;
-                    switch(code) {
-                        case 200:
-                            message = 200 + getString(R.string.user_created);
-                            userViewModel.getIdNewUser().observe(getViewLifecycleOwner(), user::setId);
-                            MainActivity.setUser(user);
-                            NavController navController = Navigation.findNavController(container);
-                            navController.navigate(R.id.fragment_profile);
-                            break;
-                        case 404:
-                            message = 404 + getString(R.string.email_already_used);
-                            break;
-                        case 500:
-                            message = 500 + getString(R.string.error_servor);
-                            break;
-                        default:
-                            message = getString(R.string.error_unknown);
-                    }
-                    Toast.makeText(context, message, Toast.LENGTH_LONG).show();
-                });
-            } catch (Exception e) {
-                Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+        userViewModel.getInputErrors().observe(getViewLifecycleOwner(), inputErrors -> {
+            if(!inputErrors.isEmpty()) {
+                firstNameEditText.setError(inputErrors.containsKey("firstName") ? inputErrors.get("firstName") : null);
+                lastNameEditText.setError(inputErrors.containsKey("lastName") ? inputErrors.get("lastName") : null);
+                emailEditText.setError(inputErrors.containsKey("email") ? inputErrors.get("email") : null);
+                confirmPasswordEditText.setError(inputErrors.containsKey("password") ? inputErrors.get("password") : null);
+                birthDateEditText.setError(inputErrors.containsKey("birthDate") ? inputErrors.get("birthDate") : null);
+                streetEditText.setError(inputErrors.containsKey("street") ? inputErrors.get("street") : null);
+                houseNumberEditText.setError(inputErrors.containsKey("houseNumber") ? inputErrors.get("houseNumber") : null);
+                zipCodeEditText.setError(inputErrors.containsKey("zipCode") ? inputErrors.get("zipCode") : null);
+                cityEditText.setError(inputErrors.containsKey("city") ? inputErrors.get("city") : null);
             }
-        }
+            createUserButton.setEnabled(inputErrors.isEmpty());
+        });
 
-        public void checkForm() throws Exception {
-            String textPassword = password.getText().toString();
-            String textConfirmPassword = confirmPassword.getText().toString();
-            int textZipCode = Integer.parseInt(zipCode.getText().toString());
-
-            if(!textPassword.equals(textConfirmPassword)) {
-                throw new Exception(getResources().getString(R.string.exception_password));
+        userViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
+            int typeMessage;
+            int message;
+            switch(code) {
+                case 200:
+                    typeMessage = R.string.success;
+                    message = R.string.user_created;
+                    userViewModel.getIdNewUser().observe(getViewLifecycleOwner(), this.user::setId);
+                    MainActivity.setUser(user);
+                    Navigation.findNavController(requireView()).navigate(R.id.fragment_profile);
+                    break;
+                case 400:
+                    typeMessage = R.string.error;
+                    message = R.string.email_already_used;
+                    break;
+                case 500:
+                    typeMessage = R.string.error;
+                    message = R.string.error_servor;
+                    break;
+                default:
+                    typeMessage = R.string.error;
+                    message = R.string.error_unknown;
             }
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(typeMessage, message);
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
+    }
 
-            if(!(1000 <= textZipCode && textZipCode < 10000)) {
-                throw  new Exception(getResources().getString(R.string.exception_zip_code));
-            }
-        }
+    public void checkData(){
+        userViewModel.checkData(
+                firstNameEditText.getText().toString(),
+                lastNameEditText.getText().toString(),
+                emailEditText.getText().toString(),
+                passwordEditText.getText().toString(),
+                confirmPasswordEditText.getText().toString(),
+                birthDateEditText.getText().toString(),
+                streetEditText.getText().toString(),
+                houseNumberEditText.getText().toString(),
+                zipCodeEditText.getText().toString(),
+                cityEditText.getText().toString()
+        );
     }
 }

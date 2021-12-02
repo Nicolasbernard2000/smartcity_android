@@ -1,4 +1,4 @@
-package com.example.smartcity_app.ui.fragment;
+package com.example.smartcity_app.ui.dialog;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -11,11 +11,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
@@ -29,7 +27,7 @@ import com.example.smartcity_app.utils.CallbackEventCreation;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class EventCreationDialogFragment extends DialogFragment {
+public class EventCreationDialog extends DialogFragment {
     private EditText date;
     private EditText hour;
     private EditText duration;
@@ -57,7 +55,7 @@ public class EventCreationDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //TODO check des valeurs
                         if(MainActivity.getUser() == null) {
-                            Toast.makeText(getContext(), getText(R.string.asking_connection), Toast.LENGTH_LONG).show();
+                            Toast.makeText(getContext(), getText(R.string.asking_connection_report), Toast.LENGTH_LONG).show();
                         } else {
                             Date dateValue = new Date(dateHour.getTimeInMillis());
                             Integer durationValue = Integer.parseInt(duration.getText().toString());
@@ -70,7 +68,7 @@ public class EventCreationDialogFragment extends DialogFragment {
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        EventCreationDialogFragment.this.getDialog().cancel();
+                        EventCreationDialog.this.getDialog().cancel();
                     }
                 });
 
