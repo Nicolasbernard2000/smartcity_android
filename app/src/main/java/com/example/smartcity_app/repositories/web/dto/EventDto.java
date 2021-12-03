@@ -1,5 +1,6 @@
 package com.example.smartcity_app.repositories.web.dto;
 
+import com.example.smartcity_app.model.Report;
 import com.squareup.moshi.Json;
 
 import java.util.Date;

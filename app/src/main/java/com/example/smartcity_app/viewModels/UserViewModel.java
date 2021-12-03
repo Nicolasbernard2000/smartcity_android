@@ -87,10 +87,7 @@ public class UserViewModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<UserDto> call, Response<UserDto> response) {
                 if(response.isSuccessful()) {
-                    Log.i("DEBUG", "User créé");
                     _idNewUser.setValue(response.body().getId());
-                } else if(response.code() == 404){
-                    Log.i("DEBUG", "Adresse mail déjà utilisée");
                 }
                 _statusCode.setValue(response.code());
             }
@@ -98,7 +95,6 @@ public class UserViewModel extends AndroidViewModel {
             @Override
             public void onFailure(Call<UserDto> call, Throwable t) {
                 _statusCode.setValue(500);
-                Log.i("DEBUG", "onFailure: " + t.toString());
             }
         });
     }

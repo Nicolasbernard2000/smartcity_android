@@ -61,4 +61,18 @@ public class InputCheck {
             return false;
         }
     }
+
+    public static boolean isFutureDateValid(String futureDate) {
+        GregorianCalendar today = new GregorianCalendar();
+        if(isInputValid(futureDate)) {
+            List<String> date = Arrays.asList(futureDate.split("/"));
+            int year = Integer.parseInt(date.get(2));
+            int month = Integer.parseInt(date.get(1));
+            int day = Integer.parseInt(date.get(0));
+            GregorianCalendar dateEvent = new GregorianCalendar(year, month, day);
+            return dateEvent.after(today);
+        } else {
+            return false;
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package com.example.smartcity_app.ui.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,19 +26,17 @@ import com.example.smartcity_app.utils.CallbackEventCreation;
 import com.example.smartcity_app.viewModels.EventViewModel;
 
 public class ReportFragment extends Fragment implements CallbackEventCreation {
-    private Report report;
-    private TextView location;
-    private TextView date;
-    private TextView type;
-    private TextView address;
-    private TextView status;
-    private TextView id;
-    private TextView description;
+    private TextView locationTextView;
+    private TextView dateTextView;
+    private TextView typeTextView;
+    private TextView addressTextView;
+    private TextView statusTextView;
+    private TextView idTextView;
+    private TextView descriptionTextView;
     private Button createEventButton;
     private RecyclerView eventsRecyclerView;
-    private EventViewModel viewModel;
-    private Context context;
-    private Fragment fragment;
+    private EventViewModel eventViewModel;
+    private Report report;
 
     public ReportFragment() {
     }
@@ -52,45 +50,78 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.report_fragment, container, false);
-        this.context = getContext();
-        fragment = this;
 
-        viewModel = new ViewModelProvider(this).get(EventViewModel.class);
-        setupViews(root);
-
+        locationTextView = root.findViewById(R.id.report_location);
+        dateTextView = root.findViewById(R.id.report_date);
+        typeTextView = root.findViewById(R.id.report_type);
+        addressTextView = root.findViewById(R.id.report_address);
+        statusTextView = root.findViewById(R.id.report_status);
+        idTextView = root.findViewById(R.id.report_id);
+        descriptionTextView = root.findViewById(R.id.report_description);
+        createEventButton = root.findViewById(R.id.create_event_button);
+        eventsRecyclerView = root.findViewById(R.id.event_recycler_view);
+        eventsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
 
         report = (Report) getArguments().getSerializable("touchedReport");
+        String addressValue = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
 
-        String addressContent = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
-
-        location.setText(report.getCity());
-        date.setText(report.getCreationDate().toString());
-        type.setText(report.getReportType().getLabel());
-        address.setText(addressContent);
-        status.setText(context.getString(context.getResources().getIdentifier("state_" + report.getState(), "string", context.getPackageName())));
-        id.setText("#" + report.getId().toString());
-        description.setText(report.getDescription());
-        createEventButton.setOnClickListener(new CreateEventListener());
-
-        EventAdapter eventAdapter = new EventAdapter(viewModel.getEvents().getValue());
-        viewModel.getEvents().observe(getViewLifecycleOwner(), eventAdapter::setEvents);
-        eventsRecyclerView.setAdapter(eventAdapter);
-        viewModel.getEventsFromWebWithReportId(report.getId());
+        locationTextView.setText(report.getCity());
+        dateTextView.setText(report.getCreationDate().toString());
+        typeTextView.setText(report.getReportType().getLabel());
+        addressTextView.setText(addressValue);
+        statusTextView.setText(getString(getResources().getIdentifier("state_" + report.getState(), "string", getContext().getPackageName())));
+        idTextView.setText("#" + report.getId().toString());
+        descriptionTextView.setText(report.getDescription());
+        createEventButton.setOnClickListener(v -> {
+            if(!MainActivity.isUserConnected()) {
+                InformationDialog test = InformationDialog.getInstance();
+                test.setInformation(R.string.login_connexion, R.string.asking_connection_event);
+                test.show(getParentFragmentManager().beginTransaction(), null);
+            } else {
+                EventCreationDialog eventCreationFragment = new EventCreationDialog();
+                eventCreationFragment.setTargetFragment(this, 0);
+                eventCreationFragment.show(getParentFragmentManager().beginTransaction(), null);
+            }
+        });
 
         return root;
     }
 
-    private void setupViews(View root) {
-        location = root.findViewById(R.id.report_location);
-        date = root.findViewById(R.id.report_date);
-        type = root.findViewById(R.id.report_type);
-        address = root.findViewById(R.id.report_address);
-        status = root.findViewById(R.id.report_status);
-        id = root.findViewById(R.id.report_id);
-        description = root.findViewById(R.id.report_description);
-        createEventButton = root.findViewById(R.id.create_event_button);
-        eventsRecyclerView = root.findViewById(R.id.event_recycler_view);
-        eventsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
+
+        EventAdapter eventAdapter = new EventAdapter(eventViewModel.getEvents().getValue());
+        eventViewModel.getEvents().observe(getViewLifecycleOwner(), eventAdapter::setEvents);
+        eventsRecyclerView.setAdapter(eventAdapter);
+        eventViewModel.getEventsFromWebWithReportId(report.getId());
+
+        eventViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
+            int typeMessage;
+            int message;
+            switch(code) {
+                case 200:
+                    typeMessage = R.string.success;
+                    message = R.string.event_created;
+                    break;
+                case 404:
+                    typeMessage = R.string.error;
+                    message = R.string.error_id;
+                    break;
+                case 500:
+                    typeMessage = R.string.error;
+                    message = R.string.error_servor;
+                    break;
+                default:
+                    typeMessage = R.string.error;
+                    message = R.string.error_unknown;
+            }
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(typeMessage, message);
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
     }
 
     @Override
@@ -98,23 +129,8 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
         event.setReportId(report.getId());
         event.setCreatorId(MainActivity.getUser().getId());
 
-        viewModel.postEventOnWeb(event);
+        eventViewModel.postEventOnWeb(event);
 
-        viewModel.getEventsFromWebWithReportId(report.getId());
-    }
-
-    private class CreateEventListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            if(!MainActivity.isUserConnected()) {
-                InformationDialog test = InformationDialog.getInstance();
-                test.setInformation(R.string.login_connexion, R.string.asking_connection_event);
-                test.show(getParentFragmentManager().beginTransaction(), null);
-            } else {
-                EventCreationDialog eventCreationFragment = new EventCreationDialog();
-                eventCreationFragment.setTargetFragment(fragment, 0);
-                eventCreationFragment.show(getParentFragmentManager().beginTransaction(), null);
-            }
-        }
+        eventViewModel.getEventsFromWebWithReportId(report.getId());
     }
 }

@@ -90,4 +90,10 @@
     <string name="error_house_number">Le numéro de maison est obligatoire et doit contenir que des chiffres</string>
     <string name="error_zip_code">Le numéro postal est obligatoire et doit être compris entre 1000 et 9999</string>
     <string name="error_city">Le nom de la ville est obligatoire</string>
+    <string name="error_future_date">Veuillez introduire une date dans le futur</string>
+    <string name="error_hour">L\'heure doit être indiquée</string>
+    <string name="error_duration">La durée doit être indiquée</string>
+    <string name="error_description">Une description doit être indiquée</string>
+    <string name="event_created">L\'évènement a bien été créé</string>
+    <string name="error_id">Erreur dans un identifiant</string>
 </resources>

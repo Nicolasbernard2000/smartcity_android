@@ -114,8 +114,8 @@ public class ProfileCreateAccountFragment extends Fragment {
 
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                birthDateEditText.setText(String.format("%02d", dayOfMonth) + "/" + String.format("%02d", monthOfYear) + "/" + year);
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                birthDateEditText.setText(String.format("%02d", dayOfMonth) + "/" + String.format("%02d", month + 1) + "/" + year);
             }
         };
 

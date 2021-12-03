@@ -16,6 +16,7 @@ public class Report implements Serializable {
     private Date creationDate;
     private Integer reporter;
     private ReportType reportType;
+    public static final String DEFAULT_STATE = "pending";
 
     public Report(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, Integer reporter, ReportType reportType) {
         this.id = id;
