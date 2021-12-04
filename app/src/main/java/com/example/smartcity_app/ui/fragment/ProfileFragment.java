@@ -80,7 +80,7 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
-            SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.token), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(getString(R.string.token), null);
             editor.commit();

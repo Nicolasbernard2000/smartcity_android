@@ -91,7 +91,7 @@ public class LoginFragment extends Fragment {
                 User user = UserMapper.getInstance().mapToUser(userDto);
                 MainActivity.setUser(user);
 
-                SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.token), Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString(getString(R.string.token), token);
                 editor.commit();

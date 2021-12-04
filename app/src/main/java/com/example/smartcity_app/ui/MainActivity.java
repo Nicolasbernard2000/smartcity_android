@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Retrieve the token, check is expiration date and create the session user if the token is still good
-        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences(getString(R.string.token), Context.MODE_PRIVATE);
         String token = sharedPreferences.getString(getString(R.string.token), null);
 
         if(token != null) {
