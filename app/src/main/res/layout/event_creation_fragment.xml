@@ -10,6 +10,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20sp"
+        android:showDividers="middle"
+        android:divider="@drawable/empty_tall_divider"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView

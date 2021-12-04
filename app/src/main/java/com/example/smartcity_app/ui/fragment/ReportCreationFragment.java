@@ -138,6 +138,12 @@ public class ReportCreationFragment extends Fragment {
             reportType.setAdapter(adapter);
         });
 
+        reportTypeViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(R.string.error, error.getErrorMessage());
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
+
         reportViewModel.getInputErrors().observe(getViewLifecycleOwner(), inputErrors -> {
             if(!inputErrors.isEmpty()) {
                 description.setError(inputErrors.containsKey("description") ? inputErrors.get("description") : null);
@@ -171,6 +177,12 @@ public class ReportCreationFragment extends Fragment {
             }
             InformationDialog informationDialog = InformationDialog.getInstance();
             informationDialog.setInformation(typeMessage, message);
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
+
+        reportViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(R.string.error, error.getErrorMessage());
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
         });
     }

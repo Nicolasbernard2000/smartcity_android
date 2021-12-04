@@ -1,24 +1,20 @@
 package com.example.smartcity_app.ui.fragment;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.smartcity_app.R;
@@ -159,9 +155,7 @@ public class ProfileCreateAccountFragment extends Fragment {
                 case 200:
                     typeMessage = R.string.success;
                     message = R.string.user_created;
-                    userViewModel.getIdNewUser().observe(getViewLifecycleOwner(), this.user::setId);
-                    MainActivity.setUser(user);
-                    Navigation.findNavController(requireView()).navigate(R.id.fragment_profile);
+                    Navigation.findNavController(requireView()).navigate(R.id.fragment_login);
                     break;
                 case 400:
                     typeMessage = R.string.error;
@@ -177,6 +171,12 @@ public class ProfileCreateAccountFragment extends Fragment {
             }
             InformationDialog informationDialog = InformationDialog.getInstance();
             informationDialog.setInformation(typeMessage, message);
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
+
+        userViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(R.string.error, error.getErrorMessage());
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
         });
     }

@@ -31,10 +31,10 @@ public class RetrofitConfigurationService {
     private void initializeRetrofit(Context context) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("token", Context.MODE_PRIVATE);
         String token = sharedPreferences.getString(context.getString(R.string.token), null);
-
+        Log.i("Debug", "Token : " + token);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new ConnectivityCheckInterceptor(context))
-                .addInterceptor(new HeaderInterceptor(token))
+                .addInterceptor(new HeaderInterceptor(context))
                 .build();
 
         Moshi moshiConverter = new Moshi.Builder()

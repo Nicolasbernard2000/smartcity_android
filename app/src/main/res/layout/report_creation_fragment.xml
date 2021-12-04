@@ -21,13 +21,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20sp"
+            android:showDividers="middle"
+            android:divider="@drawable/empty_tall_divider"
             app:layout_constraintTop_toBottomOf="@+id/text_report">
 
             <Spinner
                 android:id="@+id/create_report_report_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="24sp"
                 android:spinnerMode="dropdown" />
 
             <com.google.android.material.textfield.TextInputLayout

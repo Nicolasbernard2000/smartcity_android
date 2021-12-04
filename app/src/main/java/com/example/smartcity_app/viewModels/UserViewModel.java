@@ -1,7 +1,6 @@
 package com.example.smartcity_app.viewModels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -10,14 +9,13 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.mappers.UserMapper;
+import com.example.smartcity_app.model.NetworkError;
 import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.repositories.web.RetrofitConfigurationService;
 import com.example.smartcity_app.repositories.web.WalloniaFixedWebService;
 import com.example.smartcity_app.repositories.web.dto.UserDto;
-import com.example.smartcity_app.ui.fragment.LoginFragment;
 import com.example.smartcity_app.utils.InputCheck;
-
-import org.jetbrains.annotations.NotNull;
+import com.example.smartcity_app.utils.errors.NoConnectivityException;
 
 import java.util.HashMap;
 
@@ -26,14 +24,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserViewModel extends AndroidViewModel {
-    private MutableLiveData<User> _user = new MutableLiveData<>();
-    private LiveData<User> user = _user;
-
-    private MutableLiveData<Integer> _idNewUser = new MutableLiveData<>();
-    private LiveData<Integer> idNewUser = _idNewUser;
-
     private MutableLiveData<Integer> _statusCode = new MutableLiveData<>();
     private LiveData<Integer> statusCode = _statusCode;
+
+    private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
+    private LiveData<NetworkError> error = _error;
 
     private MutableLiveData<HashMap<String , String>> _inputErrors = new MutableLiveData<>();
     private LiveData<HashMap<String, String>> inputErrors = _inputErrors;
@@ -86,32 +81,23 @@ public class UserViewModel extends AndroidViewModel {
 
             @Override
             public void onResponse(Call<UserDto> call, Response<UserDto> response) {
-                if(response.isSuccessful()) {
-                    _idNewUser.setValue(response.body().getId());
-                }
                 _statusCode.setValue(response.code());
             }
 
             @Override
             public void onFailure(Call<UserDto> call, Throwable t) {
-                _statusCode.setValue(500);
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
-    }
-
-    public LiveData<User> getUser() {
-        return user;
     }
 
     public LiveData<Integer> getStatusCode() {
         return statusCode;
     }
-
-    public LiveData<Integer> getIdNewUser(){
-        return idNewUser;
-    }
-
     public LiveData<HashMap<String, String>> getInputErrors() {
         return inputErrors;
+    }
+    public LiveData<NetworkError> getError() {
+        return error;
     }
 }

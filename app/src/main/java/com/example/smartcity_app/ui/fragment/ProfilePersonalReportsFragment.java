@@ -14,11 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.ui.MainActivity;
+import com.example.smartcity_app.ui.dialog.InformationDialog;
 import com.example.smartcity_app.ui.recyclerView.ReportRecyclerView;
 import com.example.smartcity_app.viewModels.ReportViewModel;
 
 public class ProfilePersonalReportsFragment extends Fragment {
-    private ReportViewModel viewModel;
+    private ReportViewModel reportViewModel;
 
     public ProfilePersonalReportsFragment() {}
 
@@ -34,13 +35,18 @@ public class ProfilePersonalReportsFragment extends Fragment {
 
         RecyclerView reportsRecyclerView = root.findViewById(R.id.personal_report_recycler_view);
         reportsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        viewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+        reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
 
-        ReportRecyclerView.ReportAdapter reportAdapter = new ReportRecyclerView.ReportAdapter(container, viewModel.getReports().getValue());
-        viewModel.getReports().observe(getViewLifecycleOwner(), reportAdapter::setReports);
+        ReportRecyclerView.ReportAdapter reportAdapter = new ReportRecyclerView.ReportAdapter(container, reportViewModel.getReports().getValue());
+        reportViewModel.getReports().observe(getViewLifecycleOwner(), reportAdapter::setReports);
         reportsRecyclerView.setAdapter(reportAdapter);
+        reportViewModel.getReportsFromWebWithUserId(MainActivity.getUser().getId());
 
-        viewModel.getReportsFromWebWithUserId(MainActivity.getUser().getId());
+        reportViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(R.string.error, error.getErrorMessage());
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
 
         return root;
     }

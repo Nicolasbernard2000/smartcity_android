@@ -1,7 +1,6 @@
 package com.example.smartcity_app.ui.fragment;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity_app.R;
+import com.example.smartcity_app.ui.dialog.InformationDialog;
 import com.example.smartcity_app.ui.recyclerView.ReportRecyclerView.ReportAdapter;
 import com.example.smartcity_app.viewModels.ReportViewModel;
 
 public class RecyclerViewReportsFragment extends Fragment {
-    private ReportViewModel viewModel;
+    private ReportViewModel reportViewModel;
 
     public RecyclerViewReportsFragment() {
     }
@@ -30,13 +30,18 @@ public class RecyclerViewReportsFragment extends Fragment {
 
         RecyclerView reportsRecyclerView = root.findViewById(R.id.report_recycler_view);
         reportsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        viewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+        reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
 
-        ReportAdapter reportAdapter = new ReportAdapter(container, viewModel.getReports().getValue());
-        viewModel.getReports().observe(getViewLifecycleOwner(), reportAdapter::setReports);
+        ReportAdapter reportAdapter = new ReportAdapter(container, reportViewModel.getReports().getValue());
+        reportViewModel.getReports().observe(getViewLifecycleOwner(), reportAdapter::setReports);
         reportsRecyclerView.setAdapter(reportAdapter);
+        reportViewModel.getReportsFromWeb();
 
-        viewModel.getReportsFromWeb();
+        reportViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(R.string.error, error.getErrorMessage());
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
 
         return root;
     }

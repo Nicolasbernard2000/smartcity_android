@@ -105,6 +105,7 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
                 case 200:
                     typeMessage = R.string.success;
                     message = R.string.event_created;
+                    eventViewModel.getEventsFromWebWithReportId(report.getId());
                     break;
                 case 404:
                     typeMessage = R.string.error;
@@ -122,6 +123,12 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
             informationDialog.setInformation(typeMessage, message);
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
         });
+
+        eventViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(R.string.error, error.getErrorMessage());
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
     }
 
     @Override
@@ -130,7 +137,5 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
         event.setCreatorId(MainActivity.getUser().getId());
 
         eventViewModel.postEventOnWeb(event);
-
-        eventViewModel.getEventsFromWebWithReportId(report.getId());
     }
 }

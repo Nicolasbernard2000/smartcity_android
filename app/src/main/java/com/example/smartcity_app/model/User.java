@@ -1,13 +1,9 @@
 package com.example.smartcity_app.model;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.regex.Pattern;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {

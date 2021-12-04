@@ -18,16 +18,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="20sp"
         app:layout_constraintTop_toBottomOf="@+id/text"
         app:layout_constraintBottom_toBottomOf="parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:showDividers="middle"
+            android:divider="@drawable/empty_tall_divider">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -152,8 +154,9 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorPrimary"
                 android:text="@string/login_create_account_button"
-                android:textColor="@color/colorSecond" />
-
+                android:textColor="@color/colorSecond"/>
         </LinearLayout>
     </ScrollView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

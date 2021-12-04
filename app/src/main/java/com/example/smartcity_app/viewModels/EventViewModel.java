@@ -11,10 +11,12 @@ import androidx.lifecycle.MutableLiveData;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.mappers.EventMapper;
 import com.example.smartcity_app.model.Event;
+import com.example.smartcity_app.model.NetworkError;
 import com.example.smartcity_app.repositories.web.RetrofitConfigurationService;
 import com.example.smartcity_app.repositories.web.WalloniaFixedWebService;
 import com.example.smartcity_app.repositories.web.dto.EventDto;
 import com.example.smartcity_app.utils.InputCheck;
+import com.example.smartcity_app.utils.errors.NoConnectivityException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,11 +29,14 @@ public class EventViewModel extends AndroidViewModel {
     private MutableLiveData<List<Event>> _events = new MutableLiveData<>();
     private LiveData<List<Event>> events = _events;
 
-    private MutableLiveData<HashMap<String, String>> _inputErrors = new MutableLiveData<>();
-    private LiveData<HashMap<String, String>> inputErrors = _inputErrors;
-
     private MutableLiveData<Integer> _statusCode = new MutableLiveData<>();
     private LiveData<Integer> statusCode = _statusCode;
+
+    private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
+    private LiveData<NetworkError> error = _error;
+
+    private MutableLiveData<HashMap<String, String>> _inputErrors = new MutableLiveData<>();
+    private LiveData<HashMap<String, String>> inputErrors = _inputErrors;
 
     private WalloniaFixedWebService webService;
     private EventMapper eventMapper;
@@ -41,25 +46,6 @@ public class EventViewModel extends AndroidViewModel {
 
         this.webService = RetrofitConfigurationService.getInstance(application).webService();
         this.eventMapper = EventMapper.getInstance();
-    }
-
-    public void getEventsFromWebWithReportId(Integer id) {
-        webService.getEventsWithReportId(id).enqueue(new Callback<List<EventDto>>() {
-            @Override
-            public void onResponse(Call<List<EventDto>> call, Response<List<EventDto>> response) {
-                if(response.isSuccessful()) {
-                    _events.setValue(eventMapper.mapToEvents(response.body()));
-                    Log.i("Debug", "Récupération events réussie");
-                } else {
-                    Log.i("Debug", "Erreur récupération events");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<EventDto>> call, Throwable t) {
-                Log.i("Debug", "Erreur récupération events : " + t.getMessage());
-            }
-        });
     }
 
     public void checkData(String date, String hour, String duration, String description) {
@@ -80,6 +66,22 @@ public class EventViewModel extends AndroidViewModel {
         _inputErrors.setValue(errors);
     }
 
+    public void getEventsFromWebWithReportId(Integer id) {
+        webService.getEventsWithReportId(id).enqueue(new Callback<List<EventDto>>() {
+            @Override
+            public void onResponse(Call<List<EventDto>> call, Response<List<EventDto>> response) {
+                if(response.isSuccessful()) {
+                    _events.setValue(eventMapper.mapToEvents(response.body()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<EventDto>> call, Throwable t) {
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
+            }
+        });
+    }
+
     public void postEventOnWeb(Event event) {
         webService.postEvent(eventMapper.mapToEventDto(event)).enqueue(new Callback<Object>() {
             @Override
@@ -89,7 +91,7 @@ public class EventViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<Object> call, Throwable t) {
-                _statusCode.setValue(500);
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
     }
@@ -97,13 +99,13 @@ public class EventViewModel extends AndroidViewModel {
     public LiveData<List<Event>> getEvents() {
         return events;
     }
-
     public LiveData<Integer> getStatusCode() {
         return statusCode;
     }
-
     public LiveData<HashMap<String, String>> getInputErrors() {
         return inputErrors;
     }
-
+    public LiveData<NetworkError> getError() {
+        return error;
+    }
 }

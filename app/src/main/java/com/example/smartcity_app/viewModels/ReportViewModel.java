@@ -1,7 +1,6 @@
 package com.example.smartcity_app.viewModels;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,10 +14,8 @@ import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.repositories.web.RetrofitConfigurationService;
 import com.example.smartcity_app.repositories.web.WalloniaFixedWebService;
 import com.example.smartcity_app.repositories.web.dto.ReportDto;
-import com.example.smartcity_app.ui.MainActivity;
-import com.example.smartcity_app.ui.fragment.LoginFragment;
-import com.example.smartcity_app.ui.fragment.ReportCreationFragment;
 import com.example.smartcity_app.utils.InputCheck;
+import com.example.smartcity_app.utils.errors.NoConnectivityException;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -79,15 +76,12 @@ public class ReportViewModel extends AndroidViewModel {
             public void onResponse(@NotNull Call<List<ReportDto>> call, @NotNull Response<List<ReportDto>> response) {
                 if (response.isSuccessful()) {
                     _reports.setValue(reportMapper.mapToReports(response.body()));
-                    Log.i("DEBUG", "response.isSuccessful dataCount : " + _reports.getValue().size());
-                }else{
-                    Log.i("DEBUG", "response.isNotSuccessful");
                 }
             }
 
             @Override
             public void onFailure(@NotNull Call<List<ReportDto>> call, @NotNull Throwable t) {
-                Log.i("DEBUG", "onFailure: " + t.getMessage());
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
     }
@@ -98,15 +92,12 @@ public class ReportViewModel extends AndroidViewModel {
             public void onResponse(Call<List<ReportDto>> call, Response<List<ReportDto>> response) {
                 if (response.isSuccessful()) {
                     _reports.setValue(reportMapper.mapToReports(response.body()));
-                    Log.i("DEBUG", "Retrieve report for a user : " + _reports.getValue().size());
-                }else{
-                    Log.i("DEBUG", "response.isNotSuccessful");
                 }
             }
 
             @Override
             public void onFailure(Call<List<ReportDto>> call, Throwable t) {
-                Log.i("DEBUG", "onFailure: " + t.getMessage());
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
     }
@@ -115,19 +106,12 @@ public class ReportViewModel extends AndroidViewModel {
         webService.postReport(reportMapper.mapToReportDto(report)).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
-                if(response.isSuccessful()) {
-                    Log.i("DEBUG", "Report créé");
-                } else {
-                    Log.i("DEBUG", "Erreur création report");
-                }
-                Log.i("DEBUG", response.code() + "");
                 _statusCode.setValue(response.code());
             }
 
             @Override
             public void onFailure(@NotNull Call<Object> call, @NotNull Throwable t) {
-                _statusCode.setValue(500);
-                Log.i("DEBUG", "onFailure: " + t.toString());
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
     }

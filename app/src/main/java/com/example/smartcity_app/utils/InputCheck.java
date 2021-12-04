@@ -27,7 +27,7 @@ public class InputCheck {
         if(isInputValid(birthDate)) {
             List<String> date = Arrays.asList(birthDate.split("/"));
             int year = Integer.parseInt(date.get(2));
-            int month = Integer.parseInt(date.get(1));
+            int month = Integer.parseInt(date.get(1)) - 1;
             int day = Integer.parseInt(date.get(0));
             GregorianCalendar birthDateCalendar = new GregorianCalendar(year, month, day);
             return birthDateCalendar.before(today);
@@ -67,7 +67,7 @@ public class InputCheck {
         if(isInputValid(futureDate)) {
             List<String> date = Arrays.asList(futureDate.split("/"));
             int year = Integer.parseInt(date.get(2));
-            int month = Integer.parseInt(date.get(1));
+            int month = Integer.parseInt(date.get(1)) - 1;
             int day = Integer.parseInt(date.get(0));
             GregorianCalendar dateEvent = new GregorianCalendar(year, month, day);
             return dateEvent.after(today);
