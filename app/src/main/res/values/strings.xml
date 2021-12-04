@@ -96,4 +96,5 @@
     <string name="error_description">Une description doit être indiquée</string>
     <string name="event_created">L\'évènement a bien été créé</string>
     <string name="error_id">Erreur dans un identifiant</string>
+    <string name="token">token</string>
 </resources>

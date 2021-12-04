@@ -1,5 +1,7 @@
 package com.example.smartcity_app.ui.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,6 +80,11 @@ public class ProfileFragment extends Fragment {
 
         @Override
         public void onClick(View v) {
+            SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(getString(R.string.token), null);
+            editor.commit();
+
             MainActivity.setUser(null);
             NavController navController = Navigation.findNavController(container);
             navController.navigate(R.id.fragment_login);

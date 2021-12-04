@@ -1,6 +1,7 @@
 package com.example.smartcity_app.viewModels;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -26,10 +27,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginViewModel extends AndroidViewModel {
-    private MutableLiveData<User> _user = new MutableLiveData<>();
-    private LiveData<User> user = _user;
-
-    private String token;
+    private MutableLiveData<String> _token = new MutableLiveData<>();
+    private LiveData<String> token = _token;
 
     private WalloniaFixedWebService webService;
     private UserMapper userMapper;
@@ -47,12 +46,7 @@ public class LoginViewModel extends AndroidViewModel {
             @Override
             public void onResponse(@NotNull Call<String> call, @NotNull Response<String> response) {
                 if(response.isSuccessful()) {
-                    token = response.body();
-                    DecodedJWT decodedJWT = JWT.decode(token);
-                    Claim userData = decodedJWT.getClaim("user");
-                    UserDto userDto = userData.as(UserDto.class);
-                    User user = userMapper.mapToUser(userDto);
-                    _user.setValue(user);
+                    _token.setValue(response.body());
                 } else {
                     Log.i("Debug", "Erreur login");
                 }
@@ -65,7 +59,7 @@ public class LoginViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<User> getUser() {
-        return user;
+    public LiveData<String> getToken() {
+        return token;
     }
 }

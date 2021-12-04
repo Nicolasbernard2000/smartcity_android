@@ -1,6 +1,7 @@
 package com.example.smartcity_app.ui.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,8 +20,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.smartcity_app.R;
+import com.example.smartcity_app.mappers.UserMapper;
 import com.example.smartcity_app.model.User;
+import com.example.smartcity_app.repositories.web.dto.UserDto;
 import com.example.smartcity_app.ui.MainActivity;
 import com.example.smartcity_app.viewModels.LoginViewModel;
 import com.example.smartcity_app.viewModels.UserViewModel;
@@ -78,11 +84,20 @@ public class LoginFragment extends Fragment {
             String passwordText = password.getText().toString();
 
             loginViewModel.log(emailText, passwordText);
-            loginViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            loginViewModel.getToken().observe(getViewLifecycleOwner(), token -> {
+                DecodedJWT decodedJWT = JWT.decode(token);
+                Claim userData = decodedJWT.getClaim("user");
+                UserDto userDto = userData.as(UserDto.class);
+                User user = UserMapper.getInstance().mapToUser(userDto);
                 MainActivity.setUser(user);
+
+                SharedPreferences sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(getString(R.string.token), token);
+                editor.commit();
+
                 NavController navController = Navigation.findNavController(container);
                 navController.navigate(R.id.fragment_profile);
-
             });
         }
     }

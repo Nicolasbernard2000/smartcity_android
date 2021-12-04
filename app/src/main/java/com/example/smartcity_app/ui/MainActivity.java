@@ -5,16 +5,21 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.widget.ListView;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.Claim;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.smartcity_app.R;
+import com.example.smartcity_app.mappers.UserMapper;
 import com.example.smartcity_app.model.User;
-import com.example.smartcity_app.ui.welcome.WelcomeActivity;
+import com.example.smartcity_app.repositories.web.dto.UserDto;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private static User user = null;
@@ -24,6 +29,23 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Retrieve the token, check is expiration date and create the session user if the token is still good
+        SharedPreferences sharedPreferences = getPreferences(Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString(getString(R.string.token), null);
+
+        if(token != null) {
+            DecodedJWT decodedJWT = JWT.decode(token);
+            Date expirationDate = decodedJWT.getExpiresAt();
+            Date today = new Date();
+            boolean isDateExpired = expirationDate.before(today);
+            if(!isDateExpired) {
+                Claim userData = decodedJWT.getClaim("user");
+                UserDto userDto = userData.as(UserDto.class);
+                User user = UserMapper.getInstance().mapToUser(userDto);
+                setUser(user);
+            }
+        }
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.activity_main_navigation_view);
         bottomNavigationView.setSelectedItemId(R.id.fragment_profile);
