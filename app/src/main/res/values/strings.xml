@@ -98,4 +98,11 @@
     <string name="error_id">Erreur dans un identifiant</string>
     <string name="token">token</string>
     <string name="wrong_email_password">Adresse mail ou/et mot de passe incorrect(s)</string>
+    <string name="report_research">Rechercher un emplacement</string>
+    <string name="profile">Profile</string>
+    <string name="profile_own_reports">Mes reports</string>
+    <string name="modify">Modifier</string>
+    <string name="delete">Supprimer</string>
+    <string name="delete_report">Êtes-vous certains de vouloir supprimer ce signalement ? \n\nIl sera définitivement supprimé.</string>
+    <string name="im_certain">Je suis sûr</string>
 </resources>

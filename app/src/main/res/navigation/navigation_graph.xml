@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragment_recycler_view_reports"
-        android:name="com.example.smartcity_app.ui.fragment.RecyclerViewReportsFragment"
+        android:name="com.example.smartcity_app.view.fragment.RecyclerViewReportsFragment"
         android:label="HomeFragment" >
         <action
             android:id="@+id/action_fragment_recycler_view_reports_to_fragment_report"
@@ -17,28 +17,28 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_add_report"
-        android:name="com.example.smartcity_app.ui.fragment.ReportCreationFragment"
+        android:name="com.example.smartcity_app.view.fragment.ReportCreationFragment"
         android:label="AddReportFragment">
     </fragment>
     <fragment
         android:id="@+id/fragment_profile"
-        android:name="com.example.smartcity_app.ui.fragment.ProfileFragment"
+        android:name="com.example.smartcity_app.view.fragment.ProfileFragment"
         android:label="ProfileFragment" />
     <fragment
         android:id="@+id/fragment_login"
-        android:name="com.example.smartcity_app.ui.fragment.LoginFragment"
+        android:name="com.example.smartcity_app.view.fragment.LoginFragment"
         android:label="LoginFragment" />
     <fragment
         android:id="@+id/fragment_create_account"
-        android:name="com.example.smartcity_app.ui.fragment.ProfileCreateAccountFragment"
+        android:name="com.example.smartcity_app.view.fragment.ProfileCreateAccountFragment"
         android:label="CreateAccountFragment" />
     <fragment
         android:id="@+id/fragment_personal_reports"
-        android:name="com.example.smartcity_app.ui.fragment.ProfilePersonalReportsFragment"
+        android:name="com.example.smartcity_app.view.fragment.ProfilePersonalReportsFragment"
         android:label="ProfilePersonalReportsFragment" />
     <fragment
         android:id="@+id/fragment_report"
-        android:name="com.example.smartcity_app.ui.fragment.ReportFragment"
+        android:name="com.example.smartcity_app.view.fragment.ReportFragment"
         android:label="ReportFragment" >
         <argument
             android:name="touchedReport"
@@ -46,7 +46,7 @@
     </fragment>
     <fragment
         android:id="@+id/fragment_create_event"
-        android:name="com.example.smartcity_app.ui.dialog.EventCreationDialog"
+        android:name="com.example.smartcity_app.view.dialog.EventCreationDialog"
         android:label="event_creation_fragment"
         tools:layout="@layout/event_creation_fragment" />
 </navigation>
