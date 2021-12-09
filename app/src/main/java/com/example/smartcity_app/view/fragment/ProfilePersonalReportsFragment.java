@@ -55,12 +55,41 @@ public class ProfilePersonalReportsFragment extends Fragment implements Callback
             informationDialog.setInformation(R.string.error, error.getErrorMessage());
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
         });
+
+        reportViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
+            Integer typeMessage;
+            Integer message;
+            switch(code) {
+                case 204:
+                    typeMessage = R.string.success;
+                    message = R.string.report_deleted;
+                    break;
+                case 400:
+                    typeMessage = R.string.error;
+                    message = R.string.error_request;
+                    break;
+                case 404:
+                    typeMessage = R.string.error;
+                    message = R.string.wrong_datas;
+                    break;
+                case 500:
+                    typeMessage = R.string.error;
+                    message = R.string.error_servor;
+                    break;
+                default:
+                    typeMessage = R.string.error;
+                    message = R.string.error_unknown;
+            }
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(typeMessage, message);
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
     }
 
     @Override
     public void deleteReport(Report report) {
-        //TODO
-        //reportViewModel.delete(report.getId());
-        Log.i("Debug", report.getId() + " will be delete");
+        reportViewModel.deleteReportOnWeb(report);
+
+        reportViewModel.getReportsFromWebWithUserId(MainActivity.getUser().getId());
     }
 }

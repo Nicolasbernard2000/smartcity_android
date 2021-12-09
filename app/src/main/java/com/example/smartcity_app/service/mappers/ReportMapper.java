@@ -48,7 +48,7 @@ public class ReportMapper {
             return null;
         }
 
-        ReportDto reportDto = new ReportDto(report.getDescription(), report.getState(), report.getCity(), report.getStreet(), report.getZipCode(), report.getHouseNumber(), report.getCreationDate(), report.getReporter(), report.getReportType());
+        ReportDto reportDto = new ReportDto(report.getId(), report.getDescription(), report.getState(), report.getCity(), report.getStreet(), report.getZipCode(), report.getHouseNumber(), report.getCreationDate(), report.getReporter(), report.getReportType());
         return reportDto;
     }
 }

@@ -105,4 +105,5 @@
     <string name="delete">Supprimer</string>
     <string name="delete_report">Êtes-vous certains de vouloir supprimer ce signalement ? \n\nIl sera définitivement supprimé.</string>
     <string name="im_certain">Je suis sûr</string>
+    <string name="report_deleted">Le signalement a bien été supprimé.</string>
 </resources>

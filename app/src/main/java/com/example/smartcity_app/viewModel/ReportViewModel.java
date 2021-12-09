@@ -116,6 +116,19 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
+    public void deleteReportOnWeb(Report report) {
+        webService.deleteReport(reportMapper.mapToReportDto(report)).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                _statusCode.setValue(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
+            }
+        });
+    }
 
     public LiveData<Integer> getStatusCode() {return statusCode;}
     public LiveData<List<Report>> getReports() {
