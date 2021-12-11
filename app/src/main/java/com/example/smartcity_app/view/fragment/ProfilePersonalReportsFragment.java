@@ -63,6 +63,7 @@ public class ProfilePersonalReportsFragment extends Fragment implements Callback
                 case 204:
                     typeMessage = R.string.success;
                     message = R.string.report_deleted;
+                    reportViewModel.getReportsFromWebWithUserId(MainActivity.getUser().getId());
                     break;
                 case 400:
                     typeMessage = R.string.error;
@@ -89,7 +90,5 @@ public class ProfilePersonalReportsFragment extends Fragment implements Callback
     @Override
     public void deleteReport(Report report) {
         reportViewModel.deleteReportOnWeb(report);
-
-        reportViewModel.getReportsFromWebWithUserId(MainActivity.getUser().getId());
     }
 }

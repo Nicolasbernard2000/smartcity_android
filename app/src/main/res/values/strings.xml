@@ -106,4 +106,10 @@
     <string name="delete_report">Êtes-vous certains de vouloir supprimer ce signalement ? \n\nIl sera définitivement supprimé.</string>
     <string name="im_certain">Je suis sûr</string>
     <string name="report_deleted">Le signalement a bien été supprimé.</string>
+    <string name="minutes">minutes</string>
+    <string name="delete_participation">Se désinscrire</string>
+    <string name="create_participation">Participer</string>
+    <string name="participation">Participation</string>
+    <string name="participate">Participe</string>
+    <string name="dont_participate">Pas intéressé(e)</string>
 </resources>

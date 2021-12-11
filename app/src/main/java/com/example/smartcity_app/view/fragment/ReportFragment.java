@@ -1,6 +1,7 @@
 package com.example.smartcity_app.view.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Event;
+import com.example.smartcity_app.model.Participation;
 import com.example.smartcity_app.model.Report;
+import com.example.smartcity_app.util.CallbackParticipationModification;
 import com.example.smartcity_app.view.MainActivity;
 import com.example.smartcity_app.view.dialog.EventCreationDialog;
 import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.view.recyclerView.EventRecyclerView.EventAdapter;
 import com.example.smartcity_app.util.CallbackEventCreation;
 import com.example.smartcity_app.viewModel.EventViewModel;
+import com.example.smartcity_app.viewModel.ParticipationViewModel;
 
-public class ReportFragment extends Fragment implements CallbackEventCreation {
+public class ReportFragment extends Fragment implements CallbackEventCreation, CallbackParticipationModification {
     private TextView locationTextView;
     private TextView dateTextView;
     private TextView typeTextView;
@@ -35,6 +39,7 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
     private Button createEventButton;
     private RecyclerView eventsRecyclerView;
     private EventViewModel eventViewModel;
+    private ParticipationViewModel participationViewModel;
     private Report report;
 
     public ReportFragment() {
@@ -91,9 +96,14 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
         super.onActivityCreated(savedInstanceState);
 
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
+        participationViewModel = new ViewModelProvider(this).get(ParticipationViewModel.class);
 
-        EventAdapter eventAdapter = new EventAdapter(eventViewModel.getEvents().getValue());
-        eventViewModel.getEvents().observe(getViewLifecycleOwner(), eventAdapter::setEvents);
+        EventAdapter eventAdapter = new EventAdapter(eventViewModel.getEvents().getValue(), this);
+
+        eventViewModel.getEvents().observe(getViewLifecycleOwner(), events -> {
+             eventAdapter.setEvents(events);
+        });
+
         eventsRecyclerView.setAdapter(eventAdapter);
         eventViewModel.getEventsFromWebWithReportId(report.getId());
 
@@ -128,6 +138,20 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
             informationDialog.setInformation(R.string.error, error.getErrorMessage());
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
         });
+
+        participationViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
+            if(code == 500) {
+                InformationDialog informationDialog = InformationDialog.getInstance();
+                informationDialog.setInformation(R.string.error, R.string.error_id);
+                informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+            }
+        });
+
+        participationViewModel.getError().observe(getViewLifecycleOwner(), error -> {
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(R.string.error, error.getErrorMessage());
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
     }
 
     @Override
@@ -136,5 +160,17 @@ public class ReportFragment extends Fragment implements CallbackEventCreation {
         event.setCreatorId(MainActivity.getUser().getId());
 
         eventViewModel.postEventOnWeb(event);
+    }
+
+    @Override
+    public void actionParticipation(Participation participation, boolean wasAlreadyRegistered) {
+        if(participation == null)
+            return;
+
+        if(wasAlreadyRegistered) {
+            participationViewModel.deleteParticipationOnWeb(participation);
+        } else {
+            participationViewModel.postParticipationOnWeb(participation);
+        }
     }
 }

@@ -36,8 +36,9 @@ public class ReportDeleteDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.information_dialog, null);
-        setupViews(view);
 
+        informationTypeTextView = (TextView)view.findViewById(R.id.information_type);
+        informationTextView = (TextView)view.findViewById(R.id.information);
         informationTypeTextView.setText(getContext().getResources().getText(R.string.delete));
         informationTextView.setText(getContext().getResources().getText(R.string.delete_report));
 

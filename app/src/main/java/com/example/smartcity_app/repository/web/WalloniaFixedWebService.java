@@ -2,6 +2,7 @@ package com.example.smartcity_app.repository.web;
 
 import com.example.smartcity_app.repository.web.dto.EventDto;
 import com.example.smartcity_app.repository.web.dto.LoginDto;
+import com.example.smartcity_app.repository.web.dto.ParticipationDto;
 import com.example.smartcity_app.repository.web.dto.ReportDto;
 import com.example.smartcity_app.repository.web.dto.ReportTypeDto;
 import com.example.smartcity_app.repository.web.dto.UserDto;
@@ -44,4 +45,13 @@ public interface WalloniaFixedWebService {
 
     @POST("v1/event")
     Call<Object> postEvent(@Body EventDto eventDto);
+
+    @GET("v1/participation/{userID}&{eventID}")
+    Call<ParticipationDto> getParticipationForUserAndEvent(@Path("userID") int userID, @Path("eventID") int eventID);
+
+    @POST("v1/participation")
+    Call<Object> postParticipation(@Body ParticipationDto participationDto);
+
+    @HTTP(method = "DELETE", path = "v1/participation", hasBody = true)
+    Call<Object> deleteParticipation(@Body ParticipationDto participationDto);
 }
