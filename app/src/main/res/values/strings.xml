@@ -2,9 +2,7 @@
     <string name="app_name">Wallonia Fixed</string>
 
     <string name="welcome_title">Bienvenue !</string>
-    <string name="welcome_description">Cette application est en cours de construction.\n
-        Elle aura pour but d\'implémenter les fonctionnalités minimales proposées dans le dossier du projet.
-    </string>
+    <string name="welcome_description">Cette application est en cours de construction.\n</string>
     <string name="welcome_button">Continuer</string>
 
     <string name="login_connexion">Connexion</string>
@@ -99,7 +97,7 @@
     <string name="token">token</string>
     <string name="wrong_email_password">Adresse mail ou/et mot de passe incorrect(s)</string>
     <string name="report_research">Rechercher un emplacement</string>
-    <string name="profile">Profile</string>
+    <string name="profile">Profil</string>
     <string name="profile_own_reports">Mes reports</string>
     <string name="modify">Modifier</string>
     <string name="delete">Supprimer</string>

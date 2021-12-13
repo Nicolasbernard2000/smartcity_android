@@ -1,6 +1,7 @@
 package com.example.smartcity_app.view.welcome;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
