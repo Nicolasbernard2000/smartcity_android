@@ -67,12 +67,14 @@ public class RecyclerViewReportsFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void afterTextChanged(Editable editable) {
-                String researchText = research.getText().toString();
-                if(researchText.isEmpty()) {
-                    reportAdapter.setReports(reportsList);
-                } else {
-                    List<Report> reportsFromResearch = reportsList.stream().filter(report -> report.getCity().toLowerCase(Locale.ROOT).contains(researchText)).collect(Collectors.toList());
-                    reportAdapter.setReports(reportsFromResearch);
+                if(reportAdapter.getItemCount() != 0) {
+                    String researchText = research.getText().toString();
+                    if(researchText.isEmpty()) {
+                        reportAdapter.setReports(reportsList);
+                    } else {
+                        List<Report> reportsFromResearch = reportsList.stream().filter(report -> report.getCity().toLowerCase(Locale.ROOT).contains(researchText)).collect(Collectors.toList());
+                        reportAdapter.setReports(reportsFromResearch);
+                    }
                 }
             }
         };

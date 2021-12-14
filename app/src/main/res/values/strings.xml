@@ -110,4 +110,7 @@
     <string name="participation">Participation</string>
     <string name="participate">Participe</string>
     <string name="dont_participate">Pas intéressé(e)</string>
+    <string name="settings">Paramètres</string>
+    <string name="language">Langue</string>
+    <string name="close">Fermer</string>
 </resources>

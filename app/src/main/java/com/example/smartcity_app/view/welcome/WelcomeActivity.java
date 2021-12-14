@@ -5,6 +5,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +21,8 @@ import android.widget.LinearLayout;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.view.MainActivity;
 
+import java.util.Locale;
+
 public class WelcomeActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     private ImageView image;
@@ -28,16 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        linearLayout = (LinearLayout)findViewById(R.id.welcome_linear_layout);
-        image = (ImageView)findViewById(R.id.waiting_image);
         button = (Button)findViewById(R.id.welcome_button);
-
-        Animation animation = AnimationUtils.loadAnimation(this, R.anim.main_appearance_animation);
-        linearLayout.startAnimation(animation);
-
-        Animation waitingAnimation = AnimationUtils.loadAnimation(this, R.anim.waiting_animation);
-        image.startAnimation(waitingAnimation);
-
         button.setOnClickListener(new ChangeActivityListener(this));
     }
 
