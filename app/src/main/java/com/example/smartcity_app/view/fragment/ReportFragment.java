@@ -1,5 +1,10 @@
 package com.example.smartcity_app.view.fragment;
 
+import static com.example.smartcity_app.util.Constants.MAPVIEW_BUNDLE_KEY;
+
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,8 +32,17 @@ import com.example.smartcity_app.view.recyclerView.EventRecyclerView.EventAdapte
 import com.example.smartcity_app.util.CallbackEventCreation;
 import com.example.smartcity_app.viewModel.EventViewModel;
 import com.example.smartcity_app.viewModel.ParticipationViewModel;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ReportFragment extends Fragment implements CallbackEventCreation, CallbackParticipationModification {
+import java.io.IOException;
+import java.util.List;
+
+public class ReportFragment extends Fragment implements CallbackEventCreation, CallbackParticipationModification, OnMapReadyCallback {
     private TextView locationTextView;
     private TextView dateTextView;
     private TextView typeTextView;
@@ -41,6 +55,7 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
     private EventViewModel eventViewModel;
     private ParticipationViewModel participationViewModel;
     private Report report;
+    private MapView mapView;
 
     public ReportFragment() {
     }
@@ -65,6 +80,9 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         createEventButton = root.findViewById(R.id.create_event_button);
         eventsRecyclerView = root.findViewById(R.id.event_recycler_view);
         eventsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
+        mapView = (MapView) root.findViewById(R.id.mapview);
+
+        initGoogleMap(savedInstanceState);
 
         report = (Report) getArguments().getSerializable("touchedReport");
         String addressValue = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
@@ -89,6 +107,15 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         });
 
         return root;
+    }
+
+    private void initGoogleMap(Bundle savedInstanceState) {
+        Bundle mapViewBundle = null;
+        if(savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+        }
+        mapView.onCreate(mapViewBundle);
+        mapView.getMapAsync(this);
     }
 
     @Override
@@ -172,5 +199,95 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         } else {
             participationViewModel.postParticipationOnWeb(participation);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        Bundle mapViewBundle = outState.getBundle(MAPVIEW_BUNDLE_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
+        }
+
+        mapView.onSaveInstanceState(mapViewBundle);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap map) {
+        Geocoder geocoder = new Geocoder(getContext());
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocationName(report.getAddress(), 5);
+            Address location = addresses.get(0);
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            map.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+            map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        mapView.onPause();
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        mapView.onDestroy();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onLowMemory() {
+        mapView.onLowMemory();
+        super.onLowMemory();
+    }
+
+    public LatLng getLocationFromAddress(Context context, String strAddress) {
+        Geocoder coder= new Geocoder(context);
+        List<Address> address;
+        LatLng p1 = null;
+
+        try
+        {
+            address = coder.getFromLocationName(strAddress, 5);
+            if(address==null)
+            {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+
+            p1 = new LatLng(location.getLatitude(), location.getLongitude());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return p1;
+
     }
 }

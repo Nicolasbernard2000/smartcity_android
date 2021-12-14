@@ -33,6 +33,7 @@ dependencies {
 
     // For BottomNavigationView from Material Components
     implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.gms:play-services-maps:18.0.1'
 
     // Retrofit
     def version_retrofit = "2.9.0"

@@ -132,4 +132,8 @@ public class Report implements Serializable {
                 ", reportType=" + reportType +
                 '}';
     }
+
+    public String getAddress() {
+        return this.city + ", " + this.street + ", " + this.houseNumber;
+    }
 }
