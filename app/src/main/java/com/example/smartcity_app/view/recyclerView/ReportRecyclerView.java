@@ -17,6 +17,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ReportRecyclerView {
@@ -46,7 +50,7 @@ public class ReportRecyclerView {
     }
 
     public static class ReportAdapter extends RecyclerView.Adapter<ReportViewHolder> {
-        private List<Report> reports;
+        private List<Report> reports = new ArrayList<>();
         private ViewGroup container;
 
         public ReportAdapter(ViewGroup container, List<Report> reports) {
@@ -71,9 +75,12 @@ public class ReportRecyclerView {
         public void onBindViewHolder(@NonNull ReportViewHolder holder, int position) {
             Report report = reports.get(position);
             String address = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
+            GregorianCalendar date = new GregorianCalendar();
+            date.setTime(report.getCreationDate());
+            String dateString = date.get(GregorianCalendar.DAY_OF_MONTH) + "/" + date.get(GregorianCalendar.MONTH) + "/" + date.get(GregorianCalendar.YEAR);
 
             holder.location.setText(report.getCity());
-            holder.date.setText(report.getCreationDate().toString());
+            holder.date.setText(dateString);
             holder.type.setText(report.getReportType().getLabel());
             holder.address.setText(address);
 
@@ -88,6 +95,12 @@ public class ReportRecyclerView {
 
         public void setReports(List<Report> reports) {
             this.reports = reports;
+
+            notifyDataSetChanged();
+        }
+
+        public void addReports(List<Report> reports) {
+            this.reports.addAll(reports);
 
             notifyDataSetChanged();
         }

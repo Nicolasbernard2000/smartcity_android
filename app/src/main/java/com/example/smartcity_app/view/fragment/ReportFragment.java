@@ -40,6 +40,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ReportFragment extends Fragment implements CallbackEventCreation, CallbackParticipationModification, OnMapReadyCallback {
@@ -86,9 +87,12 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
 
         report = (Report) getArguments().getSerializable("touchedReport");
         String addressValue = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
+        GregorianCalendar date = new GregorianCalendar();
+        date.setTime(report.getCreationDate());
+        String dateString = date.get(GregorianCalendar.DAY_OF_MONTH) + "/" + date.get(GregorianCalendar.MONTH) + "/" + date.get(GregorianCalendar.YEAR);
 
         locationTextView.setText(report.getCity());
-        dateTextView.setText(report.getCreationDate().toString());
+        dateTextView.setText(dateString);
         typeTextView.setText(report.getReportType().getLabel());
         addressTextView.setText(addressValue);
         statusTextView.setText(getString(getResources().getIdentifier("state_" + report.getState(), "string", getContext().getPackageName())));

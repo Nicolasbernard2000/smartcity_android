@@ -1,13 +1,16 @@
 package com.example.smartcity_app.view.fragment;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +26,7 @@ import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.view.recyclerView.ReportRecyclerView.ReportAdapter;
 import com.example.smartcity_app.viewModel.ReportViewModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -32,9 +36,11 @@ import java.util.stream.Stream;
 public class RecyclerViewReportsFragment extends Fragment {
     private RecyclerView reportsRecyclerView;
     private ReportAdapter reportAdapter;
-    private List<Report> reportsList;
+    private ArrayList<Report> reportsList;
     private EditText research;
     private ReportViewModel reportViewModel;
+    private ProgressBar progressBar;
+    private int numberReports = 0;
 
     public RecyclerViewReportsFragment() {
     }
@@ -46,12 +52,24 @@ public class RecyclerViewReportsFragment extends Fragment {
 
         reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
 
+        research = root.findViewById(R.id.report_research);
         reportsRecyclerView = root.findViewById(R.id.report_recycler_view);
         reportsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         reportAdapter = new ReportAdapter(container, reportViewModel.getReports().getValue());
         reportsRecyclerView.setAdapter(reportAdapter);
 
-        research = root.findViewById(R.id.report_research);
+        reportsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (!recyclerView.canScrollVertically(1)) {
+                    reportViewModel.getReportsWithOffsetAndLimit(numberReports, 5);
+                }
+            }
+        });
+
+        progressBar = root.findViewById(R.id.progress_bar);
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -88,10 +106,17 @@ public class RecyclerViewReportsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        reportViewModel.getReportsFromWeb();
+        reportViewModel.getReportsWithOffsetAndLimit(numberReports, 5);
         reportViewModel.getReports().observe(getViewLifecycleOwner(), reports -> {
-            reportsList = reports;
-            reportAdapter.setReports(reportsList);
+            reportsList = new ArrayList<>();
+            reportsList.addAll(reports);
+
+            if(reportAdapter.getItemCount() == 0) {
+                reportAdapter.setReports(reportsList);
+            } else {
+                reportAdapter.addReports(reportsList);
+            }
+            numberReports += reportsList.size();
         });
 
         reportViewModel.getError().observe(getViewLifecycleOwner(), error -> {
@@ -100,4 +125,11 @@ public class RecyclerViewReportsFragment extends Fragment {
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
         });
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        numberReports = 0;
+    }
+
 }

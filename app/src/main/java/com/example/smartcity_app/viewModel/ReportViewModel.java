@@ -1,6 +1,7 @@
 package com.example.smartcity_app.viewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -8,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.smartcity_app.R;
+import com.example.smartcity_app.repository.web.dto.ReportWithFilterDto;
 import com.example.smartcity_app.service.mappers.ReportMapper;
 import com.example.smartcity_app.model.NetworkError;
 import com.example.smartcity_app.model.Report;
@@ -19,6 +21,7 @@ import com.example.smartcity_app.util.errors.NoConnectivityException;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -70,17 +73,15 @@ public class ReportViewModel extends AndroidViewModel {
         _inputErrors.setValue(errors);
     }
 
-    public void getReportsFromWeb() {
-        webService.getReports().enqueue(new Callback<List<ReportDto>>() {
+    public void getReportsWithOffsetAndLimit(Integer offset, Integer limit) {
+        webService.getReportsWithOffsetAndLimit(offset, limit).enqueue(new Callback<ReportWithFilterDto>() {
             @Override
-            public void onResponse(@NotNull Call<List<ReportDto>> call, @NotNull Response<List<ReportDto>> response) {
-                if (response.isSuccessful()) {
-                    _reports.setValue(reportMapper.mapToReports(response.body()));
-                }
+            public void onResponse(Call<ReportWithFilterDto> call, Response<ReportWithFilterDto> response) {
+                _reports.setValue(reportMapper.mapToReports(response.body().getReportDtos()));
             }
 
             @Override
-            public void onFailure(@NotNull Call<List<ReportDto>> call, @NotNull Throwable t) {
+            public void onFailure(Call<ReportWithFilterDto> call, Throwable t) {
                 _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
             }
         });
@@ -134,6 +135,7 @@ public class ReportViewModel extends AndroidViewModel {
     public LiveData<List<Report>> getReports() {
         return reports;
     }
+
     public LiveData<NetworkError> getError() {
         return error;
     }

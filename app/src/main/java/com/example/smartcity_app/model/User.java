@@ -3,7 +3,7 @@ package com.example.smartcity_app.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User implements Serializable {

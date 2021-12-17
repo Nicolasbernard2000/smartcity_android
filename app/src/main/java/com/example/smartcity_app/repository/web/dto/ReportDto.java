@@ -22,12 +22,12 @@ public class ReportDto {
     @Json(name = "created_at")
     private Date creationDate;
 
-    private Integer reporter;
+    private UserDto reporter;
 
     @Json(name = "report_type")
     private ReportType reportType;
 
-    public ReportDto(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, Integer reporter, ReportType reportType) {
+    public ReportDto(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, UserDto reporter, ReportType reportType) {
         this.id = id;
         this.description = description;
         this.state = state;
@@ -104,11 +104,11 @@ public class ReportDto {
         this.creationDate = creationDate;
     }
 
-    public Integer getReporter() {
+    public UserDto getReporterDto() {
         return reporter;
     }
 
-    public void setReporter(Integer reporter) {
+    public void setReporterDto(UserDto reporter) {
         this.reporter = reporter;
     }
 

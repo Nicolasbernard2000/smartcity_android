@@ -2,7 +2,7 @@ package com.example.smartcity_app.repository.web.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.squareup.moshi.Json;
-import java.sql.Date;
+import java.util.Date;
 
 public class UserDto {
     private Integer id;

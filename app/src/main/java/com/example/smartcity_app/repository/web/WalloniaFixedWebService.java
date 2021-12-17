@@ -5,13 +5,13 @@ import com.example.smartcity_app.repository.web.dto.LoginDto;
 import com.example.smartcity_app.repository.web.dto.ParticipationDto;
 import com.example.smartcity_app.repository.web.dto.ReportDto;
 import com.example.smartcity_app.repository.web.dto.ReportTypeDto;
+import com.example.smartcity_app.repository.web.dto.ReportWithFilterDto;
 import com.example.smartcity_app.repository.web.dto.UserDto;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
@@ -23,6 +23,9 @@ public interface WalloniaFixedWebService {
 
     @GET("v1/report/foruser/{userId}")
     Call<List<ReportDto>> getReportsWithUserId(@Path("userId") int userId);
+
+    @GET("v1/report/filter/{offset}&{limit}")
+    Call<ReportWithFilterDto> getReportsWithOffsetAndLimit(@Path("offset") int offset, @Path("limit") int limit);
 
     // Not using @Delete : doesn't allow to have a body
     @HTTP(method = "DELETE", path = "v1/report", hasBody = true)

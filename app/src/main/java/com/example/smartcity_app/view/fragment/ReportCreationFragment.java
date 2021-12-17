@@ -158,7 +158,7 @@ public class ReportCreationFragment extends Fragment {
             Integer typeMessage;
             Integer message;
             switch(code) {
-                case 200:
+                case 201:
                     typeMessage = R.string.success;
                     message = R.string.report_created;
                     break;
