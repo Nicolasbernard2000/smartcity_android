@@ -18,14 +18,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface WalloniaFixedWebService {
-    @GET("v1/report")
-    Call<List<ReportDto>> getReports();
-
     @GET("v1/report/foruser/{userId}")
     Call<List<ReportDto>> getReportsWithUserId(@Path("userId") int userId);
 
-    @GET("v1/report/filter/{offset}&{limit}")
-    Call<ReportWithFilterDto> getReportsWithOffsetAndLimit(@Path("offset") int offset, @Path("limit") int limit);
+    @GET("v1/report/filter/{offset}&{limit}&{filter}")
+    Call<ReportWithFilterDto> getReportsWithOffsetLimitAndFilter(@Path("offset") int offset, @Path("limit") int limit, @Path("filter") String filter);
 
     // Not using @Delete : doesn't allow to have a body
     @HTTP(method = "DELETE", path = "v1/report", hasBody = true)

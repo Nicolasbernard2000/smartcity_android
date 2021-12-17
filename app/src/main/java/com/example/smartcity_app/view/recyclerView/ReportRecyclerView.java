@@ -95,13 +95,16 @@ public class ReportRecyclerView {
 
         public void setReports(List<Report> reports) {
             this.reports = reports;
-
             notifyDataSetChanged();
         }
 
         public void addReports(List<Report> reports) {
             this.reports.addAll(reports);
+            notifyDataSetChanged();
+        }
 
+        public void resetReports() {
+            this.reports = new ArrayList<>();
             notifyDataSetChanged();
         }
     }

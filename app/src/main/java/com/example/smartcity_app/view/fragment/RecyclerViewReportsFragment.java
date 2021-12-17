@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
@@ -39,8 +40,11 @@ public class RecyclerViewReportsFragment extends Fragment {
     private ArrayList<Report> reportsList;
     private EditText research;
     private ReportViewModel reportViewModel;
+    private ImageButton searchButton;
+    private String searchText = "";
     private ProgressBar progressBar;
     private int numberReports = 0;
+    private boolean isWaitingAnswer = false;
 
     public RecyclerViewReportsFragment() {
     }
@@ -52,7 +56,9 @@ public class RecyclerViewReportsFragment extends Fragment {
 
         reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
 
+        progressBar = root.findViewById(R.id.progress_bar);
         research = root.findViewById(R.id.report_research);
+        searchButton = root.findViewById(R.id.search_button);
         reportsRecyclerView = root.findViewById(R.id.report_recycler_view);
         reportsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         reportAdapter = new ReportAdapter(container, reportViewModel.getReports().getValue());
@@ -62,14 +68,23 @@ public class RecyclerViewReportsFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
-                if (!recyclerView.canScrollVertically(1)) {
-                    reportViewModel.getReportsWithOffsetAndLimit(numberReports, 5);
+                if (!recyclerView.canScrollVertically(1) && !isWaitingAnswer) {
+                    isWaitingAnswer = true;
+                    reportViewModel.getReportsWithOffsetLimitAndFilter(numberReports, 5, searchText);
                 }
             }
         });
 
-        progressBar = root.findViewById(R.id.progress_bar);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchText = research.getText().toString();
+                numberReports = 0;
+                reportAdapter.resetReports();
+                reportViewModel.getReportsWithOffsetLimitAndFilter(numberReports, 5, searchText);
+            }
+        });
+
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -82,17 +97,13 @@ public class RecyclerViewReportsFragment extends Fragment {
 
             }
 
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void afterTextChanged(Editable editable) {
-                if(reportAdapter.getItemCount() != 0) {
-                    String researchText = research.getText().toString();
-                    if(researchText.isEmpty()) {
-                        reportAdapter.setReports(reportsList);
-                    } else {
-                        List<Report> reportsFromResearch = reportsList.stream().filter(report -> report.getCity().toLowerCase(Locale.ROOT).contains(researchText)).collect(Collectors.toList());
-                        reportAdapter.setReports(reportsFromResearch);
-                    }
+                searchText = research.getText().toString();
+                if(searchText.equals("")) {
+                    numberReports = 0;
+                    reportAdapter.resetReports();
+                    reportViewModel.getReportsWithOffsetLimitAndFilter(numberReports, 5, searchText);
                 }
             }
         };
@@ -106,7 +117,7 @@ public class RecyclerViewReportsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        reportViewModel.getReportsWithOffsetAndLimit(numberReports, 5);
+        reportViewModel.getReportsWithOffsetLimitAndFilter(numberReports, 5, searchText);
         reportViewModel.getReports().observe(getViewLifecycleOwner(), reports -> {
             reportsList = new ArrayList<>();
             reportsList.addAll(reports);
@@ -116,7 +127,9 @@ public class RecyclerViewReportsFragment extends Fragment {
             } else {
                 reportAdapter.addReports(reportsList);
             }
+            progressBar.setVisibility(View.INVISIBLE);
             numberReports += reportsList.size();
+            isWaitingAnswer = false;
         });
 
         reportViewModel.getError().observe(getViewLifecycleOwner(), error -> {
@@ -131,5 +144,4 @@ public class RecyclerViewReportsFragment extends Fragment {
         super.onStop();
         numberReports = 0;
     }
-
 }

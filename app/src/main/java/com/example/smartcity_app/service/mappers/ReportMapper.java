@@ -1,5 +1,7 @@
 package com.example.smartcity_app.service.mappers;
 
+import android.util.Log;
+
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.repository.web.dto.ReportDto;
 import com.example.smartcity_app.repository.web.dto.UserDto;
@@ -48,9 +50,8 @@ public class ReportMapper {
         if(report == null) {
             return null;
         }
-        UserDto userDto = new UserDto();
-        userDto.setId(report.getReporter());
-        ReportDto reportDto = new ReportDto(report.getId(), report.getDescription(), report.getState(), report.getCity(), report.getStreet(), report.getZipCode(), report.getHouseNumber(), report.getCreationDate(), userDto, report.getReportType());
+
+        ReportDto reportDto = new ReportDto(report.getId(), report.getDescription(), report.getState(), report.getCity(), report.getStreet(), report.getZipCode(), report.getHouseNumber(), report.getCreationDate(), null, report.getReporter(), report.getReportType());
         return reportDto;
     }
 }
