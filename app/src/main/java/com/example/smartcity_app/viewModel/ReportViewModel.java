@@ -77,7 +77,8 @@ public class ReportViewModel extends AndroidViewModel {
         webService.getReportsWithOffsetLimitAndFilter(offset, limit, filter).enqueue(new Callback<ReportWithFilterDto>() {
             @Override
             public void onResponse(Call<ReportWithFilterDto> call, Response<ReportWithFilterDto> response) {
-                _reports.setValue(reportMapper.mapToReports(response.body().getReportDtos()));
+                if(response.body() != null)
+                    _reports.setValue(reportMapper.mapToReports(response.body().getReportDtos()));
             }
 
             @Override

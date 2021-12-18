@@ -77,7 +77,10 @@ public class ReportRecyclerView {
             String address = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
             GregorianCalendar date = new GregorianCalendar();
             date.setTime(report.getCreationDate());
-            String dateString = date.get(GregorianCalendar.DAY_OF_MONTH) + "/" + date.get(GregorianCalendar.MONTH) + "/" + date.get(GregorianCalendar.YEAR);
+            int day = date.get(GregorianCalendar.DAY_OF_MONTH);
+            int month = date.get(GregorianCalendar.MONTH) + 1;
+            int year = date.get(GregorianCalendar.YEAR);
+            String dateString = day + "/" + month + "/" + year;
 
             holder.location.setText(report.getCity());
             holder.date.setText(dateString);

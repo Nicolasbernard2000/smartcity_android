@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp">
@@ -17,85 +18,102 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/create_report_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_report">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:showDividers="middle"
+            android:layout_height="0dp"
             android:divider="@drawable/empty_tall_divider"
-            app:layout_constraintTop_toBottomOf="@+id/text_report">
+            android:orientation="vertical"
+            android:showDividers="middle">
 
             <Spinner
                 android:id="@+id/create_report_report_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"
+                android:textSize="24sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/create_report_description"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:longClickable="false"
-                    android:hint="@string/description"/>
+                    android:hint="@string/description"
+                    android:longClickable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/create_report_street"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:longClickable="false"
-                    android:hint="@string/street"/>
+                    android:hint="@string/street"
+                    android:longClickable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/create_report_house_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:longClickable="false"
+                    android:hint="@string/house_number"
                     android:inputType="number"
-                    android:hint="@string/house_number"/>
+                    android:longClickable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/create_report_zip_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:longClickable="false"
+                    android:hint="@string/zip_code"
                     android:inputType="number"
-                    android:hint="@string/zip_code"/>
+                    android:longClickable="false" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/create_report_city"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:longClickable="false"
-                    android:hint="@string/city"/>
+                    android:hint="@string/city"
+                    android:longClickable="false" />
             </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/create_report_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:text="@string/create_report_button"
-                android:textColor="@color/colorSecond" />
         </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/create_report_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:text="@string/create_report_button"
+        android:textColor="@color/colorSecond"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

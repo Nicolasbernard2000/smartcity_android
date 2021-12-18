@@ -79,7 +79,7 @@ public class ReportCreationFragment extends Fragment {
                             streetText,
                             zipCodeInteger,
                             houseNumberInteger,
-                            MainActivity.getUser().getId(),
+                            MainActivity.getUser(),
                             reportType
                     );
                     reportViewModel.postReportOnWeb(report);

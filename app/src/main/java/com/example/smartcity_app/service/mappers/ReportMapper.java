@@ -1,10 +1,9 @@
 package com.example.smartcity_app.service.mappers;
 
-import android.util.Log;
 
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.repository.web.dto.ReportDto;
-import com.example.smartcity_app.repository.web.dto.UserDto;
+import com.example.smartcity_app.service.mappers.UserMapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +26,7 @@ public class ReportMapper {
             return null;
         }
 
-        Report report = new Report(dto.getId(), dto.getDescription(), dto.getState(), dto.getCity(), dto.getStreet(), dto.getZipCode(), dto.getHouseNumber(), dto.getCreationDate(), dto.getReporterDto().getId(), dto.getReportType());
+        Report report = new Report(dto.getId(), dto.getDescription(), dto.getState(), dto.getCity(), dto.getStreet(), dto.getZipCode(), dto.getHouseNumber(), dto.getCreationDate(), UserMapper.getInstance().mapToUser(dto.getReporterDto()), dto.getReportType());
 
         return report;
     }
@@ -51,7 +50,7 @@ public class ReportMapper {
             return null;
         }
 
-        ReportDto reportDto = new ReportDto(report.getId(), report.getDescription(), report.getState(), report.getCity(), report.getStreet(), report.getZipCode(), report.getHouseNumber(), report.getCreationDate(), null, report.getReporter(), report.getReportType());
+        ReportDto reportDto = new ReportDto(report.getId(), report.getDescription(), report.getState(), report.getCity(), report.getStreet(), report.getZipCode(), report.getHouseNumber(), report.getCreationDate(), UserMapper.getInstance().mapToUserDto(report.getReporter()), report.getReportType());
         return reportDto;
     }
 }

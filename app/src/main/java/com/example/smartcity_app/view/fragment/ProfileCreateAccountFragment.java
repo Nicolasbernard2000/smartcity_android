@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,7 +59,7 @@ public class ProfileCreateAccountFragment extends Fragment {
                 int year = Integer.parseInt(date.get(2));
                 int month = Integer.parseInt(date.get(1));
                 int day = Integer.parseInt(date.get(0));
-                GregorianCalendar birthDateCalendar = new GregorianCalendar(year, month, day);
+                GregorianCalendar birthDateCalendar = new GregorianCalendar(year, month - 1, day, 12, 0, 0);
                 Date birthDateDate = new Date(birthDateCalendar.getTimeInMillis());
                 this.user = new User(
                         emailEditText.getText().toString(),
@@ -151,7 +152,7 @@ public class ProfileCreateAccountFragment extends Fragment {
             int typeMessage;
             int message;
             switch(code) {
-                case 200:
+                case 201:
                     typeMessage = R.string.success;
                     message = R.string.user_created;
                     Navigation.findNavController(requireView()).navigate(R.id.fragment_login);

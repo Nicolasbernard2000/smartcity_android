@@ -24,13 +24,10 @@ public class ReportDto {
 
     private UserDto reporter;
 
-    @Json(name = "reporter_id")
-    private Integer reportedId;
-
     @Json(name = "report_type")
     private ReportType reportType;
 
-    public ReportDto(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, UserDto reporter, Integer reporterId, ReportType reportType) {
+    public ReportDto(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, UserDto reporter, ReportType reportType) {
         this.id = id;
         this.description = description;
         this.state = state;
@@ -40,7 +37,6 @@ public class ReportDto {
         this.houseNumber = houseNumber;
         this.creationDate = creationDate;
         this.reporter = reporter;
-        this.reportedId = reporterId;
         this.reportType = reportType;
     }
 
@@ -116,14 +112,6 @@ public class ReportDto {
         this.reporter = reporter;
     }
 
-    public Integer getReportedId() {
-        return reportedId;
-    }
-
-    public void setReportedId(Integer reportedId) {
-        this.reportedId = reportedId;
-    }
-
     public ReportType getReportType() {
         return reportType;
     }
@@ -144,7 +132,6 @@ public class ReportDto {
                 ", houseNumber=" + houseNumber +
                 ", creationDate=" + creationDate +
                 ", reporter=" + reporter +
-                ", reporterId =" + reportedId +
                 ", reportType=" + reportType +
                 '}';
     }

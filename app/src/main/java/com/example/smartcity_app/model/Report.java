@@ -13,11 +13,11 @@ public class Report implements Serializable {
     private Integer zipCode;
     private Integer houseNumber;
     private Date creationDate;
-    private Integer reporter;
+    private User reporter;
     private ReportType reportType;
     public static final String DEFAULT_STATE = "pending";
 
-    public Report(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, Integer reporter, ReportType reportType) {
+    public Report(Integer id, String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Date creationDate, User reporter, ReportType reportType) {
         this.id = id;
         this.description = description;
         this.state = state;
@@ -30,7 +30,7 @@ public class Report implements Serializable {
         this.reportType = reportType;
     }
 
-    public Report(String description, String state, String city, String street, Integer zipCode, Integer houseNumber, Integer reporter, ReportType reportType) {
+    public Report(String description, String state, String city, String street, Integer zipCode, Integer houseNumber, User reporter, ReportType reportType) {
         this(null, description, state, city, street, zipCode, houseNumber, null, reporter, reportType);
         GregorianCalendar today = new GregorianCalendar();
         setCreationDate(new Date(today.getTimeInMillis()));
@@ -100,11 +100,11 @@ public class Report implements Serializable {
         this.creationDate = creationDate;
     }
 
-    public Integer getReporter() {
+    public User getReporter() {
         return reporter;
     }
 
-    public void setReporter(Integer reporter) {
+    public void setReporter(User reporter) {
         this.reporter = reporter;
     }
 
@@ -127,7 +127,7 @@ public class Report implements Serializable {
                 ", zipCode=" + zipCode +
                 ", houseNumber=" + houseNumber +
                 ", creationDate='" + creationDate + '\'' +
-                ", reporter=" + reporter +
+                ", reporter=" + reporter.toString() +
                 ", reportType=" + reportType +
                 '}';
     }

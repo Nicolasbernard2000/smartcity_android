@@ -20,6 +20,8 @@ import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.view.MainActivity;
 
+import java.util.GregorianCalendar;
+
 public class ProfileInformationFragment extends Fragment {
     private EditText firstName;
     private EditText lastName;
@@ -56,6 +58,13 @@ public class ProfileInformationFragment extends Fragment {
         birthDate = (EditText) root.findViewById(R.id.profile_edit_birthdate);
         disconnectionButton = (Button) root.findViewById(R.id.profile_disconnection_button);
 
+        GregorianCalendar birthDateTemp = new GregorianCalendar();
+        birthDateTemp.setTime(user.getBirthDate());
+        int day = birthDateTemp.get(GregorianCalendar.DAY_OF_MONTH);
+        int month = birthDateTemp.get(GregorianCalendar.MONTH) + 1;
+        int year = birthDateTemp.get(GregorianCalendar.YEAR);
+        String dateString = day + "/" + month + "/" + year;
+
         firstName.setText(user.getFirstName());
         lastName.setText(user.getLastName());
         email.setText(user.getEmail());
@@ -63,7 +72,7 @@ public class ProfileInformationFragment extends Fragment {
         houseNumber.setText(user.getHouseNumber().toString());
         zipCode.setText(user.getZipCode().toString());
         city.setText(user.getCity());
-        birthDate.setText(user.getBirthDate().toString());
+        birthDate.setText(dateString);
         disconnectionButton.setOnClickListener(new ProfileInformationFragment.DisconnectListener());
 
         return root;

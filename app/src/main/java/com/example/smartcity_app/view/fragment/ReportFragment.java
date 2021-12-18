@@ -89,7 +89,10 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         String addressValue = report.getStreet() + ", " + report.getHouseNumber() + "\n" + report.getZipCode() + " " + report.getCity();
         GregorianCalendar date = new GregorianCalendar();
         date.setTime(report.getCreationDate());
-        String dateString = date.get(GregorianCalendar.DAY_OF_MONTH) + "/" + date.get(GregorianCalendar.MONTH) + "/" + date.get(GregorianCalendar.YEAR);
+        int day = date.get(GregorianCalendar.DAY_OF_MONTH);
+        int month = date.get(GregorianCalendar.MONTH) + 1;
+        int year = date.get(GregorianCalendar.YEAR);
+        String dateString = day + "/" + month + "/" + year;
 
         locationTextView.setText(report.getCity());
         dateTextView.setText(dateString);
@@ -142,7 +145,7 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
             int typeMessage;
             int message;
             switch(code) {
-                case 200:
+                case 201:
                     typeMessage = R.string.success;
                     message = R.string.event_created;
                     eventViewModel.getEventsFromWebWithReportId(report.getId());
@@ -242,10 +245,12 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         List<Address> addresses;
         try {
             addresses = geocoder.getFromLocationName(report.getAddress(), 5);
-            Address location = addresses.get(0);
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            map.addMarker(new MarkerOptions().position(latLng).title("Marker"));
-            map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            if(!addresses.isEmpty()) {
+                Address location = addresses.get(0);
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                map.addMarker(new MarkerOptions().position(latLng).title("Marker"));
+                map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
