@@ -17,7 +17,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class RetrofitConfigurationService {
-    private static final String BASE_URL = "http://192.168.0.137:2001/";
+    private static final String BASE_URL = "https://iesn-smartcity-api.herokuapp.com/";
 
     private Retrofit retrofitClient;
 
@@ -28,9 +28,6 @@ public class RetrofitConfigurationService {
     }
 
     private void initializeRetrofit(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("token", Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString(context.getString(R.string.token), null);
-
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(new ConnectivityCheckInterceptor(context))
                 .addInterceptor(new HeaderInterceptor(context))
