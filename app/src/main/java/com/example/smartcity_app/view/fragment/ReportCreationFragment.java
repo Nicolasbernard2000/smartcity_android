@@ -82,6 +82,7 @@ public class ReportCreationFragment extends Fragment {
                             MainActivity.getUser(),
                             reportType
                     );
+                    createReportButton.setEnabled(false);
                     reportViewModel.postReportOnWeb(report);
                 }
             } else {
@@ -177,12 +178,14 @@ public class ReportCreationFragment extends Fragment {
             InformationDialog informationDialog = InformationDialog.getInstance();
             informationDialog.setInformation(typeMessage, message);
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+            createReportButton.setEnabled(true);
         });
 
         reportViewModel.getError().observe(getViewLifecycleOwner(), error -> {
             InformationDialog informationDialog = InformationDialog.getInstance();
             informationDialog.setInformation(R.string.error, error.getErrorMessage());
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+            createReportButton.setEnabled(true);
         });
     }
 

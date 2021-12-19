@@ -72,6 +72,7 @@ public class ProfileCreateAccountFragment extends Fragment {
                         Integer.parseInt(zipCodeEditText.getText().toString()),
                         Integer.parseInt(houseNumberEditText.getText().toString())
                 );
+                createUserButton.setEnabled(false);
                 userViewModel.postUserOnWeb(user);
             }
         });
@@ -172,12 +173,14 @@ public class ProfileCreateAccountFragment extends Fragment {
             InformationDialog informationDialog = InformationDialog.getInstance();
             informationDialog.setInformation(typeMessage, message);
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+            createUserButton.setEnabled(true);
         });
 
         userViewModel.getError().observe(getViewLifecycleOwner(), error -> {
             InformationDialog informationDialog = InformationDialog.getInstance();
             informationDialog.setInformation(R.string.error, error.getErrorMessage());
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+            createUserButton.setEnabled(false);
         });
     }
 

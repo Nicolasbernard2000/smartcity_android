@@ -59,7 +59,7 @@ public class LoginFragment extends Fragment {
         connectButton.setOnClickListener(v -> {
             String emailText = email.getText().toString();
             String passwordText = password.getText().toString();
-
+            connectButton.setEnabled(false);
             loginViewModel.log(emailText, passwordText);
         });
 
@@ -98,10 +98,12 @@ public class LoginFragment extends Fragment {
             InformationDialog informationDialog = InformationDialog.getInstance();
             informationDialog.setInformation(R.string.error, error.getErrorMessage());
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+            connectButton.setEnabled(true);
         });
 
         loginViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
             InformationDialog informationDialog = InformationDialog.getInstance();
+            connectButton.setEnabled(true);
             if(code == 404) {
                 informationDialog.setInformation(R.string.error, R.string.wrong_email_password);
                 informationDialog.show(getParentFragmentManager().beginTransaction(), null);
