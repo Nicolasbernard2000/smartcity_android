@@ -92,7 +92,7 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         int day = date.get(GregorianCalendar.DAY_OF_MONTH);
         int month = date.get(GregorianCalendar.MONTH) + 1;
         int year = date.get(GregorianCalendar.YEAR);
-        String dateString = day + "/" + month + "/" + year;
+        String dateString = String.format("%02d", day) + "/" + String.format("%02d", month) + "/" + year;
 
         locationTextView.setText(report.getCity());
         dateTextView.setText(dateString);

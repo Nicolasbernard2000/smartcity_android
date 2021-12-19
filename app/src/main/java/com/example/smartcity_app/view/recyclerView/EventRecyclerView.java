@@ -76,12 +76,18 @@ public class EventRecyclerView {
         public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
             Event event = events.get(position);
 
-            Date date = event.getDateHour();
-            Calendar calendar = GregorianCalendar.getInstance();
-            calendar.setTimeInMillis(date.getTime());
-            String dateHourText = calendar.get(Calendar.DAY_OF_MONTH) + "/" + calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.YEAR);
+            GregorianCalendar dateHour = new GregorianCalendar();
+            dateHour.setTime(event.getDateHour());
+            int day = dateHour.get(GregorianCalendar.DAY_OF_MONTH);
+            int month = dateHour.get(GregorianCalendar.MONTH) + 1;
+            int year = dateHour.get(GregorianCalendar.YEAR);
+            int hour = dateHour.get(GregorianCalendar.HOUR_OF_DAY);
+            int minute = dateHour.get(GregorianCalendar.MINUTE);
+            String dateString = String.format("%02d", day) + "/" + String.format("%02d", month) + "/" + year + " " + String.format("%02d", hour) + ":" + String.format("%02d", minute);
 
-            holder.dateHour.setText(dateHourText);
+
+
+            holder.dateHour.setText(dateString);
             holder.duration.setText(event.getDuration() + " " + parent.getResources().getString(R.string.minutes));
             holder.description.setText(event.getDescription());
 

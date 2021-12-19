@@ -133,6 +133,6 @@ public class Report implements Serializable {
     }
 
     public String getAddress() {
-        return this.city + ", " + this.street + ", " + this.houseNumber;
+        return this.city + ", " + this.street + ", " + this.houseNumber + ", " + this.zipCode;
     }
 }
