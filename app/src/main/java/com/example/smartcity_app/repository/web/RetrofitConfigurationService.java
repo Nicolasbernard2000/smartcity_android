@@ -1,9 +1,7 @@
 package com.example.smartcity_app.repository.web;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import com.example.smartcity_app.R;
 import com.example.smartcity_app.util.ConnectivityCheckInterceptor;
 import com.example.smartcity_app.util.HeaderInterceptor;
 import com.squareup.moshi.Moshi;

@@ -1,14 +1,12 @@
 package com.example.smartcity_app.viewModel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.smartcity_app.model.Event;
 import com.example.smartcity_app.model.NetworkError;
 import com.example.smartcity_app.model.Participation;
 import com.example.smartcity_app.repository.web.RetrofitConfigurationService;

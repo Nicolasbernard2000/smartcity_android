@@ -14,7 +14,6 @@ import androidx.fragment.app.DialogFragment;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
-import com.example.smartcity_app.util.CallbackEventCreation;
 import com.example.smartcity_app.util.CallbackReportDelete;
 
 public class ReportDeleteDialog extends DialogFragment {

@@ -1,7 +1,6 @@
 package com.example.smartcity_app.view.recyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,6 @@ import com.example.smartcity_app.model.Event;
 import com.example.smartcity_app.view.MainActivity;
 import com.example.smartcity_app.view.dialog.ParticipationDialog;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 

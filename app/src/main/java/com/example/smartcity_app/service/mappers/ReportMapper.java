@@ -3,7 +3,6 @@ package com.example.smartcity_app.service.mappers;
 
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.repository.web.dto.ReportDto;
-import com.example.smartcity_app.service.mappers.UserMapper;
 
 import java.util.ArrayList;
 import java.util.List;

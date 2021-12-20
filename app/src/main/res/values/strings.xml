@@ -2,7 +2,7 @@
     <string name="app_name">Wallonia Fixed</string>
 
     <string name="welcome_title">Bienvenue !</string>
-    <string name="welcome_description">Cette application est en cours de construction.\n</string>
+    <string name="welcome_description">Cette application a été construite dans le cadre du cours Développement mobile donné à la haute école de Namur Liège Luxembourg.</string>
     <string name="welcome_button">Continuer</string>
 
     <string name="login_connexion">Connexion</string>
@@ -113,4 +113,6 @@
     <string name="settings">Paramètres</string>
     <string name="language">Langue</string>
     <string name="close">Fermer</string>
+    <string name="berg_thibaut">Thibaut BERG</string>
+    <string name="bernard_nicolas">Nicolas BERNARD</string>
 </resources>

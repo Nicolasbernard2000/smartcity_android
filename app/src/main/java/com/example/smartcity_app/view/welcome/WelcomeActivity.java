@@ -1,32 +1,25 @@
 package com.example.smartcity_app.view.welcome;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.view.MainActivity;
 
-import java.util.Locale;
-
 public class WelcomeActivity extends AppCompatActivity {
-    private LinearLayout linearLayout;
-    private ImageView image;
     private Button button;
+    private ImageView bergImage;
+    private ImageView bernardImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +27,25 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         button = (Button)findViewById(R.id.welcome_button);
+        bergImage = (ImageView)findViewById(R.id.image_berg_thibaut);
+        bernardImage = (ImageView)findViewById(R.id.image_bernard_nicolas);
+
         button.setOnClickListener(new ChangeActivityListener(this));
+        bergImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/thibautberg"));
+                startActivity(browserIntent);
+            }
+        });
+
+        bernardImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/nicolas-bernico-bernard"));
+                startActivity(browserIntent);
+            }
+        });
     }
 
     private class ChangeActivityListener implements OnClickListener {
