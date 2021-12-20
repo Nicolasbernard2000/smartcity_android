@@ -20,6 +20,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private Button button;
     private ImageView bergImage;
     private ImageView bernardImage;
+    private ImageView henalluxImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class WelcomeActivity extends AppCompatActivity {
         button = (Button)findViewById(R.id.welcome_button);
         bergImage = (ImageView)findViewById(R.id.image_berg_thibaut);
         bernardImage = (ImageView)findViewById(R.id.image_bernard_nicolas);
+        henalluxImage = (ImageView)findViewById(R.id.image_henallux);
 
         button.setOnClickListener(new ChangeActivityListener(this));
         bergImage.setOnClickListener(new OnClickListener() {
@@ -43,6 +45,14 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.linkedin.com/in/nicolas-bernico-bernard"));
+                startActivity(browserIntent);
+            }
+        });
+
+        henalluxImage.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.henallux.be/"));
                 startActivity(browserIntent);
             }
         });
