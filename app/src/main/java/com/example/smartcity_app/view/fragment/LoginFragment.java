@@ -17,13 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.Claim;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.smartcity_app.R;
-import com.example.smartcity_app.service.mappers.UserMapper;
-import com.example.smartcity_app.model.User;
-import com.example.smartcity_app.repository.web.dto.UserDto;
 import com.example.smartcity_app.view.MainActivity;
 import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.viewModel.LoginViewModel;
@@ -79,11 +73,7 @@ public class LoginFragment extends Fragment {
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         loginViewModel.getToken().observe(getViewLifecycleOwner(), token -> {
-            DecodedJWT decodedJWT = JWT.decode(token);
-            Claim userData = decodedJWT.getClaim("user");
-            UserDto userDto = userData.as(UserDto.class);
-            User user = UserMapper.getInstance().mapToUser(userDto);
-            MainActivity.setUser(user);
+            loginViewModel.getUserFromToken(token);
 
             SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.token), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -93,6 +83,8 @@ public class LoginFragment extends Fragment {
             NavController navController = Navigation.findNavController(container);
             navController.navigate(R.id.fragment_profile);
         });
+
+        loginViewModel.getUser().observe(getViewLifecycleOwner(), MainActivity::setUser);
 
         loginViewModel.getError().observe(getViewLifecycleOwner(), error -> {
             InformationDialog informationDialog = InformationDialog.getInstance();
