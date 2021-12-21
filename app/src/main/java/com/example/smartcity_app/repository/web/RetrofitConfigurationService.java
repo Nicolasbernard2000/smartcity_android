@@ -3,6 +3,7 @@ package com.example.smartcity_app.repository.web;
 import android.content.Context;
 
 import com.example.smartcity_app.util.ConnectivityCheckInterceptor;
+import com.example.smartcity_app.util.Constants;
 import com.example.smartcity_app.util.HeaderInterceptor;
 import com.squareup.moshi.Moshi;
 import com.squareup.moshi.Rfc3339DateJsonAdapter;
@@ -15,10 +16,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class RetrofitConfigurationService {
-    private static final String BASE_URL = "https://iesn-smartcity-api.herokuapp.com/";
-    //"https://iesn-smartcity-api.herokuapp.com/"
-    //http://192.168.0.137:2001
-
     private Retrofit retrofitClient;
 
     private static WalloniaFixedWebService webService;
@@ -41,7 +38,7 @@ public class RetrofitConfigurationService {
 
         this.retrofitClient = new Retrofit.Builder()
                 .client(client)
-                .baseUrl(BASE_URL)
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(MoshiConverterFactory.create(moshiConverter))
                 .build();
     }

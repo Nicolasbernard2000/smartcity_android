@@ -20,7 +20,7 @@ public class ReportTypeMapper {
     public ReportType mapToReportType(ReportTypeDto dto) {
         if(dto == null)
             return null;
-        ReportType reportType = new ReportType(dto.getId(), dto.getLabel());
+        ReportType reportType = new ReportType(dto.getId(), dto.getLabel(), dto.getImage());
         return reportType;
     }
 

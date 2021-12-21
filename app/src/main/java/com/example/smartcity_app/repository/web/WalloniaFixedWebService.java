@@ -1,6 +1,5 @@
 package com.example.smartcity_app.repository.web;
 
-import com.example.smartcity_app.model.Event;
 import com.example.smartcity_app.repository.web.dto.EventDto;
 import com.example.smartcity_app.repository.web.dto.LoginDto;
 import com.example.smartcity_app.repository.web.dto.ParticipationDto;

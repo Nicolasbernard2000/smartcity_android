@@ -3,10 +3,12 @@ package com.example.smartcity_app.repository.web.dto;
 public class ReportTypeDto {
     private Integer id;
     private String label;
+    private String image;
 
-    public ReportTypeDto(Integer id, String label) {
+    public ReportTypeDto(Integer id, String label, String image) {
         this.id = id;
         this.label = label;
+        this.image = image;
     }
 
     public Integer getId() {
@@ -25,11 +27,20 @@ public class ReportTypeDto {
         this.label = label;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String imageURL) {
+        this.image = imageURL;
+    }
+
     @Override
     public String toString() {
         return "ReportTypeDto{" +
                 "id=" + id +
                 ", label=" + label +
+                ", image=" + image +
                 "}";
     }
 }
