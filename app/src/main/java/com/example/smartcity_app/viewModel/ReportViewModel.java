@@ -31,8 +31,14 @@ public class ReportViewModel extends AndroidViewModel {
     private MutableLiveData<List<Report>> _reports = new MutableLiveData<>();
     private LiveData<List<Report>> reports = _reports;
 
-    private MutableLiveData<Integer> _statusCode = new MutableLiveData<>();
-    private LiveData<Integer> statusCode = _statusCode;
+    private MutableLiveData<Integer> _statusCodeCreation = new MutableLiveData<>();
+    private LiveData<Integer> statusCodeCreation = _statusCodeCreation;
+
+    private MutableLiveData<Integer> _statusCodeDelete = new MutableLiveData<>();
+    private LiveData<Integer> statusCodeDelete = _statusCodeDelete;
+
+    private MutableLiveData<Integer> _statusCodePatch = new MutableLiveData<>();
+    private LiveData<Integer> statusCodePatch = _statusCodePatch;
 
     private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
     private LiveData<NetworkError> error = _error;
@@ -106,7 +112,7 @@ public class ReportViewModel extends AndroidViewModel {
         webService.postReport(reportMapper.mapToReportDto(report)).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(@NotNull Call<Object> call, @NotNull Response<Object> response) {
-                _statusCode.setValue(response.code());
+                _statusCodeCreation.setValue(response.code());
             }
 
             @Override
@@ -120,7 +126,7 @@ public class ReportViewModel extends AndroidViewModel {
         webService.deleteReport(reportMapper.mapToReportDto(report)).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                _statusCode.setValue(response.code());
+                _statusCodeDelete.setValue(response.code());
             }
 
             @Override
@@ -130,14 +136,35 @@ public class ReportViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<Integer> getStatusCode() {return statusCode;}
+    public void modifyReportOnWeb(Report report) {
+        webService.modifyReport(reportMapper.mapToReportDto(report)).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                _statusCodePatch.setValue(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
+            }
+        });
+    }
+
+    public LiveData<Integer> getStatusCodeCreation() {
+        return statusCodeCreation;
+    }
+    public LiveData<Integer> getStatusCodeDelete() {return statusCodeDelete;}
+    public LiveData<Integer> getStatusCodePatch() {
+        return statusCodePatch;
+    }
+
     public LiveData<List<Report>> getReports() {
         return reports;
     }
-
     public LiveData<NetworkError> getError() {
         return error;
     }
+
     public LiveData<HashMap<String, String>> getInputErrors() {
         return inputErrors;
     }

@@ -31,6 +31,7 @@ public class ReportCreationFragment extends Fragment {
     private ReportViewModel reportViewModel;
     private ReportTypeViewModel reportTypeViewModel;
     private Spinner reportType;
+    private TextView reportText;
     private TextView description;
     private TextView street;
     private TextView houseNumber;
@@ -51,13 +52,17 @@ public class ReportCreationFragment extends Fragment {
         View root = inflater.inflate(R.layout.report_creation_fragment, container, false);
         this.context = getContext();
 
-        reportType = (Spinner) root.findViewById(R.id.create_report_report_type);
-        description = (TextView) root.findViewById(R.id.create_report_description);
-        street = (TextView) root.findViewById(R.id.create_report_street);
-        houseNumber = (TextView) root.findViewById(R.id.create_report_house_number);
-        zipCode = (TextView) root.findViewById(R.id.create_report_zip_code);
-        city = (TextView) root.findViewById(R.id.create_report_city);
-        createReportButton = (Button) root.findViewById(R.id.create_report_button);
+        reportText = root.findViewById(R.id.text_report);
+        reportType = root.findViewById(R.id.create_report_report_type);
+        description = root.findViewById(R.id.create_report_description);
+        street = root.findViewById(R.id.create_report_street);
+        houseNumber = root.findViewById(R.id.create_report_house_number);
+        zipCode = root.findViewById(R.id.create_report_zip_code);
+        city = root.findViewById(R.id.create_report_city);
+        createReportButton = root.findViewById(R.id.report_button);
+
+        reportText.setText(R.string.create_report);
+        createReportButton.setText(R.string.create_report_button);
 
         createReportButton.setOnClickListener(v -> {
             if(MainActivity.isUserConnected()) {
@@ -86,9 +91,9 @@ public class ReportCreationFragment extends Fragment {
                     reportViewModel.postReportOnWeb(report);
                 }
             } else {
-                InformationDialog test = InformationDialog.getInstance();
-                test.setInformation(R.string.login_connexion, R.string.asking_connection_report);
-                test.show(getParentFragmentManager().beginTransaction(), null);
+                InformationDialog informationDialog = InformationDialog.getInstance();
+                informationDialog.setInformation(R.string.login_connexion, R.string.asking_connection_report);
+                informationDialog.show(getParentFragmentManager().beginTransaction(), null);
             }
         });
 
@@ -155,7 +160,7 @@ public class ReportCreationFragment extends Fragment {
             createReportButton.setEnabled(inputErrors.isEmpty());
         });
 
-        reportViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
+        reportViewModel.getStatusCodeCreation().observe(getViewLifecycleOwner(), code -> {
             Integer typeMessage;
             Integer message;
             switch(code) {

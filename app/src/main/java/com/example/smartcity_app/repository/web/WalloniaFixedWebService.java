@@ -14,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -30,6 +31,9 @@ public interface WalloniaFixedWebService {
 
     @POST("v1/report")
     Call<Object> postReport(@Body ReportDto reportDto);
+
+    @PATCH("v1/report")
+    Call<Object> modifyReport(@Body ReportDto reportDto);
 
     @GET("v1/event/forreport/{reportId}")
     Call<List<EventDto>> getEventsWithReportId(@Path("reportId") int reportId);

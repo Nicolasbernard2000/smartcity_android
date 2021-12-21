@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.view.dialog.ReportDeleteDialog;
+import com.example.smartcity_app.view.dialog.ReportModifyDialog;
 
 import java.util.List;
 
@@ -25,18 +26,25 @@ public class PersonalReportRecyclerView {
         private TextView type;
         private TextView status;
         private ImageButton deleteButton;
+        private ImageButton modifyButton;
         private Context context;
 
-        public PersonalReportViewHolder(@NonNull View itemView, PersonalReportRecyclerView.OnItemSelectedListener listener) {
+        public PersonalReportViewHolder(@NonNull View itemView, PersonalReportRecyclerView.OnItemSelectedListener deleteListener, PersonalReportRecyclerView.OnItemSelectedListener modifyListener) {
             super(itemView);
             location = itemView.findViewById(R.id.personal_report_recycler_item_location);
             type = itemView.findViewById(R.id.personal_report_recycler_item_type);
             status = itemView.findViewById(R.id.personal_report_recycler_item_status);
             deleteButton = itemView.findViewById(R.id.personal_report_delete_button);
+            modifyButton = itemView.findViewById(R.id.personal_report_modify_button);
 
             deleteButton.setOnClickListener(v -> {
                 int currentPosition = getAdapterPosition();
-                listener.onItemSelected(currentPosition);
+                deleteListener.onItemSelected(currentPosition);
+            });
+
+            modifyButton.setOnClickListener(v -> {
+                int currentPosition = getAdapterPosition();
+                modifyListener.onItemSelected(currentPosition);
             });
         }
     }
@@ -63,6 +71,12 @@ public class PersonalReportRecyclerView {
                 reportDeleteDialog.setTargetFragment(fragment, 0);
                 reportDeleteDialog.setReport(report);
                 reportDeleteDialog.show(fragment.getParentFragmentManager(), null);
+            }, position -> {
+                Report report = reports.get(position);
+                ReportModifyDialog reportModifyDialog = ReportModifyDialog.getInstance();
+                reportModifyDialog.setTargetFragment(fragment, 0);
+                reportModifyDialog.setReport(report);
+                reportModifyDialog.show(fragment.getParentFragmentManager(), null);
             });
         }
 

@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.util.CallbackReportDelete;
+import com.example.smartcity_app.util.errors.CallbackReportModify;
 import com.example.smartcity_app.view.MainActivity;
 import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.view.recyclerView.PersonalReportRecyclerView.PersonalReportAdapter;
 import com.example.smartcity_app.viewModel.ReportViewModel;
 
-public class ProfilePersonalReportsFragment extends Fragment implements CallbackReportDelete {
+public class ProfilePersonalReportsFragment extends Fragment implements CallbackReportDelete, CallbackReportModify {
     private ReportViewModel reportViewModel;
     private RecyclerView reportsRecyclerView;
     private PersonalReportAdapter personalReportAdapter;
@@ -55,7 +56,7 @@ public class ProfilePersonalReportsFragment extends Fragment implements Callback
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
         });
 
-        reportViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
+        reportViewModel.getStatusCodeDelete().observe(getViewLifecycleOwner(), code -> {
             Integer typeMessage;
             Integer message;
             switch(code) {
@@ -84,10 +85,45 @@ public class ProfilePersonalReportsFragment extends Fragment implements Callback
             informationDialog.setInformation(typeMessage, message);
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
         });
+
+        reportViewModel.getStatusCodePatch().observe(getViewLifecycleOwner(), code -> {
+            Integer typeMessage;
+            Integer message;
+            switch(code) {
+                case 204:
+                    typeMessage = R.string.success;
+                    message = R.string.report_modified;
+                    reportViewModel.getReportsFromWebWithUserId(MainActivity.getUser().getId());
+                    break;
+                case 400:
+                    typeMessage = R.string.error;
+                    message = R.string.error_request;
+                    break;
+                case 404:
+                    typeMessage = R.string.error;
+                    message = R.string.wrong_datas;
+                    break;
+                case 500:
+                    typeMessage = R.string.error;
+                    message = R.string.error_servor;
+                    break;
+                default:
+                    typeMessage = R.string.error;
+                    message = R.string.error_unknown;
+            }
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(typeMessage, message);
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
     }
 
     @Override
     public void deleteReport(Report report) {
         reportViewModel.deleteReportOnWeb(report);
+    }
+
+    @Override
+    public void modifyReport(Report report) {
+        reportViewModel.modifyReportOnWeb(report);
     }
 }

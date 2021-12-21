@@ -113,6 +113,8 @@
     <string name="settings">Paramètres</string>
     <string name="language">Langue</string>
     <string name="close">Fermer</string>
-    <string name="berg_thibaut">Thibaut BERG</string>
-    <string name="bernard_nicolas">Nicolas BERNARD</string>
+    <string name="berg_thibaut" translatable="false">Thibaut BERG</string>
+    <string name="bernard_nicolas" translatable="false">Nicolas BERNARD</string>
+    <string name="report_modify" >Modifier le signalement</string>
+    <string name="report_modified" >Signalement modifié</string>
 </resources>
