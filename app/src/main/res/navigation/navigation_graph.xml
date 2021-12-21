@@ -48,5 +48,5 @@
         android:id="@+id/fragment_create_event"
         android:name="com.example.smartcity_app.view.dialog.EventCreationDialog"
         android:label="event_creation_fragment"
-        tools:layout="@layout/event_creation_fragment" />
+        tools:layout="@layout/event_operation_fragment" />
 </navigation>

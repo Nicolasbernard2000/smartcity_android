@@ -7,12 +7,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -22,29 +16,42 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Event;
 import com.example.smartcity_app.util.CallbackEventCreation;
+import com.example.smartcity_app.util.CallbackEventModify;
 import com.example.smartcity_app.viewModel.EventViewModel;
 
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class EventCreationDialog extends DialogFragment {
+public class EventOperationDialog extends DialogFragment {
     private TextView eventText;
     private EditText date;
     private EditText hour;
     private EditText duration;
     private EditText description;
-    private CallbackEventCreation host;
+    private CallbackEventCreation hostCreation;
+    private CallbackEventModify hostModification;
     private GregorianCalendar dateHour = new GregorianCalendar();
     private EventViewModel eventViewModel;
     private boolean areDataGood = true;
+    private Event event;
+
+    public EventOperationDialog(Event event) {
+        this.event = event;
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        host = (CallbackEventCreation) getTargetFragment();
+        hostCreation = (CallbackEventCreation) getTargetFragment();
+        hostModification = (CallbackEventModify) getTargetFragment();
     }
 
     @NonNull
@@ -52,14 +59,31 @@ public class EventCreationDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View root = inflater.inflate(R.layout.event_creation_fragment, null);
+        View root = inflater.inflate(R.layout.event_operation_fragment, null);
 
         eventText = root.findViewById(R.id.text_event);
-        eventText.setText(R.string.event_creation);
         date = root.findViewById(R.id.create_event_date);
         hour = root.findViewById(R.id.create_event_hour);
         duration = root.findViewById(R.id.create_event_duration);
         description = root.findViewById(R.id.create_event_description);
+
+        if(event != null) {
+            eventText.setText(R.string.event_modify);
+            GregorianCalendar calendar = new GregorianCalendar();
+            calendar.setTime(event.getDateHour());
+            int day = calendar.get(GregorianCalendar.DAY_OF_MONTH);
+            int month = calendar.get(GregorianCalendar.MONTH);
+            int year = calendar.get(GregorianCalendar.YEAR);
+            int hourOfDay = calendar.get(GregorianCalendar.HOUR_OF_DAY);
+            int minute = calendar.get(GregorianCalendar.MINUTE);
+
+            date.setText(String.format("%02d", day) + "/" + String.format("%02d", month + 1) + "/" + year);
+            hour.setText(String.format("%02d", hourOfDay) + ":" + String.format("%02d", minute));
+            duration.setText(event.getDuration() + "");
+            description.setText(event.getDescription());
+        } else {
+            eventText.setText(R.string.event_creation);
+        }
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -127,11 +151,11 @@ public class EventCreationDialog extends DialogFragment {
         });
 
         builder.setView(root)
-                .setPositiveButton(R.string.create_event, null)
+                .setPositiveButton((event == null ? R.string.create_event : R.string.modify), null)
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        EventCreationDialog.this.getDialog().dismiss();
+                        EventOperationDialog.this.getDialog().dismiss();
                     }
                 });
 
@@ -151,8 +175,16 @@ public class EventCreationDialog extends DialogFragment {
                         Date dateValue = new Date(dateHour.getTimeInMillis());
                         Integer durationValue = Integer.parseInt(duration.getText().toString());
                         String descriptionValue = description.getText().toString();
-                        Event event = new Event(dateValue, durationValue, descriptionValue, null, null);
-                        host.createEvent(event);
+
+                        if(event == null) {
+                            Event event = new Event(dateValue, durationValue, descriptionValue, null, null);
+                            hostCreation.createEvent(event);
+                        } else {
+                            event.setDateHour(dateValue);
+                            event.setDuration(durationValue);
+                            event.setDescription(descriptionValue);
+                            hostModification.modifyEvent(event);
+                        }
                         dismiss();
                     }
                 }

@@ -28,7 +28,7 @@ import com.example.smartcity_app.util.CallbackEventDelete;
 import com.example.smartcity_app.util.CallbackEventModify;
 import com.example.smartcity_app.util.CallbackParticipationModification;
 import com.example.smartcity_app.view.MainActivity;
-import com.example.smartcity_app.view.dialog.EventCreationDialog;
+import com.example.smartcity_app.view.dialog.EventOperationDialog;
 import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.view.recyclerView.EventRecyclerView.EventAdapter;
 import com.example.smartcity_app.util.CallbackEventCreation;
@@ -109,9 +109,9 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
                 test.setInformation(R.string.login_connexion, R.string.asking_connection_event);
                 test.show(getParentFragmentManager().beginTransaction(), null);
             } else {
-                EventCreationDialog eventCreationFragment = new EventCreationDialog();
-                eventCreationFragment.setTargetFragment(this, 0);
-                eventCreationFragment.show(getParentFragmentManager().beginTransaction(), null);
+                EventOperationDialog eventOperationDialog = new EventOperationDialog(null);
+                eventOperationDialog.setTargetFragment(this, 0);
+                eventOperationDialog.show(getParentFragmentManager().beginTransaction(), null);
             }
         });
 

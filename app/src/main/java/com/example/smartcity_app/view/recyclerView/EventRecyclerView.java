@@ -18,6 +18,7 @@ import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Event;
 import com.example.smartcity_app.view.MainActivity;
 import com.example.smartcity_app.view.dialog.EventDeleteDialog;
+import com.example.smartcity_app.view.dialog.EventOperationDialog;
 import com.example.smartcity_app.view.dialog.ParticipationDialog;
 
 import java.util.GregorianCalendar;
@@ -94,7 +95,9 @@ public class EventRecyclerView {
                 eventDeleteDialog.show(fragment.getParentFragmentManager(), null);
             }, position -> {
                 Event event = events.get(position);
-
+                EventOperationDialog eventOperationDialog = new EventOperationDialog(event);
+                eventOperationDialog.setTargetFragment(fragment, 0);
+                eventOperationDialog.show(fragment.getParentFragmentManager(), null);
             });
         }
 
