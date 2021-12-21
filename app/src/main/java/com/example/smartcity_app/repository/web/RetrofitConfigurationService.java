@@ -16,6 +16,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory;
 
 public class RetrofitConfigurationService {
     private static final String BASE_URL = "https://iesn-smartcity-api.herokuapp.com/";
+    //"https://iesn-smartcity-api.herokuapp.com/"
+    //http://192.168.0.137:2001
 
     private Retrofit retrofitClient;
 

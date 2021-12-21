@@ -6,6 +6,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,8 @@ import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Event;
 import com.example.smartcity_app.model.Participation;
 import com.example.smartcity_app.model.Report;
+import com.example.smartcity_app.util.CallbackEventDelete;
+import com.example.smartcity_app.util.CallbackEventModify;
 import com.example.smartcity_app.util.CallbackParticipationModification;
 import com.example.smartcity_app.view.MainActivity;
 import com.example.smartcity_app.view.dialog.EventCreationDialog;
@@ -42,7 +45,7 @@ import java.io.IOException;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class ReportFragment extends Fragment implements CallbackEventCreation, CallbackParticipationModification, OnMapReadyCallback {
+public class ReportFragment extends Fragment implements CallbackEventCreation, CallbackParticipationModification, CallbackEventDelete, CallbackEventModify, OnMapReadyCallback {
     private TextView locationTextView;
     private TextView dateTextView;
     private TextView typeTextView;
@@ -140,7 +143,7 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         eventsRecyclerView.setAdapter(eventAdapter);
         eventViewModel.getEventsFromWebWithReportId(report.getId());
 
-        eventViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
+        eventViewModel.getStatusCodeCreation().observe(getViewLifecycleOwner(), code -> {
             int typeMessage;
             int message;
             switch(code) {
@@ -152,6 +155,66 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
                 case 404:
                     typeMessage = R.string.error;
                     message = R.string.error_id;
+                    break;
+                case 500:
+                    typeMessage = R.string.error;
+                    message = R.string.error_servor;
+                    break;
+                default:
+                    typeMessage = R.string.error;
+                    message = R.string.error_unknown;
+            }
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(typeMessage, message);
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
+
+        eventViewModel.getStatusCodeDelete().observe(getViewLifecycleOwner(), code -> {
+            Integer typeMessage;
+            Integer message;
+            switch(code) {
+                case 204:
+                    typeMessage = R.string.success;
+                    message = R.string.event_deleted;
+                    eventViewModel.getEventsFromWebWithReportId(report.getId());
+                    break;
+                case 400:
+                    typeMessage = R.string.error;
+                    message = R.string.error_request;
+                    break;
+                case 404:
+                    typeMessage = R.string.error;
+                    message = R.string.wrong_datas;
+                    break;
+                case 500:
+                    typeMessage = R.string.error;
+                    message = R.string.error_servor;
+                    break;
+                default:
+                    typeMessage = R.string.error;
+                    message = R.string.error_unknown;
+            }
+            InformationDialog informationDialog = InformationDialog.getInstance();
+            informationDialog.setInformation(typeMessage, message);
+            informationDialog.show(getParentFragmentManager().beginTransaction(), null);
+        });
+
+        eventViewModel.getStatusCodePatch().observe(getViewLifecycleOwner(), code -> {
+            Integer typeMessage;
+            Integer message;
+            switch(code) {
+                case 204:
+                    typeMessage = R.string.success;
+                    message = R.string.report_modified;
+                    eventViewModel.getEventsFromWebWithReportId(report.getId());
+                    break;
+                case 400:
+                    typeMessage = R.string.error;
+                    message = R.string.error_request;
+                    break;
+                case 404:
+                    typeMessage = R.string.error;
+                    message = R.string.wrong_datas;
                     break;
                 case 500:
                     typeMessage = R.string.error;
@@ -273,29 +336,13 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         super.onLowMemory();
     }
 
-    public LatLng getLocationFromAddress(Context context, String strAddress) {
-        Geocoder coder= new Geocoder(context);
-        List<Address> address;
-        LatLng p1 = null;
+    @Override
+    public void deleteEvent(Event event) {
+        eventViewModel.deleteEventOnWeb(event);
+    }
 
-        try
-        {
-            address = coder.getFromLocationName(strAddress, 5);
-            if(address==null)
-            {
-                return null;
-            }
-            Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-
-            p1 = new LatLng(location.getLatitude(), location.getLongitude());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        return p1;
-
+    @Override
+    public void modifyEvent(Event event) {
+        eventViewModel.modifyEventOnWeb(event);
     }
 }

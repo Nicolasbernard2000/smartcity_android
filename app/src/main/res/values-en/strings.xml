@@ -86,7 +86,7 @@
     <string name="profile_own_reports">My reports</string>
     <string name="modify">Change</string>
     <string name="delete">Delete</string>
-    <string name="delete_report">Do you really want to delete this report ? \n\nIt will be definitively deleted.</string>
+    <string name="delete_report">Do you really want to delete this report ?   It will be definitively deleted.</string>
     <string name="im_certain">I\'m certain</string>
     <string name="report_deleted">Report has been deleted</string>
     <string name="minutes">Minutes</string>
@@ -100,4 +100,6 @@
     <string name="close">Close</string>
     <string name="report_modify">Change the report</string>
     <string name="report_modified">Report has been modified</string>
+    <string name="delete_event">Do you really want to delete this event ?   It will be definitively deleted.</string>
+    <string name="event_deleted" >Event has been deleted</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.smartcity_app.viewModel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -28,8 +29,14 @@ public class EventViewModel extends AndroidViewModel {
     private MutableLiveData<List<Event>> _events = new MutableLiveData<>();
     private LiveData<List<Event>> events = _events;
 
-    private MutableLiveData<Integer> _statusCode = new MutableLiveData<>();
-    private LiveData<Integer> statusCode = _statusCode;
+    private MutableLiveData<Integer> _statusCodeCreation = new MutableLiveData<>();
+    private LiveData<Integer> statusCodeCreation = _statusCodeCreation;
+
+    private MutableLiveData<Integer> _statusCodeDelete = new MutableLiveData<>();
+    private LiveData<Integer> statusCodeDelete = _statusCodeDelete;
+
+    private MutableLiveData<Integer> _statusCodePatch = new MutableLiveData<>();
+    private LiveData<Integer> statusCodePatch = _statusCodePatch;
 
     private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
     private LiveData<NetworkError> error = _error;
@@ -85,7 +92,35 @@ public class EventViewModel extends AndroidViewModel {
         webService.postEvent(eventMapper.mapToEventDto(event)).enqueue(new Callback<Object>() {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
-                _statusCode.setValue(response.code());
+                _statusCodeCreation.setValue(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
+            }
+        });
+    }
+
+    public void deleteEventOnWeb(Event event) {
+        webService.deleteEvent(eventMapper.mapToEventDto(event)).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                _statusCodeDelete.setValue(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
+            }
+        });
+    }
+
+    public void modifyEventOnWeb(Event event) {
+        webService.modifyEvent(eventMapper.mapToEventDto(event)).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                _statusCodePatch.setValue(response.code());
             }
 
             @Override
@@ -98,12 +133,17 @@ public class EventViewModel extends AndroidViewModel {
     public LiveData<List<Event>> getEvents() {
         return events;
     }
-    public LiveData<Integer> getStatusCode() {
-        return statusCode;
+    public LiveData<Integer> getStatusCodeCreation() {
+        return _statusCodeCreation;
+    }
+    public LiveData<Integer> getStatusCodeDelete() {return statusCodeDelete;}
+    public LiveData<Integer> getStatusCodePatch() {
+        return statusCodePatch;
     }
     public LiveData<HashMap<String, String>> getInputErrors() {
         return inputErrors;
     }
+
     public LiveData<NetworkError> getError() {
         return error;
     }

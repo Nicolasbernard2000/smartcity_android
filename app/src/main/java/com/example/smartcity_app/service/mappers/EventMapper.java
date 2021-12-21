@@ -40,7 +40,7 @@ public class EventMapper {
     public EventDto mapToEventDto(Event event) {
         if(event == null)
             return null;
-        EventDto eventDto = new EventDto(null, event.getDateHour(), event.getDuration(), event.getDescription(), event.getCreatedAt(), event.getReportId(), event.getCreatorId());
+        EventDto eventDto = new EventDto(event.getId(), event.getDateHour(), event.getDuration(), event.getDescription(), event.getCreatedAt(), event.getReportId(), event.getCreatorId());
         return eventDto;
     }
 }

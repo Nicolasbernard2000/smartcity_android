@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.smartcity_app.R;
@@ -30,6 +31,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 public class EventCreationDialog extends DialogFragment {
+    private TextView eventText;
     private EditText date;
     private EditText hour;
     private EditText duration;
@@ -52,10 +54,12 @@ public class EventCreationDialog extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View root = inflater.inflate(R.layout.event_creation_fragment, null);
 
-        date = (EditText) root.findViewById(R.id.create_event_date);
-        hour = (EditText) root.findViewById(R.id.create_event_hour);
-        duration = (EditText) root.findViewById(R.id.create_event_duration);
-        description = (EditText) root.findViewById(R.id.create_event_description);
+        eventText = root.findViewById(R.id.text_event);
+        eventText.setText(R.string.event_creation);
+        date = root.findViewById(R.id.create_event_date);
+        hour = root.findViewById(R.id.create_event_hour);
+        duration = root.findViewById(R.id.create_event_duration);
+        description = root.findViewById(R.id.create_event_description);
 
         TextWatcher textWatcher = new TextWatcher() {
             @Override

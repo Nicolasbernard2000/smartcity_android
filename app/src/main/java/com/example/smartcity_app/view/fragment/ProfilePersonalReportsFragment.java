@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.util.CallbackReportDelete;
-import com.example.smartcity_app.util.errors.CallbackReportModify;
+import com.example.smartcity_app.util.CallbackReportModify;
 import com.example.smartcity_app.view.MainActivity;
 import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.view.recyclerView.PersonalReportRecyclerView.PersonalReportAdapter;

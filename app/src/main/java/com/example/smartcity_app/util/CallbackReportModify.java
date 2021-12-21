@@ -1,4 +1,4 @@
-package com.example.smartcity_app.util.errors;
+package com.example.smartcity_app.util;
 
 import com.example.smartcity_app.model.Report;
 

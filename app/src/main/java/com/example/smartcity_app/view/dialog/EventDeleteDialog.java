@@ -13,21 +13,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.smartcity_app.R;
-import com.example.smartcity_app.model.Report;
-import com.example.smartcity_app.util.CallbackReportDelete;
+import com.example.smartcity_app.model.Event;
+import com.example.smartcity_app.util.CallbackEventDelete;
 
-public class ReportDeleteDialog extends DialogFragment {
+public class EventDeleteDialog extends DialogFragment {
     private TextView informationTypeTextView;
     private TextView informationTextView;
-    private static ReportDeleteDialog instance;
-    private CallbackReportDelete host;
-    private Report report;
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-        host = (CallbackReportDelete) getTargetFragment();
-    }
+    private static EventDeleteDialog instance;
+    private CallbackEventDelete host;
+    private Event event;
 
     @NonNull
     @Override
@@ -39,33 +33,39 @@ public class ReportDeleteDialog extends DialogFragment {
         informationTypeTextView = view.findViewById(R.id.information_type);
         informationTextView = view.findViewById(R.id.information);
         informationTypeTextView.setText(getContext().getResources().getText(R.string.delete));
-        informationTextView.setText(getContext().getResources().getText(R.string.delete_report));
+        informationTextView.setText(getContext().getResources().getText(R.string.delete_event));
 
         builder.setView(view)
                 .setPositiveButton(R.string.im_certain, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        host.deleteReport(report);
-                        ReportDeleteDialog.this.getDialog().cancel();
+                        host.deleteEvent(event);
+                        EventDeleteDialog.this.getDialog().cancel();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        ReportDeleteDialog.this.getDialog().cancel();
+                        EventDeleteDialog.this.getDialog().cancel();
                     }
                 });
 
         return builder.create();
     }
 
-    public static ReportDeleteDialog getInstance() {
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        host = (CallbackEventDelete) getTargetFragment();
+    }
+
+    public static EventDeleteDialog getInstance() {
         if(instance == null)
-            instance = new ReportDeleteDialog();
+            instance = new EventDeleteDialog();
         return instance;
     }
 
-    public void setReport(Report report){
-        this.report = report;
+    public void setEvent(Event event) {
+        this.event = event;
     }
 }

@@ -27,7 +27,6 @@ public class PersonalReportRecyclerView {
         private TextView status;
         private ImageButton deleteButton;
         private ImageButton modifyButton;
-        private Context context;
 
         public PersonalReportViewHolder(@NonNull View itemView, PersonalReportRecyclerView.OnItemSelectedListener deleteListener, PersonalReportRecyclerView.OnItemSelectedListener modifyListener) {
             super(itemView);

@@ -9,7 +9,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,13 +20,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
-import com.example.smartcity_app.model.ReportType;
-import com.example.smartcity_app.util.errors.CallbackReportModify;
+import com.example.smartcity_app.util.CallbackReportModify;
 import com.example.smartcity_app.view.MainActivity;
-import com.example.smartcity_app.viewModel.ReportTypeViewModel;
 import com.example.smartcity_app.viewModel.ReportViewModel;
-
-import java.util.ArrayList;
 
 public class ReportModifyDialog extends DialogFragment {
     private static ReportModifyDialog instance;
@@ -55,7 +50,7 @@ public class ReportModifyDialog extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder((getActivity()));
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.report_creation_fragment, null);
+        View view = inflater.inflate(R.layout.report_operation_fragment, null);
 
         reportText = view.findViewById(R.id.text_report);
         reportType = view.findViewById(R.id.create_report_report_type);

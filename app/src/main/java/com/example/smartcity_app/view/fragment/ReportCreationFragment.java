@@ -49,7 +49,7 @@ public class ReportCreationFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.report_creation_fragment, container, false);
+        View root = inflater.inflate(R.layout.report_operation_fragment, container, false);
         this.context = getContext();
 
         reportText = root.findViewById(R.id.text_report);
