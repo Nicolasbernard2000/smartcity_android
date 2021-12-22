@@ -41,6 +41,9 @@ public interface WalloniaFixedWebService {
     @POST("v1/user")
     Call<UserDto> postUser(@Body UserDto userDto);
 
+    @PATCH("v1/user")
+    Call<Object> modifyAccount(@Body UserDto userDto);
+
     @POST("v1/login")
     Call<String> log(@Body LoginDto loginDto);
 

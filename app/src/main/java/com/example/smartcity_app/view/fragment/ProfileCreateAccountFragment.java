@@ -30,7 +30,7 @@ import java.util.List;
 public class ProfileCreateAccountFragment extends Fragment {
     private EditText firstNameEditText, lastNameEditText, emailEditText, passwordEditText, confirmPasswordEditText;
     private EditText birthDateEditText, streetEditText, houseNumberEditText, zipCodeEditText, cityEditText;
-    private Button createUserButton;
+    private Button button;
     private UserViewModel userViewModel;
     private User user;
 
@@ -38,41 +38,41 @@ public class ProfileCreateAccountFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.profile_create_account_fragment, container, false);
 
-        firstNameEditText = (EditText) root.findViewById(R.id.create_account_edit_first_name);
-        lastNameEditText = (EditText) root.findViewById(R.id.create_account_edit_last_name);
-        emailEditText = (EditText) root.findViewById(R.id.create_account_edit_email);
-        passwordEditText = (EditText) root.findViewById(R.id.create_account_edit_password);
-        confirmPasswordEditText = (EditText) root.findViewById(R.id.create_account_edit_confirm_password);
-        birthDateEditText = (EditText) root.findViewById(R.id.create_account_edit_birthdate);
-        streetEditText = (EditText) root.findViewById(R.id.create_account_edit_street);
-        houseNumberEditText = (EditText) root.findViewById(R.id.create_account_edit_house_number);
-        zipCodeEditText = (EditText) root.findViewById(R.id.create_account_edit_zip_code);
-        cityEditText = (EditText) root.findViewById(R.id.create_account_edit_city);
-        createUserButton = (Button) root.findViewById(R.id.create_account_button);
+        firstNameEditText = root.findViewById(R.id.create_account_edit_first_name);
+        lastNameEditText = root.findViewById(R.id.create_account_edit_last_name);
+        emailEditText = root.findViewById(R.id.create_account_edit_email);
+        passwordEditText = root.findViewById(R.id.create_account_edit_password);
+        confirmPasswordEditText = root.findViewById(R.id.create_account_edit_confirm_password);
+        birthDateEditText = root.findViewById(R.id.create_account_edit_birthdate);
+        streetEditText = root.findViewById(R.id.create_account_edit_street);
+        houseNumberEditText = root.findViewById(R.id.create_account_edit_house_number);
+        zipCodeEditText = root.findViewById(R.id.create_account_edit_zip_code);
+        cityEditText = root.findViewById(R.id.create_account_edit_city);
+        button = root.findViewById(R.id.create_account_button);
 
-        createUserButton.setOnClickListener(v -> {
+        button.setOnClickListener(v -> {
             checkData();
 
-            if(createUserButton.isEnabled()) {
+            if(button.isEnabled()) {
                 List<String> date = Arrays.asList(birthDateEditText.getText().toString().split("/"));
                 int year = Integer.parseInt(date.get(2));
                 int month = Integer.parseInt(date.get(1));
                 int day = Integer.parseInt(date.get(0));
                 GregorianCalendar birthDateCalendar = new GregorianCalendar(year, month - 1, day, 12, 0, 0);
                 Date birthDateDate = new Date(birthDateCalendar.getTimeInMillis());
-                this.user = new User(
-                        emailEditText.getText().toString(),
-                        passwordEditText.getText().toString(),
-                        firstNameEditText.getText().toString(),
-                        lastNameEditText.getText().toString(),
-                        birthDateDate,
-                        cityEditText.getText().toString(),
-                        streetEditText.getText().toString(),
-                        Integer.parseInt(zipCodeEditText.getText().toString()),
-                        Integer.parseInt(houseNumberEditText.getText().toString())
-                );
-                createUserButton.setEnabled(false);
+                String emailText = emailEditText.getText().toString();
+                String passwordText = passwordEditText.getText().toString();
+                String firstnameText = firstNameEditText.getText().toString();
+                String lastnameText = lastNameEditText.getText().toString();
+                String cityText = cityEditText.getText().toString();
+                String streetText = streetEditText.getText().toString();
+                Integer zipCodeInteger = Integer.parseInt(zipCodeEditText.getText().toString());
+                Integer houseNumberInteger = Integer.parseInt(houseNumberEditText.getText().toString());
+
+                this.user = new User(emailText, passwordText, firstnameText, lastnameText, birthDateDate, cityText, streetText, zipCodeInteger, houseNumberInteger);
                 userViewModel.postUserOnWeb(user);
+
+                button.setEnabled(false);
             }
         });
 
@@ -87,7 +87,7 @@ public class ProfileCreateAccountFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(!createUserButton.isEnabled())
+                if(!button.isEnabled())
                     checkData();
             }
         };
@@ -145,10 +145,10 @@ public class ProfileCreateAccountFragment extends Fragment {
                 zipCodeEditText.setError(inputErrors.containsKey("zipCode") ? inputErrors.get("zipCode") : null);
                 cityEditText.setError(inputErrors.containsKey("city") ? inputErrors.get("city") : null);
             }
-            createUserButton.setEnabled(inputErrors.isEmpty());
+            button.setEnabled(inputErrors.isEmpty());
         });
 
-        userViewModel.getStatusCode().observe(getViewLifecycleOwner(), code -> {
+        userViewModel.getStatusCodeCreation().observe(getViewLifecycleOwner(), code -> {
             int typeMessage;
             int message;
             switch(code) {
@@ -172,14 +172,14 @@ public class ProfileCreateAccountFragment extends Fragment {
             InformationDialog informationDialog = InformationDialog.getInstance();
             informationDialog.setInformation(typeMessage, message);
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
-            createUserButton.setEnabled(true);
+            button.setEnabled(true);
         });
 
         userViewModel.getError().observe(getViewLifecycleOwner(), error -> {
             InformationDialog informationDialog = InformationDialog.getInstance();
             informationDialog.setInformation(R.string.error, error.getErrorMessage());
             informationDialog.show(getParentFragmentManager().beginTransaction(), null);
-            createUserButton.setEnabled(false);
+            button.setEnabled(false);
         });
     }
 

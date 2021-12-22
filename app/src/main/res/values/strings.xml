@@ -120,4 +120,7 @@
     <string name="delete_event">Êtes-vous certains de vouloir supprimer cet évènement ?   Il sera définitivement supprimé.</string>
     <string name="event_deleted" >L\'évènement a bien été supprimé.</string>
     <string name="event_modify">Modifier l\'évènement</string>
+    <string name="modify_account" >Modifier le compte</string>
+    <string name="modify_account_question" >Êtes-vous certains de vouloir modifier ce compte ? Vous devrez vous reconnecter par la suite.</string>
+    <string name="user_modified" >Le compte a bien été modifié</string>
 </resources>

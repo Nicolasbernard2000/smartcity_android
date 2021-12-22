@@ -24,8 +24,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserViewModel extends AndroidViewModel {
-    private MutableLiveData<Integer> _statusCode = new MutableLiveData<>();
-    private LiveData<Integer> statusCode = _statusCode;
+    private MutableLiveData<Integer> _statusCodeCreation = new MutableLiveData<>();
+    private LiveData<Integer> statusCodeCreation = _statusCodeCreation;
+
+    private MutableLiveData<Integer> _statusCodeModification = new MutableLiveData<>();
+    private LiveData<Integer> statusCodeModification = _statusCodeModification;
 
     private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
     private LiveData<NetworkError> error = _error;
@@ -76,12 +79,38 @@ public class UserViewModel extends AndroidViewModel {
         _inputErrors.setValue(errors);
     }
 
+    public void checkData(String firstName, String lastName, String street, String houseNumber, String zipCode, String city, String birthDate) {
+        HashMap<String, String> errors = new HashMap<>();
+
+        if(!InputCheck.isInputValid(firstName))
+            errors.put("firstName", getApplication().getResources().getString(R.string.error_first_name));
+
+        if(!InputCheck.isInputValid(lastName))
+            errors.put("lastName", getApplication().getResources().getString(R.string.error_last_name));
+
+        if(!InputCheck.isInputValid(street))
+            errors.put("street", getApplication().getResources().getString(R.string.error_street));
+
+        if(!InputCheck.isHouseNumberValid(houseNumber))
+            errors.put("houseNumber", getApplication().getResources().getString(R.string.error_house_number));
+
+        if(!InputCheck.isZipCodeValid(zipCode))
+            errors.put("zipCode", getApplication().getResources().getString(R.string.error_zip_code));
+
+        if(!InputCheck.isInputValid(city))
+            errors.put("city", getApplication().getResources().getString(R.string.error_city));
+
+        if(!InputCheck.isBirthDateValid(birthDate))
+            errors.put("birthDate", getApplication().getResources().getString(R.string.error_birthdate));
+
+        _inputErrors.setValue(errors);
+    }
+
     public void postUserOnWeb(User user) {
         webService.postUser(userMapper.mapToUserDto(user)).enqueue(new Callback<UserDto>() {
-
             @Override
             public void onResponse(Call<UserDto> call, Response<UserDto> response) {
-                _statusCode.setValue(response.code());
+                _statusCodeCreation.setValue(response.code());
             }
 
             @Override
@@ -91,12 +120,31 @@ public class UserViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<Integer> getStatusCode() {
-        return statusCode;
+    public void modifyUserOnWeb(User user) {
+        webService.modifyAccount(userMapper.mapToUserDto(user)).enqueue(new Callback<Object>() {
+            @Override
+            public void onResponse(Call<Object> call, Response<Object> response) {
+                _statusCodeModification.setValue(response.code());
+            }
+
+            @Override
+            public void onFailure(Call<Object> call, Throwable t) {
+                _error.setValue(t instanceof NoConnectivityException ? NetworkError.NO_CONNECTION : NetworkError.TECHNICAL_ERROR);
+            }
+        });
     }
+
+    public LiveData<Integer> getStatusCodeCreation() {
+        return statusCodeCreation;
+    }
+    public LiveData<Integer> getStatusCodeModification() {
+        return statusCodeModification;
+    }
+
     public LiveData<HashMap<String, String>> getInputErrors() {
         return inputErrors;
     }
+
     public LiveData<NetworkError> getError() {
         return error;
     }

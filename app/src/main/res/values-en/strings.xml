@@ -103,4 +103,7 @@
     <string name="delete_event">Do you really want to delete this event ?   It will be definitively deleted.</string>
     <string name="event_deleted" >Event has been deleted</string>
     <string name="event_modify">Change the event</string>
+    <string name="modify_account">Modify the account</string>
+    <string name="modify_account_question">Do you really want to change this account ? You\'ll have to log again.</string>
+    <string name="user_modified">The account has been modified</string>
 </resources>
