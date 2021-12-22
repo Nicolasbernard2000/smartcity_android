@@ -50,7 +50,7 @@
     <string name="error_request">Error request</string>
     <string name="error_technical">An error has occurred by our side</string>
     <string name="error_servor">An error has occurred by our side</string>
-    <string name="error_unknown">An unknown error has occurred</string>
+    <string name="error_unknown">An unknown error has occurred. Disconnecting and reconnecting could resolve this error.</string>
     <string name="profile_personnal_reports">Personal reports</string>
     <string name="report_created">The report has been created</string>
     <string name="state_pending">Waiting</string>

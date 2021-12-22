@@ -61,7 +61,7 @@
     <string name="error_request">Erreur requête</string>
     <string name="error_technical">Une erreur s\'est produite de notre côté</string>
     <string name="error_servor">Une erreur s\'est produite de notre côté</string>
-    <string name="error_unknown">Une erreur inconnue s\'est produite</string>
+    <string name="error_unknown">Une erreur inconnue s\'est produite. Se déconnecter et se reconnecter pourrait résoudre cette erreur.</string>
 
     <string name="profile_personnal_reports">Signalements personnels</string>
     <string name="report_created">Le signalement a bien été créé</string>
