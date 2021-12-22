@@ -1,7 +1,5 @@
 package com.example.smartcity_app.service.mappers;
 
-import android.util.Log;
-
 import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.repository.web.dto.UserDto;
 
@@ -25,7 +23,6 @@ public class UserMapper {
             User user = new User(dto.getId(), dto.getEmail(), dto.getPassword(), dto.getFirstName(), dto.getLastName(), dto.getBirthDate(), dto.getRole(), dto.getCity(), dto.getStreet(), dto.getZipCode(), dto.getHouseNumber());
             return user;
         } catch (Exception e) {
-            Log.v("DEBUG", "Erreur dans le mapping : " + e.getMessage());
             return null;
         }
     }

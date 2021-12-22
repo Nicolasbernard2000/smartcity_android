@@ -3,7 +3,6 @@ package com.example.smartcity_app.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import com.example.smartcity_app.util.errors.NoConnectivityException;
 
@@ -34,10 +33,8 @@ public class ConnectivityCheckInterceptor implements Interceptor {
 
     private boolean isOnline(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo nw = connectivityManager.getActiveNetworkInfo();
 
         NetworkInfo netInfo = connectivityManager == null ? null : connectivityManager.getActiveNetworkInfo();
-        Log.i("Debug", "Connexion : " + (netInfo != null));
         return netInfo != null && netInfo.isConnected();
     }
 }

@@ -2,11 +2,9 @@ package com.example.smartcity_app.view.fragment;
 
 import static com.example.smartcity_app.util.Constants.MAPVIEW_BUNDLE_KEY;
 
-import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

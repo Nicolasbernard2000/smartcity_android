@@ -19,10 +19,6 @@ public class User implements Serializable {
     private Integer zipCode;
     private Integer houseNumber;
 
-    public User() {
-        super();
-    }
-
     public User(Integer id, String email, String password, String firstName, String lastName, Date birthDate, String role, String city, String street, Integer zipCode, Integer houseNumber) {
         this.id = id;
         this.email = email;

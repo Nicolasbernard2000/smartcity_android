@@ -18,7 +18,6 @@ import com.example.smartcity_app.view.dialog.SettingsDialog;
 import com.example.smartcity_app.viewModel.LoginViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-
 public class MainActivity extends AppCompatActivity {
     private static User user = null;
     private BottomNavigationView bottomNavigationView;
