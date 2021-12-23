@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity_app.R;
+import com.example.smartcity_app.util.Constants;
 import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.view.recyclerView.ReportRecyclerView.ReportAdapter;
 import com.example.smartcity_app.viewModel.ReportViewModel;
@@ -57,7 +58,7 @@ public class RecyclerViewReportsFragment extends Fragment {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1) && !isWaitingAnswer) {
                     isWaitingAnswer = true;
-                    reportViewModel.getReportsWithOffsetLimitAndFilter(numberReports, 5, searchText);
+                    reportViewModel.getReportsWithOffsetLimitAndFilter(numberReports, Constants.NUMBER_OF_REPORTS_BY_LOAD, searchText);
                 }
             }
         });
