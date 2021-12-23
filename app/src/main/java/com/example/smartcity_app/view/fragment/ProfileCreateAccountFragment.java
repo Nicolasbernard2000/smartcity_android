@@ -132,15 +132,15 @@ public class ProfileCreateAccountFragment extends Fragment {
 
         userViewModel.getInputErrors().observe(getViewLifecycleOwner(), inputErrors -> {
             if(!inputErrors.isEmpty()) {
-                firstNameEditText.setError(inputErrors.containsKey("firstName") ? inputErrors.get("firstName") : null);
-                lastNameEditText.setError(inputErrors.containsKey("lastName") ? inputErrors.get("lastName") : null);
-                emailEditText.setError(inputErrors.containsKey("email") ? inputErrors.get("email") : null);
-                confirmPasswordEditText.setError(inputErrors.containsKey("password") ? inputErrors.get("password") : null);
-                birthDateEditText.setError(inputErrors.containsKey("birthDate") ? inputErrors.get("birthDate") : null);
-                streetEditText.setError(inputErrors.containsKey("street") ? inputErrors.get("street") : null);
-                houseNumberEditText.setError(inputErrors.containsKey("houseNumber") ? inputErrors.get("houseNumber") : null);
-                zipCodeEditText.setError(inputErrors.containsKey("zipCode") ? inputErrors.get("zipCode") : null);
-                cityEditText.setError(inputErrors.containsKey("city") ? inputErrors.get("city") : null);
+                firstNameEditText.setError(inputErrors.containsKey("firstName") ? getString(inputErrors.get("firstName")) : null);
+                lastNameEditText.setError(inputErrors.containsKey("lastName") ? getString(inputErrors.get("lastName")) : null);
+                emailEditText.setError(inputErrors.containsKey("email") ? getString(inputErrors.get("email")) : null);
+                confirmPasswordEditText.setError(inputErrors.containsKey("password") ? getString(inputErrors.get("password")) : null);
+                birthDateEditText.setError(inputErrors.containsKey("birthDate") ? getString(inputErrors.get("birthDate")) : null);
+                streetEditText.setError(inputErrors.containsKey("street") ? getString(inputErrors.get("street")) : null);
+                houseNumberEditText.setError(inputErrors.containsKey("houseNumber") ? getString(inputErrors.get("houseNumber")) : null);
+                zipCodeEditText.setError(inputErrors.containsKey("zipCode") ? getString(inputErrors.get("zipCode")) : null);
+                cityEditText.setError(inputErrors.containsKey("city") ? getString(inputErrors.get("city")) : null);
             }
             button.setEnabled(inputErrors.isEmpty());
         });

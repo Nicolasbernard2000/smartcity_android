@@ -200,10 +200,10 @@ public class EventOperationDialog extends DialogFragment {
 
         eventViewModel.getInputErrors().observe(getParentFragment().getViewLifecycleOwner(), inputErrors -> {
             if(!inputErrors.isEmpty()) {
-                date.setError(inputErrors.containsKey("date") ? inputErrors.get("date") : null);
-                hour.setError(inputErrors.containsKey("hour") ? inputErrors.get("hour") : null);
-                duration.setError(inputErrors.containsKey("duration") ? inputErrors.get("duration") : null);
-                description.setError(inputErrors.containsKey("description") ? inputErrors.get("description") : null);
+                date.setError(inputErrors.containsKey("date") ? getString(inputErrors.get("date")) : null);
+                hour.setError(inputErrors.containsKey("hour") ? getString(inputErrors.get("hour")) : null);
+                duration.setError(inputErrors.containsKey("duration") ? getString(inputErrors.get("duration")) : null);
+                description.setError(inputErrors.containsKey("description") ? getString(inputErrors.get("description")) : null);
             }
             areDataGood = inputErrors.isEmpty();
         });

@@ -40,8 +40,8 @@ public class EventViewModel extends AndroidViewModel {
     private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
     private LiveData<NetworkError> error = _error;
 
-    private MutableLiveData<HashMap<String, String>> _inputErrors = new MutableLiveData<>();
-    private LiveData<HashMap<String, String>> inputErrors = _inputErrors;
+    private MutableLiveData<HashMap<String, Integer>> _inputErrors = new MutableLiveData<>();
+    private LiveData<HashMap<String, Integer>> inputErrors = _inputErrors;
 
     private WalloniaFixedWebService webService;
     private EventMapper eventMapper;
@@ -54,19 +54,19 @@ public class EventViewModel extends AndroidViewModel {
     }
 
     public void checkData(String date, String hour, String duration, String description) {
-        HashMap<String, String> errors = new HashMap<>();
+        HashMap<String, Integer> errors = new HashMap<>();
 
         if(!InputCheck.isFutureDateValid(date))
-            errors.put("date", getApplication().getResources().getString(R.string.error_future_date));
+            errors.put("date", R.string.error_future_date);
 
         if(!InputCheck.isInputValid(hour))
-            errors.put("hour", getApplication().getResources().getString(R.string.error_hour));
+            errors.put("hour", R.string.error_hour);
 
         if(!InputCheck.isInputValid(duration))
-            errors.put("duration", getApplication().getResources().getString(R.string.error_duration));
+            errors.put("duration", R.string.error_duration);
 
         if(!InputCheck.isInputValid(description))
-            errors.put("description", getApplication().getResources().getString(R.string.error_description));
+            errors.put("description", R.string.error_description);
 
         _inputErrors.setValue(errors);
     }
@@ -139,7 +139,7 @@ public class EventViewModel extends AndroidViewModel {
     public LiveData<Integer> getStatusCodePatch() {
         return statusCodePatch;
     }
-    public LiveData<HashMap<String, String>> getInputErrors() {
+    public LiveData<HashMap<String, Integer>> getInputErrors() {
         return inputErrors;
     }
 

@@ -43,8 +43,8 @@ public class ReportViewModel extends AndroidViewModel {
     private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
     private LiveData<NetworkError> error = _error;
 
-    private MutableLiveData<HashMap<String , String>> _inputErrors = new MutableLiveData<>();
-    private LiveData<HashMap<String, String>> inputErrors = _inputErrors;
+    private MutableLiveData<HashMap<String , Integer>> _inputErrors = new MutableLiveData<>();
+    private LiveData<HashMap<String, Integer>> inputErrors = _inputErrors;
 
     private WalloniaFixedWebService webService;
     private ReportMapper reportMapper;
@@ -57,22 +57,22 @@ public class ReportViewModel extends AndroidViewModel {
     }
 
     public void checkData(String description, String street, String houseNumber, String zipCode, String city) {
-        HashMap<String, String> errors = new HashMap<>();
+        HashMap<String, Integer> errors = new HashMap<>();
 
         if(!InputCheck.isInputValid(description))
-            errors.put("description", getApplication().getResources().getString(R.string.error_description));
+            errors.put("description", R.string.error_description);
 
         if(!InputCheck.isInputValid(street))
-            errors.put("street", getApplication().getResources().getString(R.string.error_street));
+            errors.put("street", R.string.error_street);
 
         if(!InputCheck.isHouseNumberValid(houseNumber))
-            errors.put("houseNumber", getApplication().getResources().getString(R.string.error_house_number));
+            errors.put("houseNumber", R.string.error_house_number);
 
         if(!InputCheck.isZipCodeValid(zipCode))
-            errors.put("zipCode", getApplication().getResources().getString(R.string.error_zip_code));
+            errors.put("zipCode", R.string.error_zip_code);
 
         if(!InputCheck.isInputValid(city))
-            errors.put("city", getApplication().getResources().getString(R.string.error_city));
+            errors.put("city", R.string.error_city);
 
         _inputErrors.setValue(errors);
     }
@@ -165,7 +165,7 @@ public class ReportViewModel extends AndroidViewModel {
         return error;
     }
 
-    public LiveData<HashMap<String, String>> getInputErrors() {
+    public LiveData<HashMap<String, Integer>> getInputErrors() {
         return inputErrors;
     }
 }

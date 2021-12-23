@@ -158,11 +158,11 @@ public class ReportCreationFragment extends Fragment {
 
         reportViewModel.getInputErrors().observe(getViewLifecycleOwner(), inputErrors -> {
             if(!inputErrors.isEmpty()) {
-                description.setError(inputErrors.containsKey("description") ? inputErrors.get("description") : null);
-                street.setError(inputErrors.containsKey("street") ? inputErrors.get("street") : null);
-                houseNumber.setError(inputErrors.containsKey("houseNumber") ? inputErrors.get("houseNumber") : null);
-                zipCode.setError(inputErrors.containsKey("zipCode") ? inputErrors.get("zipCode") : null);
-                city.setError(inputErrors.containsKey("city") ? inputErrors.get("city") : null);
+                description.setError(inputErrors.containsKey("description") ? getString(inputErrors.get("description")) : null);
+                street.setError(inputErrors.containsKey("street") ? getString(inputErrors.get("street")) : null);
+                houseNumber.setError(inputErrors.containsKey("houseNumber") ? getString(inputErrors.get("houseNumber")) : null);
+                zipCode.setError(inputErrors.containsKey("zipCode") ? getString(inputErrors.get("zipCode")) : null);
+                city.setError(inputErrors.containsKey("city") ? getString(inputErrors.get("city")) : null);
             }
             createReportButton.setEnabled(inputErrors.isEmpty());
         });

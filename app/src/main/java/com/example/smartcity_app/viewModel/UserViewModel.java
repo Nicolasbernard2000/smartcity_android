@@ -33,8 +33,8 @@ public class UserViewModel extends AndroidViewModel {
     private MutableLiveData<NetworkError> _error = new MutableLiveData<>();
     private LiveData<NetworkError> error = _error;
 
-    private MutableLiveData<HashMap<String , String>> _inputErrors = new MutableLiveData<>();
-    private LiveData<HashMap<String, String>> inputErrors = _inputErrors;
+    private MutableLiveData<HashMap<String , Integer>> _inputErrors = new MutableLiveData<>();
+    private LiveData<HashMap<String, Integer>> inputErrors = _inputErrors;
 
     private WalloniaFixedWebService webService;
     private UserMapper userMapper;
@@ -47,61 +47,61 @@ public class UserViewModel extends AndroidViewModel {
 
     public void checkData(String firstName, String lastName, String email, String password, String confirmPassword,
                           String birthDate, String street, String houseNumber, String zipCode, String city) {
-        HashMap<String, String> errors = new HashMap<>();
+        HashMap<String, Integer> errors = new HashMap<>();
 
         if(!InputCheck.isInputValid(firstName))
-            errors.put("firstName", getApplication().getResources().getString(R.string.error_first_name));
+            errors.put("firstName", R.string.error_first_name);
 
         if(!InputCheck.isInputValid(lastName))
-            errors.put("lastName", getApplication().getResources().getString(R.string.error_last_name));
+            errors.put("lastName", R.string.error_last_name);
 
         if(!InputCheck.isEmailValid(email))
-            errors.put("email", getApplication().getResources().getString(R.string.error_email));
+            errors.put("email", R.string.error_email);
 
         if(!InputCheck.isPasswordValid(password, confirmPassword))
-            errors.put("password", getApplication().getResources().getString(R.string.error_password));
+            errors.put("password", R.string.error_password);
 
         if(!InputCheck.isBirthDateValid(birthDate))
-            errors.put("birthDate", getApplication().getResources().getString(R.string.error_birthdate));
+            errors.put("birthDate", R.string.error_birthdate);
 
         if(!InputCheck.isInputValid(street))
-            errors.put("street", getApplication().getResources().getString(R.string.error_street));
+            errors.put("street", R.string.error_street);
 
         if(!InputCheck.isHouseNumberValid(houseNumber))
-            errors.put("houseNumber", getApplication().getResources().getString(R.string.error_house_number));
+            errors.put("houseNumber", R.string.error_house_number);
 
         if(!InputCheck.isZipCodeValid(zipCode))
-            errors.put("zipCode", getApplication().getResources().getString(R.string.error_zip_code));
+            errors.put("zipCode", R.string.error_zip_code);
 
         if(!InputCheck.isInputValid(city))
-            errors.put("city", getApplication().getResources().getString(R.string.error_city));
+            errors.put("city", R.string.error_city);
 
         _inputErrors.setValue(errors);
     }
 
     public void checkData(String firstName, String lastName, String street, String houseNumber, String zipCode, String city, String birthDate) {
-        HashMap<String, String> errors = new HashMap<>();
+        HashMap<String, Integer> errors = new HashMap<>();
 
         if(!InputCheck.isInputValid(firstName))
-            errors.put("firstName", getApplication().getResources().getString(R.string.error_first_name));
+            errors.put("firstName", R.string.error_first_name);
 
         if(!InputCheck.isInputValid(lastName))
-            errors.put("lastName", getApplication().getResources().getString(R.string.error_last_name));
+            errors.put("lastName", R.string.error_last_name);
 
         if(!InputCheck.isInputValid(street))
-            errors.put("street", getApplication().getResources().getString(R.string.error_street));
+            errors.put("street", R.string.error_street);
 
         if(!InputCheck.isHouseNumberValid(houseNumber))
-            errors.put("houseNumber", getApplication().getResources().getString(R.string.error_house_number));
+            errors.put("houseNumber", R.string.error_house_number);
 
         if(!InputCheck.isZipCodeValid(zipCode))
-            errors.put("zipCode", getApplication().getResources().getString(R.string.error_zip_code));
+            errors.put("zipCode", R.string.error_zip_code);
 
         if(!InputCheck.isInputValid(city))
-            errors.put("city", getApplication().getResources().getString(R.string.error_city));
+            errors.put("city", R.string.error_city);
 
         if(!InputCheck.isBirthDateValid(birthDate))
-            errors.put("birthDate", getApplication().getResources().getString(R.string.error_birthdate));
+            errors.put("birthDate", R.string.error_birthdate);
 
         _inputErrors.setValue(errors);
     }
@@ -141,7 +141,7 @@ public class UserViewModel extends AndroidViewModel {
         return statusCodeModification;
     }
 
-    public LiveData<HashMap<String, String>> getInputErrors() {
+    public LiveData<HashMap<String, Integer>> getInputErrors() {
         return inputErrors;
     }
 

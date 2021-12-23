@@ -22,7 +22,6 @@
         android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/report_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_report">
@@ -102,18 +101,15 @@
                     android:hint="@string/city"
                     android:longClickable="false" />
             </com.google.android.material.textfield.TextInputLayout>
+            <Button
+                android:id="@+id/report_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:textColor="@color/colorSecond"
+                tools:text="Opération sur le report"/>
         </LinearLayout>
     </ScrollView>
 
-    <Button
-        android:id="@+id/report_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:textColor="@color/colorSecond"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Opération sur le report"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

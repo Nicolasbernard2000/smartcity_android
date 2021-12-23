@@ -176,13 +176,13 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
 
         userViewModel.getInputErrors().observe(getViewLifecycleOwner(), inputErrors -> {
             if(!inputErrors.isEmpty()) {
-                firstName.setError(inputErrors.containsKey("firstName") ? inputErrors.get("firstName") : null);
-                lastName.setError(inputErrors.containsKey("lastName") ? inputErrors.get("lastName") : null);
-                birthDate.setError(inputErrors.containsKey("birthDate") ? inputErrors.get("birthDate") : null);
-                street.setError(inputErrors.containsKey("street") ? inputErrors.get("street") : null);
-                houseNumber.setError(inputErrors.containsKey("houseNumber") ? inputErrors.get("houseNumber") : null);
-                zipCode.setError(inputErrors.containsKey("zipCode") ? inputErrors.get("zipCode") : null);
-                city.setError(inputErrors.containsKey("city") ? inputErrors.get("city") : null);
+                firstName.setError(inputErrors.containsKey("firstName") ? getString(inputErrors.get("firstName")) : null);
+                lastName.setError(inputErrors.containsKey("lastName") ? getString(inputErrors.get("lastName")) : null);
+                birthDate.setError(inputErrors.containsKey("birthDate") ? getString(inputErrors.get("birthDate")) : null);
+                street.setError(inputErrors.containsKey("street") ? getString(inputErrors.get("street")) : null);
+                houseNumber.setError(inputErrors.containsKey("houseNumber") ? getString(inputErrors.get("houseNumber")) : null);
+                zipCode.setError(inputErrors.containsKey("zipCode") ? getString(inputErrors.get("zipCode")) : null);
+                city.setError(inputErrors.containsKey("city") ? getString(inputErrors.get("city")) : null);
             }
             modificationButton.setEnabled(inputErrors.isEmpty());
         });
