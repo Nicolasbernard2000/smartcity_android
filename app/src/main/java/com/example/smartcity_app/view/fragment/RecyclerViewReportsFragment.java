@@ -18,17 +18,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity_app.R;
-import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.view.recyclerView.ReportRecyclerView.ReportAdapter;
 import com.example.smartcity_app.viewModel.ReportViewModel;
 
-import java.util.ArrayList;
-
 public class RecyclerViewReportsFragment extends Fragment {
     private RecyclerView reportsRecyclerView;
     private ReportAdapter reportAdapter;
-    private ArrayList<Report> reportsList;
     private EditText research;
     private ReportViewModel reportViewModel;
     private ImageButton searchButton;
@@ -52,7 +48,7 @@ public class RecyclerViewReportsFragment extends Fragment {
         searchButton = root.findViewById(R.id.search_button);
         reportsRecyclerView = root.findViewById(R.id.report_recycler_view);
         reportsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        reportAdapter = new ReportAdapter(container, reportViewModel.getReports().getValue());
+        reportAdapter = new ReportAdapter(container);
         reportsRecyclerView.setAdapter(reportAdapter);
 
         reportsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -110,16 +106,13 @@ public class RecyclerViewReportsFragment extends Fragment {
 
         reportViewModel.getReportsWithOffsetLimitAndFilter(numberReports, 5, searchText);
         reportViewModel.getReports().observe(getViewLifecycleOwner(), reports -> {
-            reportsList = new ArrayList<>();
-            reportsList.addAll(reports);
-
             if(reportAdapter.getItemCount() == 0) {
-                reportAdapter.setReports(reportsList);
+                reportAdapter.setReports(reports);
             } else {
-                reportAdapter.addReports(reportsList);
+                reportAdapter.addReports(reports);
             }
             progressBar.setVisibility(View.INVISIBLE);
-            numberReports += reportsList.size();
+            numberReports += reports.size();
             isWaitingAnswer = false;
         });
 

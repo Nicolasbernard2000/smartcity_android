@@ -23,9 +23,10 @@ import androidx.navigation.Navigation;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.util.CallbackUserModify;
-import com.example.smartcity_app.view.MainActivity;
+import com.example.smartcity_app.util.Constants;
 import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.view.dialog.UserModifyDialog;
+import com.example.smartcity_app.viewModel.AccountViewModel;
 import com.example.smartcity_app.viewModel.UserViewModel;
 
 import java.sql.Date;
@@ -39,6 +40,9 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
     private User user;
     private ViewGroup container;
     private UserViewModel userViewModel;
+    private AccountViewModel accountViewModel;
+    private String token;
+    private SharedPreferences sharedPreferences;
 
     @Nullable
     @Override
@@ -46,7 +50,8 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
         View root = inflater.inflate(R.layout.profile_information_fragment, container, false);
         this.container = container;
 
-        user = MainActivity.getUser();
+        sharedPreferences = getContext().getSharedPreferences(Constants.TOKEN, Context.MODE_PRIVATE);
+        token = sharedPreferences.getString(Constants.TOKEN, null);
 
         firstName = root.findViewById(R.id.profile_edit_first_name);
         lastName = root.findViewById(R.id.profile_edit_last_name);
@@ -59,21 +64,6 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
         disconnectionButton = root.findViewById(R.id.profile_disconnection_button);
         modificationButton = root.findViewById(R.id.profile_modification_button);
 
-        GregorianCalendar birthDateTemp = new GregorianCalendar();
-        birthDateTemp.setTime(user.getBirthDate());
-        int day = birthDateTemp.get(GregorianCalendar.DAY_OF_MONTH);
-        int month = birthDateTemp.get(GregorianCalendar.MONTH) + 1;
-        int year = birthDateTemp.get(GregorianCalendar.YEAR);
-        String dateString = day + "/" + month + "/" + year;
-
-        firstName.setText(user.getFirstName());
-        lastName.setText(user.getLastName());
-        email.setText(user.getEmail());
-        street.setText(user.getStreet());
-        houseNumber.setText(user.getHouseNumber().toString());
-        zipCode.setText(user.getZipCode().toString());
-        city.setText(user.getCity());
-        birthDate.setText(dateString);
         disconnectionButton.setOnClickListener(new ProfileInformationFragment.DisconnectListener());
         modificationButton.setOnClickListener(new ProfileInformationFragment.ModifyListener(this));
 
@@ -102,11 +92,9 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 if(!modificationButton.isEnabled())
@@ -130,6 +118,30 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
         super.onActivityCreated(savedInstanceState);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+
+        accountViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            this.user = user;
+            GregorianCalendar birthDateTemp = new GregorianCalendar();
+            birthDateTemp.setTime(user.getBirthDate());
+            int day = birthDateTemp.get(GregorianCalendar.DAY_OF_MONTH);
+            int month = birthDateTemp.get(GregorianCalendar.MONTH) + 1;
+            int year = birthDateTemp.get(GregorianCalendar.YEAR);
+            String dateString = day + "/" + month + "/" + year;
+
+            firstName.setText(user.getFirstName());
+            lastName.setText(user.getLastName());
+            email.setText(user.getEmail());
+            street.setText(user.getStreet());
+            houseNumber.setText(user.getHouseNumber().toString());
+            zipCode.setText(user.getZipCode().toString());
+            city.setText(user.getCity());
+            birthDate.setText(dateString);
+        });
+
+        if(token != null) {
+            accountViewModel.getUserFromToken(token);
+        }
 
         userViewModel.getStatusCodeModification().observe(getViewLifecycleOwner(), code -> {
             int typeMessage;
@@ -138,11 +150,9 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
                 case 204:
                     typeMessage = R.string.success;
                     message = R.string.user_modified;
-                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.token), Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(getString(R.string.token), null);
+                    editor.putString(Constants.TOKEN, null);
                     editor.commit();
-                    MainActivity.setUser(null);
                     NavController navController = Navigation.findNavController(container);
                     navController.navigate(R.id.fragment_login);
                     break;
@@ -185,22 +195,16 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
         });
     }
 
-    @Override
-    public void modifyUser(User user) {
-        userViewModel.modifyUserOnWeb(user);
-    }
-
     private class DisconnectListener implements View.OnClickListener {
         public DisconnectListener() {}
 
         @Override
         public void onClick(View v) {
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.token), Context.MODE_PRIVATE);
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.TOKEN, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(getString(R.string.token), null);
+            editor.putString(Constants.TOKEN, null);
             editor.commit();
 
-            MainActivity.setUser(null);
             NavController navController = Navigation.findNavController(container);
             navController.navigate(R.id.fragment_login);
         }
@@ -247,6 +251,11 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
             }
             modificationButton.setEnabled(false);
         }
+    }
+
+    @Override
+    public void modifyUser(User user) {
+        userViewModel.modifyUserOnWeb(user);
     }
 
     public void checkData(){

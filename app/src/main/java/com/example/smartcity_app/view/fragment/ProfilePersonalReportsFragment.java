@@ -1,5 +1,7 @@
 package com.example.smartcity_app.view.fragment;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,17 +16,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
+import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.util.CallbackReportDelete;
 import com.example.smartcity_app.util.CallbackReportModify;
-import com.example.smartcity_app.view.MainActivity;
+import com.example.smartcity_app.util.Constants;
 import com.example.smartcity_app.view.dialog.InformationDialog;
 import com.example.smartcity_app.view.recyclerView.PersonalReportRecyclerView.PersonalReportAdapter;
+import com.example.smartcity_app.viewModel.AccountViewModel;
 import com.example.smartcity_app.viewModel.ReportViewModel;
 
 public class ProfilePersonalReportsFragment extends Fragment implements CallbackReportDelete, CallbackReportModify {
     private ReportViewModel reportViewModel;
     private RecyclerView reportsRecyclerView;
     private PersonalReportAdapter personalReportAdapter;
+    private AccountViewModel accountViewModel;
+    private User user;
+    private String token;
 
     public ProfilePersonalReportsFragment() {}
 
@@ -33,11 +40,12 @@ public class ProfilePersonalReportsFragment extends Fragment implements Callback
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.profile_personal_reports_fragment, container, false);
 
-        reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.TOKEN, Context.MODE_PRIVATE);
+        token = sharedPreferences.getString(Constants.TOKEN, null);
 
         reportsRecyclerView = root.findViewById(R.id.personal_report_recycler_view);
         reportsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        personalReportAdapter = new PersonalReportAdapter(container, reportViewModel.getReports().getValue(), this);
+        personalReportAdapter = new PersonalReportAdapter(container, this);
         reportsRecyclerView.setAdapter(personalReportAdapter);
 
         return root;
@@ -47,7 +55,19 @@ public class ProfilePersonalReportsFragment extends Fragment implements Callback
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        reportViewModel.getReportsFromWebWithUserId(MainActivity.getUser().getId());
+        reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+
+        if(token != null) {
+            accountViewModel.getUserFromToken(token);
+        }
+
+        accountViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            this.user = user;
+            reportViewModel.getReportsFromWebWithUserId(user.getId());
+        });
+
+
         reportViewModel.getReports().observe(getViewLifecycleOwner(), personalReportAdapter::setReports);
 
         reportViewModel.getError().observe(getViewLifecycleOwner(), error -> {
@@ -63,7 +83,7 @@ public class ProfilePersonalReportsFragment extends Fragment implements Callback
                 case 204:
                     typeMessage = R.string.success;
                     message = R.string.report_deleted;
-                    reportViewModel.getReportsFromWebWithUserId(MainActivity.getUser().getId());
+                    reportViewModel.getReportsFromWebWithUserId(user.getId());
                     break;
                 case 400:
                     typeMessage = R.string.error;
@@ -93,7 +113,7 @@ public class ProfilePersonalReportsFragment extends Fragment implements Callback
                 case 204:
                     typeMessage = R.string.success;
                     message = R.string.report_modified;
-                    reportViewModel.getReportsFromWebWithUserId(MainActivity.getUser().getId());
+                    reportViewModel.getReportsFromWebWithUserId(user.getId());
                     break;
                 case 400:
                     typeMessage = R.string.error;

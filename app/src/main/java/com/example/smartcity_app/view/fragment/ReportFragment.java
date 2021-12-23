@@ -2,6 +2,8 @@ package com.example.smartcity_app.view.fragment;
 
 import static com.example.smartcity_app.util.Constants.MAPVIEW_BUNDLE_KEY;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
@@ -22,14 +24,17 @@ import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Event;
 import com.example.smartcity_app.model.Participation;
 import com.example.smartcity_app.model.Report;
+import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.util.CallbackEventDelete;
 import com.example.smartcity_app.util.CallbackEventModify;
 import com.example.smartcity_app.util.CallbackParticipationModification;
-import com.example.smartcity_app.view.MainActivity;
+import com.example.smartcity_app.util.Constants;
 import com.example.smartcity_app.view.dialog.EventOperationDialog;
 import com.example.smartcity_app.view.dialog.InformationDialog;
+import com.example.smartcity_app.view.recyclerView.EventRecyclerView;
 import com.example.smartcity_app.view.recyclerView.EventRecyclerView.EventAdapter;
 import com.example.smartcity_app.util.CallbackEventCreation;
+import com.example.smartcity_app.viewModel.AccountViewModel;
 import com.example.smartcity_app.viewModel.EventViewModel;
 import com.example.smartcity_app.viewModel.ParticipationViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,32 +49,25 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class ReportFragment extends Fragment implements CallbackEventCreation, CallbackParticipationModification, CallbackEventDelete, CallbackEventModify, OnMapReadyCallback {
-    private TextView locationTextView;
-    private TextView dateTextView;
-    private TextView typeTextView;
-    private TextView addressTextView;
-    private TextView statusTextView;
-    private TextView idTextView;
-    private TextView descriptionTextView;
+    private TextView locationTextView, dateTextView, typeTextView, addressTextView, statusTextView, idTextView, descriptionTextView;
     private Button createEventButton;
     private RecyclerView eventsRecyclerView;
+    private EventAdapter eventAdapter;
     private EventViewModel eventViewModel;
+    private AccountViewModel accountViewModel;
     private ParticipationViewModel participationViewModel;
     private Report report;
     private MapView mapView;
-
-    public ReportFragment() {
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    private User user;
+    private String token;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.report_fragment, container, false);
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.TOKEN, Context.MODE_PRIVATE);
+        token = sharedPreferences.getString(Constants.TOKEN, null);
 
         locationTextView = root.findViewById(R.id.report_location);
         dateTextView = root.findViewById(R.id.report_date);
@@ -81,7 +79,9 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         createEventButton = root.findViewById(R.id.create_event_button);
         eventsRecyclerView = root.findViewById(R.id.event_recycler_view);
         eventsRecyclerView.setLayoutManager(new LinearLayoutManager(this.getActivity()));
-        mapView = (MapView) root.findViewById(R.id.mapview);
+        eventAdapter = new EventAdapter(this);
+        eventsRecyclerView.setAdapter(eventAdapter);
+        mapView = root.findViewById(R.id.mapview);
 
         initGoogleMap(savedInstanceState);
 
@@ -102,7 +102,7 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         idTextView.setText("#" + report.getId().toString());
         descriptionTextView.setText(report.getDescription());
         createEventButton.setOnClickListener(v -> {
-            if(!MainActivity.isUserConnected()) {
+            if(token == null) {
                 InformationDialog test = InformationDialog.getInstance();
                 test.setInformation(R.string.login_connexion, R.string.asking_connection_event);
                 test.show(getParentFragmentManager().beginTransaction(), null);
@@ -116,30 +116,25 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         return root;
     }
 
-    private void initGoogleMap(Bundle savedInstanceState) {
-        Bundle mapViewBundle = null;
-        if(savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
-        }
-        mapView.onCreate(mapViewBundle);
-        mapView.getMapAsync(this);
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
         eventViewModel = new ViewModelProvider(this).get(EventViewModel.class);
         participationViewModel = new ViewModelProvider(this).get(ParticipationViewModel.class);
-
-        EventAdapter eventAdapter = new EventAdapter(eventViewModel.getEvents().getValue(), this);
-
-        eventViewModel.getEvents().observe(getViewLifecycleOwner(), events -> {
-             eventAdapter.setEvents(events);
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
+        accountViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            this.user = user;
+            eventAdapter.setUser(user);
         });
 
-        eventsRecyclerView.setAdapter(eventAdapter);
+        eventViewModel.getEvents().observe(getViewLifecycleOwner(), eventAdapter::setEvents);
         eventViewModel.getEventsFromWebWithReportId(report.getId());
+
+        if(token != null) {
+            accountViewModel.getUserFromToken(token);
+        }
+
 
         eventViewModel.getStatusCodeCreation().observe(getViewLifecycleOwner(), code -> {
             int typeMessage;
@@ -251,7 +246,7 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
     @Override
     public void createEvent(Event event) {
         event.setReportId(report.getId());
-        event.setCreatorId(MainActivity.getUser().getId());
+        event.setCreatorId(user.getId());
 
         eventViewModel.postEventOnWeb(event);
     }
@@ -266,6 +261,15 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
         } else {
             participationViewModel.postParticipationOnWeb(participation);
         }
+    }
+
+    private void initGoogleMap(Bundle savedInstanceState) {
+        Bundle mapViewBundle = null;
+        if(savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
+        }
+        mapView.onCreate(mapViewBundle);
+        mapView.getMapAsync(this);
     }
 
     @Override

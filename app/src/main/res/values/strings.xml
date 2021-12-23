@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">Wallonia Fixed</string>
-
     <string name="welcome_title">Bienvenue !</string>
     <string name="welcome_description">Cette application a été construite dans le cadre du cours Développement mobile donné à la haute école de Namur Liège Luxembourg.</string>
     <string name="welcome_button">Continuer</string>
-
     <string name="login_connexion">Connexion</string>
     <string name="login_without_connexion">Sans compte</string>
     <string name="login_email">Email</string>
@@ -15,13 +13,10 @@
     <string name="login_button">Se connecter</string>
     <string name="login_password_forgotten">Mot de passe oublié ?</string>
     <string name="login_create_account_button">Se créer un compte</string>
-
     <string name="create_account">Création d\'un compte</string>
-
     <string name="fragment_home">Accueil</string>
     <string name="fragment_add_report">Ajouter</string>
     <string name="fragment_profile">Profile</string>
-
     <string name="profile_first_name">Prénom</string>
     <string name="profile_last_name">Nom</string>
     <string name="profile_email">Adresse email</string>
@@ -30,10 +25,7 @@
     <string name="zip_code">Code postal</string>
     <string name="city">Ville</string>
     <string name="profile_birthdate">Date de naissance</string>
-
     <string name="profile_disconnection_button">Se déconnecter</string>
-
-    <!--FORMS MESSAGES-->
     <string name="exception_password">Les mots de passe ne sont pas identiques</string>
     <string name="exception_birthdate">La date de naissance ne peut être dans le futur</string>
     <string name="exception_zip_code">Le code postal doit être compris entre 1000 et 9999</string>
@@ -43,35 +35,27 @@
     <string name="email_already_used">Cette adresse mail est déjà utilisée</string>
     <string name="asking_connection_report">Vous devez vous connecter afin de pouvoir créer un signalement</string>
     <string name="asking_connection_event">Vous devez vous connecter afin de pouvoir créer un évènement</string>
-
     <string name="create_report">Ajouter un signalement</string>
     <string name="description">Description</string>
     <string name="report_type">Type du signalement</string>
     <string name="create_report_button">Créer un signalement</string>
     <string name="profile_personal_reports_button">Mes signalements</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="create_event_button">Créer un évènement</string>
     <string name="date">Date</string>
     <string name="hour">Heure</string>
     <string name="duration">Durée</string>
     <string name="information">Information</string>
-
-    <!--ERRORS-->
     <string name="http_no_connection">Pas de connexion</string>
     <string name="error_request">Erreur requête</string>
     <string name="error_technical">Une erreur s\'est produite de notre côté</string>
     <string name="error_servor">Une erreur s\'est produite de notre côté</string>
     <string name="error_unknown">Une erreur inconnue s\'est produite. Se déconnecter et se reconnecter pourrait résoudre cette erreur.</string>
-
     <string name="profile_personnal_reports">Signalements personnels</string>
     <string name="report_created">Le signalement a bien été créé</string>
-
-    <!--STATES-->
     <string name="state_pending">En attente</string>
     <string name="state_inProgress">En cours de traitement</string>
     <string name="state_solved">Résolu</string>
     <string name="state_cantBeSolved">Non résolvable</string>
-
     <string name="user_created">Le compte a bien été créé</string>
     <string name="create_event">Créer l\'évènement</string>
     <string name="cancel">Annuler</string>
@@ -94,7 +78,6 @@
     <string name="error_description">Une description doit être indiquée</string>
     <string name="event_created">L\'évènement a bien été créé</string>
     <string name="error_id">Erreur dans un identifiant</string>
-    <string name="token">token</string>
     <string name="wrong_email_password">Adresse mail ou/et mot de passe incorrect(s)</string>
     <string name="report_research">Rechercher un emplacement</string>
     <string name="profile">Profil</string>

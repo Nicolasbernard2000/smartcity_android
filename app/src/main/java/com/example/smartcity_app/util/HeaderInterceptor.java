@@ -21,7 +21,7 @@ public class HeaderInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         SharedPreferences sharedPreferences = Context.getSharedPreferences("token", Context.MODE_PRIVATE);
-        String token = sharedPreferences.getString(Context.getString(R.string.token), null);
+        String token = sharedPreferences.getString(Constants.TOKEN, null);
 
         Request newRequest = chain.request().newBuilder()
                 .addHeader("authorization", "Bearer " + token)

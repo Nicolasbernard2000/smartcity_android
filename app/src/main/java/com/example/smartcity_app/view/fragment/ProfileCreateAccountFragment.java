@@ -32,7 +32,6 @@ public class ProfileCreateAccountFragment extends Fragment {
     private EditText birthDateEditText, streetEditText, houseNumberEditText, zipCodeEditText, cityEditText;
     private Button button;
     private UserViewModel userViewModel;
-    private User user;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,8 +68,8 @@ public class ProfileCreateAccountFragment extends Fragment {
                 Integer zipCodeInteger = Integer.parseInt(zipCodeEditText.getText().toString());
                 Integer houseNumberInteger = Integer.parseInt(houseNumberEditText.getText().toString());
 
-                this.user = new User(emailText, passwordText, firstnameText, lastnameText, birthDateDate, cityText, streetText, zipCodeInteger, houseNumberInteger);
-                userViewModel.postUserOnWeb(user);
+                User newUser = new User(emailText, passwordText, firstnameText, lastnameText, birthDateDate, cityText, streetText, zipCodeInteger, houseNumberInteger);
+                userViewModel.postUserOnWeb(newUser);
 
                 button.setEnabled(false);
             }
@@ -80,11 +79,9 @@ public class ProfileCreateAccountFragment extends Fragment {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 if(!button.isEnabled())
@@ -111,7 +108,7 @@ public class ProfileCreateAccountFragment extends Fragment {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                birthDateEditText.setText(String.format("%02d", dayOfMonth) + "/" + String.format("%02d", month + 1) + "/" + year);
+                birthDateEditText.setText(new StringBuilder().append(String.format("%02d", dayOfMonth)).append("/").append(String.format("%02d", month + 1)).append("/").append(year).toString());
             }
         };
 

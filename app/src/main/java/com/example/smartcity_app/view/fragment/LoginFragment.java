@@ -18,8 +18,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.smartcity_app.R;
-import com.example.smartcity_app.view.MainActivity;
+import com.example.smartcity_app.util.Constants;
 import com.example.smartcity_app.view.dialog.InformationDialog;
+import com.example.smartcity_app.viewModel.AccountViewModel;
 import com.example.smartcity_app.viewModel.LoginViewModel;
 
 public class LoginFragment extends Fragment {
@@ -27,8 +28,10 @@ public class LoginFragment extends Fragment {
     private EditText password;
     private Button connectButton;
     private Button createAccountButton;
+    private AccountViewModel accountViewModel;
     private LoginViewModel loginViewModel;
     private ViewGroup container;
+    private String token;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,15 +44,14 @@ public class LoginFragment extends Fragment {
         View root = inflater.inflate(R.layout.login_fragment, container, false);
         this.container = container;
 
-        if (MainActivity.isUserConnected()) {
-            NavController navController = Navigation.findNavController(container);
-            navController.navigate(R.id.fragment_profile);
-        }
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.TOKEN, Context.MODE_PRIVATE);
+        token = sharedPreferences.getString(Constants.TOKEN, null);
 
-        email = (EditText) root.findViewById(R.id.login_edit_email);
-        password = (EditText) root.findViewById(R.id.login_edit_password);
+        email = root.findViewById(R.id.login_edit_email);
+        password = root.findViewById(R.id.login_edit_password);
+        connectButton = root.findViewById(R.id.login_button);
+        createAccountButton = root.findViewById(R.id.create_account_button);
 
-        connectButton = (Button) root.findViewById(R.id.login_button);
         connectButton.setOnClickListener(v -> {
             String emailText = email.getText().toString();
             String passwordText = password.getText().toString();
@@ -57,7 +59,6 @@ public class LoginFragment extends Fragment {
             loginViewModel.log(emailText, passwordText);
         });
 
-        createAccountButton = (Button) root.findViewById(R.id.create_account_button);
         createAccountButton.setOnClickListener(v -> {
             NavController navController = Navigation.findNavController(container);
             navController.navigate(R.id.fragment_create_account);
@@ -70,21 +71,30 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        loginViewModel.getToken().observe(getViewLifecycleOwner(), token -> {
-            loginViewModel.getUserFromToken(token);
+        if(token != null) {
+            accountViewModel.getUserFromToken(token);
+        }
+        accountViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            if(user != null) {
+                NavController navController = Navigation.findNavController(container);
+                navController.navigate(R.id.fragment_profile);
+            }
+        });
 
-            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(getString(R.string.token), Context.MODE_PRIVATE);
+        loginViewModel.getToken().observe(getViewLifecycleOwner(), token -> {
+            accountViewModel.getUserFromToken(token);
+
+            SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Constants.TOKEN, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(getString(R.string.token), token);
+            editor.putString(Constants.TOKEN, token);
             editor.commit();
 
             NavController navController = Navigation.findNavController(container);
             navController.navigate(R.id.fragment_profile);
         });
-
-        loginViewModel.getUser().observe(getViewLifecycleOwner(), MainActivity::setUser);
 
         loginViewModel.getError().observe(getViewLifecycleOwner(), error -> {
             InformationDialog informationDialog = InformationDialog.getInstance();

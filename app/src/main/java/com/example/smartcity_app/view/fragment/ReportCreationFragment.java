@@ -1,6 +1,7 @@
 package com.example.smartcity_app.view.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,8 +21,10 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
 import com.example.smartcity_app.model.ReportType;
-import com.example.smartcity_app.view.MainActivity;
+import com.example.smartcity_app.model.User;
+import com.example.smartcity_app.util.Constants;
 import com.example.smartcity_app.view.dialog.InformationDialog;
+import com.example.smartcity_app.viewModel.AccountViewModel;
 import com.example.smartcity_app.viewModel.ReportTypeViewModel;
 import com.example.smartcity_app.viewModel.ReportViewModel;
 
@@ -30,15 +33,12 @@ import java.util.ArrayList;
 public class ReportCreationFragment extends Fragment {
     private ReportViewModel reportViewModel;
     private ReportTypeViewModel reportTypeViewModel;
+    private AccountViewModel accountViewModel;
     private Spinner reportType;
-    private TextView reportText;
-    private TextView description;
-    private TextView street;
-    private TextView houseNumber;
-    private TextView zipCode;
-    private TextView city;
+    private TextView reportText, description, street, houseNumber, zipCode, city;
     private Button createReportButton;
-    private Context context;
+    private User user;
+    private String token;
     private ArrayList<ReportType> reportTypes;
 
     @Override
@@ -50,7 +50,9 @@ public class ReportCreationFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.report_operation_fragment, container, false);
-        this.context = getContext();
+
+        SharedPreferences sharedPreferences = getContext().getSharedPreferences(Constants.TOKEN, Context.MODE_PRIVATE);
+        token = sharedPreferences.getString(Constants.TOKEN, null);
 
         reportText = root.findViewById(R.id.text_report);
         reportType = root.findViewById(R.id.create_report_report_type);
@@ -65,7 +67,7 @@ public class ReportCreationFragment extends Fragment {
         createReportButton.setText(R.string.create_report_button);
 
         createReportButton.setOnClickListener(v -> {
-            if(MainActivity.isUserConnected()) {
+            if(user != null) {
                 checkData();
 
                 if(createReportButton.isEnabled()) {
@@ -84,7 +86,7 @@ public class ReportCreationFragment extends Fragment {
                             streetText,
                             zipCodeInteger,
                             houseNumberInteger,
-                            MainActivity.getUser(),
+                            user,
                             reportType
                     );
                     createReportButton.setEnabled(false);
@@ -100,14 +102,10 @@ public class ReportCreationFragment extends Fragment {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 if(!createReportButton.isEnabled())
@@ -128,8 +126,17 @@ public class ReportCreationFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
         reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
         reportTypeViewModel = new ViewModelProvider(this).get(ReportTypeViewModel.class);
+
+        if(token != null) {
+            accountViewModel.getUserFromToken(token);
+        }
+
+        accountViewModel.getUser().observe(getViewLifecycleOwner(), user -> {
+            this.user = user;
+        });
 
         reportTypeViewModel.getReportTypesFromWeb();
         reportTypeViewModel.getReportTypes().observe(getViewLifecycleOwner(), ReportTypes -> {

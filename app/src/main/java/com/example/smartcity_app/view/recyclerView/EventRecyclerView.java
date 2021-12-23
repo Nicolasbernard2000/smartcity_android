@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Event;
-import com.example.smartcity_app.view.MainActivity;
+import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.view.dialog.EventDeleteDialog;
 import com.example.smartcity_app.view.dialog.EventOperationDialog;
 import com.example.smartcity_app.view.dialog.ParticipationDialog;
@@ -65,9 +65,9 @@ public class EventRecyclerView {
         private List<Event> events;
         private ViewGroup parent;
         private Fragment fragment;
+        private User user;
 
-        public EventAdapter(List<Event> events, Fragment fragment) {
-            this.events = events;
+        public EventAdapter(Fragment fragment) {
             this.fragment = fragment;
         }
 
@@ -82,7 +82,7 @@ public class EventRecyclerView {
                 participationDialog.setTargetFragment(fragment, 0);
 
                 Bundle args = new Bundle();
-                args.putInt("userID", MainActivity.getUser().getId());
+                args.putInt("userID", user.getId());
                 args.putInt("eventID", event.getId());
                 participationDialog.setArguments(args);
                 participationDialog.show(fragment.getParentFragmentManager(), null);
@@ -117,11 +117,11 @@ public class EventRecyclerView {
             holder.duration.setText(event.getDuration() + " " + parent.getResources().getString(R.string.minutes));
             holder.description.setText(event.getDescription());
 
-            if(!MainActivity.isUserConnected()) {
+            if(user == null) {
                 holder.participationButton.setVisibility(Button.INVISIBLE);
             }
 
-            if(!MainActivity.isUserConnected() || !MainActivity.getUser().getId().equals(event.getCreatorId())) {
+            if(user == null || !user.getId().equals(event.getCreatorId())) {
                 holder.creatorButtonsLayout.removeAllViews();
             }
         }
@@ -134,6 +134,10 @@ public class EventRecyclerView {
         public void setEvents(List<Event> events) {
             this.events = events;
             notifyDataSetChanged();
+        }
+
+        public void setUser(User user) {
+            this.user = user;
         }
     }
 

@@ -79,7 +79,6 @@
     <string name="error_description">Description required</string>
     <string name="event_created">The event has been created</string>
     <string name="error_id">Error in an id</string>
-    <string name="token">Token</string>
     <string name="wrong_email_password">Email address or/and password incorrect(s)</string>
     <string name="report_research">Research a place</string>
     <string name="profile">Profile</string>

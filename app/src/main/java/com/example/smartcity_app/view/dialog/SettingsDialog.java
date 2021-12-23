@@ -28,8 +28,8 @@ public class SettingsDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.settings_fragment, null);
-        ImageButton frButton = (ImageButton) view.findViewById(R.id.french_button);
-        ImageButton enButton = (ImageButton) view.findViewById(R.id.english_button);
+        ImageButton frButton = view.findViewById(R.id.french_button);
+        ImageButton enButton = view.findViewById(R.id.english_button);
 
         builder.setView(view)
                 .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {

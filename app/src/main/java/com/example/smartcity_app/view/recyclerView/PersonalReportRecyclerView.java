@@ -53,9 +53,8 @@ public class PersonalReportRecyclerView {
         private ViewGroup container;
         private Fragment fragment;
 
-        public PersonalReportAdapter(ViewGroup container, List<Report> reports, Fragment fragment) {
+        public PersonalReportAdapter(ViewGroup container, Fragment fragment) {
             this.container = container;
-            setReports(reports);
             this.fragment = fragment;
         }
 

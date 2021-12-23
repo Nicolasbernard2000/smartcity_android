@@ -53,9 +53,8 @@ public class ReportRecyclerView {
         private List<Report> reports = new ArrayList<>();
         private ViewGroup container;
 
-        public ReportAdapter(ViewGroup container, List<Report> reports) {
+        public ReportAdapter(ViewGroup container) {
             this.container = container;
-            setReports(reports);
         }
 
         @NonNull
@@ -90,7 +89,7 @@ public class ReportRecyclerView {
             holder.status.setText(context.getString(context.getResources().getIdentifier("state_" + report.getState(), "string", context.getPackageName())));
 
             String reportTypeImage = report.getReportType().getImage();
-            String urlImage = Constants.BASE_URL + "/reportTypes/" + reportTypeImage;
+            String urlImage = Constants.BASE_URL_IMAGE + reportTypeImage;
             Uri uriImage = Uri.parse(urlImage);
             Glide.with(context)
                     .load(uriImage)

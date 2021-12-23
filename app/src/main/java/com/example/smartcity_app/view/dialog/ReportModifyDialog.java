@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,8 +21,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.smartcity_app.R;
 import com.example.smartcity_app.model.Report;
+import com.example.smartcity_app.model.User;
 import com.example.smartcity_app.util.CallbackReportModify;
-import com.example.smartcity_app.view.MainActivity;
+import com.example.smartcity_app.util.Constants;
+import com.example.smartcity_app.viewModel.AccountViewModel;
 import com.example.smartcity_app.viewModel.ReportViewModel;
 
 public class ReportModifyDialog extends DialogFragment {
@@ -29,6 +32,7 @@ public class ReportModifyDialog extends DialogFragment {
     private CallbackReportModify host;
     private Report report;
     private ReportViewModel reportViewModel;
+    private AccountViewModel accountViewModel;
     private Spinner reportType;
     private TextView reportText;
     private TextView description;
@@ -38,11 +42,13 @@ public class ReportModifyDialog extends DialogFragment {
     private TextView city;
     private Button modifyReportButton;
     private Context context;
+    private User user;
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         host = (CallbackReportModify) getTargetFragment();
+        this.context = context;
     }
 
     @NonNull
@@ -71,7 +77,7 @@ public class ReportModifyDialog extends DialogFragment {
         modifyReportButton.setText(R.string.modify);
 
         modifyReportButton.setOnClickListener(v -> {
-            if(MainActivity.isUserConnected()) {
+            if(user != null) {
                 checkData();
 
                 if(modifyReportButton.isEnabled()) {
@@ -137,7 +143,19 @@ public class ReportModifyDialog extends DialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        accountViewModel = new ViewModelProvider(this).get(AccountViewModel.class);
         reportViewModel = new ViewModelProvider(this).get(ReportViewModel.class);
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences(Constants.TOKEN, Context.MODE_PRIVATE);
+        String token = sharedPreferences.getString(Constants.TOKEN, null);
+
+        if(token != null) {
+            accountViewModel.getUserFromToken(token);
+        }
+
+        accountViewModel.getUser().observe(this, user -> {
+            this.user = user;
+        });
 
         reportViewModel.getInputErrors().observe(this, inputErrors -> {
             if(!inputErrors.isEmpty()) {
