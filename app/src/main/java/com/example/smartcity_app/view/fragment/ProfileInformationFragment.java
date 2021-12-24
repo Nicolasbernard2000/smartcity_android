@@ -127,7 +127,7 @@ public class ProfileInformationFragment extends Fragment implements CallbackUser
             int day = birthDateTemp.get(GregorianCalendar.DAY_OF_MONTH);
             int month = birthDateTemp.get(GregorianCalendar.MONTH) + 1;
             int year = birthDateTemp.get(GregorianCalendar.YEAR);
-            String dateString = day + "/" + month + "/" + year;
+            String dateString = String.format("%02d", day) + "/" + String.format("%02d", month) + "/" + year;
 
             firstName.setText(user.getFirstName());
             lastName.setText(user.getLastName());

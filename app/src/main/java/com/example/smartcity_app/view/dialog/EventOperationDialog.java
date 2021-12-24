@@ -90,12 +90,10 @@ public class EventOperationDialog extends DialogFragment {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 if(!areDataGood) {
@@ -172,7 +170,18 @@ public class EventOperationDialog extends DialogFragment {
                 public void onClick(View view) {
                     checkData();
                     if(areDataGood) {
-                        Date dateValue = new Date(dateHour.getTimeInMillis());
+                        String dateText = date.getText().toString();
+                        String hourText = hour.getText().toString();
+                        String[] tempDate = dateText.split("/");
+                        String[] tempHour = hourText.split(":");
+                        int day = Integer.parseInt(tempDate[0]);
+                        int month = Integer.parseInt(tempDate[1]);
+                        int year = Integer.parseInt(tempDate[2]);
+                        int hour = Integer.parseInt(tempHour[0]);
+                        int minute = Integer.parseInt(tempHour[1]);
+
+                        GregorianCalendar calendar = new GregorianCalendar(year, month - 1, day, hour + 1, minute);
+                        Date dateValue = new Date(calendar.getTimeInMillis());
                         Integer durationValue = Integer.parseInt(duration.getText().toString());
                         String descriptionValue = description.getText().toString();
 

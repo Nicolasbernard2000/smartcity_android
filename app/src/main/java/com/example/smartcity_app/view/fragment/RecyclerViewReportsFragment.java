@@ -73,18 +73,15 @@ public class RecyclerViewReportsFragment extends Fragment {
             }
         });
 
-
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
-
             @Override
             public void afterTextChanged(Editable editable) {
                 searchText = research.getText().toString();
@@ -105,7 +102,9 @@ public class RecyclerViewReportsFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        reportViewModel.getReportsWithOffsetLimitAndFilter(numberReports, 5, searchText);
+        // Avoid getting multiple times the same report
+        if(numberReports == 0)
+            reportViewModel.getReportsWithOffsetLimitAndFilter(numberReports, 5, searchText);
         reportViewModel.getReports().observe(getViewLifecycleOwner(), reports -> {
             if(reportAdapter.getItemCount() == 0) {
                 reportAdapter.setReports(reports);
@@ -124,9 +123,11 @@ public class RecyclerViewReportsFragment extends Fragment {
         });
     }
 
+    // Avoid getting multiple times the same report
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onResume() {
+        super.onResume();
         numberReports = 0;
+        reportAdapter.resetReports();
     }
 }

@@ -31,7 +31,6 @@ import com.example.smartcity_app.util.CallbackParticipationModification;
 import com.example.smartcity_app.util.Constants;
 import com.example.smartcity_app.view.dialog.EventOperationDialog;
 import com.example.smartcity_app.view.dialog.InformationDialog;
-import com.example.smartcity_app.view.recyclerView.EventRecyclerView;
 import com.example.smartcity_app.view.recyclerView.EventRecyclerView.EventAdapter;
 import com.example.smartcity_app.util.CallbackEventCreation;
 import com.example.smartcity_app.viewModel.AccountViewModel;
@@ -41,6 +40,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -311,9 +311,13 @@ public class ReportFragment extends Fragment implements CallbackEventCreation, C
             addresses = geocoder.getFromLocationName(report.getAddress(), 5);
             if(!addresses.isEmpty()) {
                 Address location = addresses.get(0);
-                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                map.addMarker(new MarkerOptions().position(latLng).title("Marker"));
-                map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                LatLng placeReport = new LatLng(location.getLatitude(), location.getLongitude());
+                map.addMarker(new MarkerOptions().position(placeReport).title("Marker"));
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(placeReport)
+                        .zoom(15)
+                        .build();
+                map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
             }
         } catch (IOException e) {
             e.printStackTrace();
