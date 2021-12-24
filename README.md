@@ -7,3 +7,5 @@ Laboratory professor : BEIREKDAR Abdo
 Produced by 
 * BERG Thibaut
 * BERNARD Nicolas 
+
+If you want, you can change the API address in util/Constants. But ours is running online. 
