@@ -3,4 +3,5 @@
     <color name="colorPrimary">#1A486F</color>
     <color name="colorSecond">#CCB205</color>
     <color name="white">#FFFFFF</color>
+    <color name="grey_yellow">#EDEDED</color>
 </resources>

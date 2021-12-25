@@ -29,7 +29,7 @@ public class EventRecyclerView {
         private TextView duration;
         private TextView description;
         private Button participationButton;
-        private LinearLayout creatorButtonsLayout;
+        private LinearLayout creatorButtonsLayout, buttonsLayout;
         private ImageButton deleteButton;
         private ImageButton modifyButton;
 
@@ -40,6 +40,7 @@ public class EventRecyclerView {
             description = itemView.findViewById(R.id.event_recycler_item_description);
             participationButton = itemView.findViewById(R.id.event_participation_button);
             creatorButtonsLayout = itemView.findViewById(R.id.event_creator_buttons);
+            buttonsLayout = itemView.findViewById(R.id.event_buttons);
             deleteButton = itemView.findViewById(R.id.event_delete_button);
             modifyButton = itemView.findViewById(R.id.event_modify_button);
 
@@ -118,7 +119,7 @@ public class EventRecyclerView {
             holder.description.setText(event.getDescription());
 
             if(user == null) {
-                holder.participationButton.setVisibility(Button.INVISIBLE);
+                holder.buttonsLayout.removeAllViews();
             }
 
             if(user == null || !user.getId().equals(event.getCreatorId())) {

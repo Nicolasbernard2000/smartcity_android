@@ -23,12 +23,16 @@
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.25729166666666664" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.37864583333333335" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/drawable/outline_cleaning_services_24.xml" value="0.2625" />
+        <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/drawable/recycler_view_event_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/drawable/recycler_view_fragment_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/drawable/recycler_view_row_background.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/drawable/report_row_gradient.xml" value="0.26614583333333336" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/activity_welcome.xml" value="0.536" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/event_creation_fragment.xml" value="0.25" />
+        <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/event_operation_fragment.xml" value="0.25" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/event_row.xml" value="0.25" />
+        <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/event_row_v2.xml" value="0.25" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/information_dialog.xml" value="0.25" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/login_fragment.xml" value="0.264" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/main_app_bar.xml" value="0.3625" />
@@ -44,7 +48,7 @@
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/report_fragment.xml" value="0.25" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/report_operation_fragment.xml" value="0.25" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/report_row.xml" value="0.264" />
-        <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/report_row_v2.xml" value="0.4" />
+        <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/report_row_v2.xml" value="0.264" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/layout/settings_fragment.xml" value="0.24114583333333334" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/menu/navigation_menu.xml" value="0.3625" />
         <entry key="..\:/Users/nicol/Desktop/Git_Projects/smartcity_android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.37864583333333335" />
